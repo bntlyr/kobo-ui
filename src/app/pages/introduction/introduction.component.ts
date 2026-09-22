@@ -20,8 +20,8 @@ import { NgComponentOutlet } from '@angular/common';
       <div class="space-y-4 text-muted-foreground leading-7">
         <p>
           <strong class="text-foreground">The philosophy:</strong> instead of shipping a versioned npm package that you
-          must update and that imposes constraints on your codebase, Kobo UI gives you the raw
-          Angular source code. You copy what you need into your project and own it completely.
+          must update and that imposes constraints on your codebase, Kobo UI distributes its components via a <strong>CLI</strong> and a <strong>component registry</strong>. 
+          You run <code>npx kobo-ui add</code> to pull the raw Angular source code into your project. You own it completely.
         </p>
         <p>
           This means you can rename selectors, adjust animations, change the Tailwind classes,
@@ -90,8 +90,8 @@ export class IntroductionPageComponent {
   readonly principles = [
     {
       icon: LucideBox,
-      title: 'Copy-and-own, not install-and-pray',
-      description: 'Every component is source code you paste into your project. No runtime Kobo UI dependency.',
+      title: 'CLI-driven, not install-and-pray',
+      description: 'Add components via our CLI. The source code is written to your project. No runtime Kobo UI dependency.',
     },
     {
       icon: LucideAccessibility,
