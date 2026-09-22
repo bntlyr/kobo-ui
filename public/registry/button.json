@@ -1,0 +1,24 @@
+{
+  "name": "button",
+  "description": "An accessible button directive with multiple variants and sizes.",
+  "type": "directive",
+  "selector": "button[k-button], a[k-button]",
+  "dependencies": [
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/button/button.directive.ts",
+      "content": "import { Directive, computed, input, effect, inject, ElementRef, Renderer2, booleanAttribute } from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\n// ---- CVA Variant Definition ----\nconst buttonVariants = cva(\n  // Base classes applied to every variant\n  [\n    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium',\n    'transition-all duration-150 ease-in-out',\n    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',\n    'disabled:pointer-events-none disabled:opacity-50',\n    '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',\n    'cursor-pointer select-none',\n  ],\n  {\n    variants: {\n      variant: {\n        default:     'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 active:scale-[0.98]',\n        secondary:   'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 active:scale-[0.98]',\n        outline:     'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground active:scale-[0.98]',\n        ghost:       'hover:bg-accent hover:text-accent-foreground active:scale-[0.98]',\n        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 active:scale-[0.98]',\n        link:        'text-primary underline-offset-4 hover:underline',\n      },\n      size: {\n        default: 'h-10 px-4 py-2',\n        sm:      'h-8 rounded-md px-3 text-xs',\n        lg:      'h-11 rounded-md px-8 text-base',\n        icon:    'h-10 w-10 p-0',\n        'icon-sm': 'h-8 w-8 p-0',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n    },\n  }\n);\n\nexport type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>['variant']>;\nexport type ButtonSize    = NonNullable<VariantProps<typeof buttonVariants>['size']>;\n\n/**\n * KButtonDirective\n *\n * Selector: button[k-button], a[k-button]\n */\n@Directive({\n  selector: 'button[k-button], a[k-button]',\n  host: {\n    '[class]': 'classes()',\n    '[attr.disabled]': 'isDisabled() ? true : null',\n  },\n})\nexport class KButtonDirective {\n  readonly variant   = input<ButtonVariant>('default');\n  readonly size      = input<ButtonSize>('default');\n  readonly class     = input<string>('');\n  readonly loading   = input<boolean, unknown>(false, { transform: booleanAttribute });\n  readonly fullWidth = input<boolean, unknown>(false, { transform: booleanAttribute });\n  readonly disabled  = input<boolean, unknown>(false, { transform: booleanAttribute });\n\n  private readonly el = inject(ElementRef<HTMLElement>);\n  private readonly renderer = inject(Renderer2);\n  private spinnerNode: any = null;\n\n  constructor() {\n    effect(() => {\n      if (this.loading()) {\n        this.addSpinner();\n      } else {\n        this.removeSpinner();\n      }\n    });\n  }\n\n  private addSpinner() {\n    if (this.spinnerNode) return;\n    const svgStr = `<svg class=\"animate-spin -ml-1 mr-2 h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\"><circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle><path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path></svg>`;\n    const div = this.renderer.createElement('div');\n    div.innerHTML = svgStr;\n    this.spinnerNode = div.firstChild;\n    this.renderer.insertBefore(this.el.nativeElement, this.spinnerNode, this.el.nativeElement.firstChild);\n  }\n\n  private removeSpinner() {\n    if (this.spinnerNode) {\n      this.renderer.removeChild(this.el.nativeElement, this.spinnerNode);\n      this.spinnerNode = null;\n    }\n  }\n\n  protected readonly isDisabled = computed(() => this.loading() || this.disabled());\n\n  protected readonly classes = computed(() =>\n    cn(\n      buttonVariants({ variant: this.variant(), size: this.size() }),\n      this.fullWidth() ? 'w-full' : '',\n      this.loading() ? 'pointer-events-none opacity-70' : '',\n      this.class()\n    )\n  );\n}\n",
+      "type": "directive"
+    }
+  ],
+  "tags": [
+    "form",
+    "interactive",
+    "primitive"
+  ]
+}

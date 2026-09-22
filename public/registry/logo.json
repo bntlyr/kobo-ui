@@ -1,0 +1,20 @@
+{
+  "name": "logo",
+  "description": "logo component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/logo/index.ts",
+      "content": "export * from './logo.component';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/logo/logo.component.ts",
+      "content": "import {\n  ChangeDetectionStrategy,\n  Component,\n  ViewEncapsulation,\n  computed,\n  input,\n} from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst logoVariants = cva(\n  'flex items-center gap-2.5 font-semibold text-foreground no-underline shrink-0 group',\n  {\n    variants: {\n      size: {\n        sm: 'text-xs',\n        default: 'text-sm',\n        lg: 'text-base',\n        xl: 'text-xl',\n      },\n    },\n    defaultVariants: {\n      size: 'default',\n    },\n  }\n);\n\nconst iconVariants = cva(\n  'rounded-md bg-primary flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-90',\n  {\n    variants: {\n      size: {\n        sm: 'w-4 h-4',\n        default: 'w-5 h-5',\n        lg: 'w-6 h-6',\n        xl: 'w-8 h-8',\n      },\n    },\n    defaultVariants: {\n      size: 'default',\n    },\n  }\n);\n\nconst textVariants = cva(\n  'font-bold leading-none text-primary-foreground',\n  {\n    variants: {\n      size: {\n        sm: 'text-[8px]',\n        default: 'text-[10px]',\n        lg: 'text-xs',\n        xl: 'text-sm',\n      },\n    },\n    defaultVariants: {\n      size: 'default',\n    },\n  }\n);\n\nexport type LogoSize = NonNullable<VariantProps<typeof logoVariants>['size']>;\n\n@Component({\n  selector: 'k-logo',\n  template: `\n    <div [class]=\"iconClasses()\">\n      <span [class]=\"textClasses()\">工</span>\n    </div>\n    @if (!iconOnly()) {\n      <span class=\"font-semibold tracking-tight\">Kobo UI</span>\n    }\n  `,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KLogo {\n  readonly size = input<LogoSize>('default');\n  readonly iconOnly = input<boolean>(false);\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(logoVariants({ size: this.size() }), this.class())\n  );\n\n  protected readonly iconClasses = computed(() =>\n    iconVariants({ size: this.size() })\n  );\n\n  protected readonly textClasses = computed(() =>\n    textVariants({ size: this.size() })\n  );\n}\n",
+      "type": "component"
+    }
+  ],
+  "tags": []
+}

@@ -1,0 +1,227 @@
+{
+  "version": "0.0.0",
+  "generated": "2026-09-21T08:52:00.470Z",
+  "components": [
+    {
+      "name": "accordion",
+      "description": "accordion component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "alert",
+      "description": "alert component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "alert-dialog",
+      "description": "alert-dialog component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "avatar",
+      "description": "avatar component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "badge",
+      "description": "A small status badge directive with semantic color variants.",
+      "type": "directive",
+      "tags": [
+        "display",
+        "primitive"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "description": "breadcrumb component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "button",
+      "description": "An accessible button directive with multiple variants and sizes.",
+      "type": "directive",
+      "tags": [
+        "form",
+        "interactive",
+        "primitive"
+      ]
+    },
+    {
+      "name": "card",
+      "description": "A composable card compound component with header, content, and footer slots.",
+      "type": "compound",
+      "tags": [
+        "layout",
+        "container"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "description": "checkbox component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "collapsible",
+      "description": "collapsible component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "dialog",
+      "description": "An accessible dialog built on @angular/cdk/dialog with focus trapping and ESC-to-close.",
+      "type": "compound",
+      "tags": [
+        "overlay",
+        "accessible",
+        "interactive"
+      ]
+    },
+    {
+      "name": "dropdown",
+      "description": "dropdown component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "form-field",
+      "description": "form-field component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "input",
+      "description": "A styled input directive fully compatible with Angular Reactive Forms.",
+      "type": "directive",
+      "tags": [
+        "form",
+        "primitive"
+      ]
+    },
+    {
+      "name": "label",
+      "description": "label component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "logo",
+      "description": "logo component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "pagination",
+      "description": "pagination component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "popover",
+      "description": "popover component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "progress",
+      "description": "progress component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "radio-group",
+      "description": "radio-group component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "scroll-area",
+      "description": "scroll-area component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "select",
+      "description": "select component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "separator",
+      "description": "separator component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "sheet",
+      "description": "sheet component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "skeleton",
+      "description": "skeleton component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "slider",
+      "description": "slider component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "spinner",
+      "description": "spinner component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "switch",
+      "description": "switch component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "table",
+      "description": "table component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "tabs",
+      "description": "tabs component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "textarea",
+      "description": "textarea component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "toast",
+      "description": "toast component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "tooltip",
+      "description": "tooltip component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "typography",
+      "description": "typography component",
+      "type": "component",
+      "tags": []
+    }
+  ]
+}

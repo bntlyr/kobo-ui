@@ -1,0 +1,20 @@
+{
+  "name": "alert",
+  "description": "alert component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/alert/alert.component.ts",
+      "content": "import {\n  ChangeDetectionStrategy,\n  Component,\n  ViewEncapsulation,\n  computed,\n  input,\n} from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst alertVariants = cva(\n  'relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7',\n  {\n    variants: {\n      variant: {\n        default:     'bg-background text-foreground border-border',\n        info:        'border-info/50 text-info bg-info/10 [&>svg]:text-info',\n        success:     'border-success/50 text-success bg-success/10 [&>svg]:text-success',\n        warning:     'border-warning/50 text-warning bg-warning/10 [&>svg]:text-warning',\n        destructive: 'border-destructive/50 text-destructive bg-destructive/10 [&>svg]:text-destructive',\n      },\n    },\n    defaultVariants: { variant: 'default' },\n  }\n);\n\nexport type AlertVariant = NonNullable<VariantProps<typeof alertVariants>['variant']>;\n\n/**\n * <k-alert>\n * @example\n * <k-alert variant=\"success\">\n *   <k-alert-title>Operation complete!</k-alert-title>\n *   <k-alert-description>Your data has been saved.</k-alert-description>\n * </k-alert>\n */\n@Component({\n  selector: 'k-alert',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()', role: 'alert' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAlert {\n  readonly variant = input<AlertVariant>('default');\n  readonly class   = input<string>('');\n  protected readonly classes = computed(() =>\n    cn(alertVariants({ variant: this.variant() }), this.class())\n  );\n}\n\n@Component({\n  selector: 'k-alert-title',\n  template: `<ng-content />`,\n  host: { '[class]': '\"mb-1 font-medium leading-none tracking-tight\"' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAlertTitle {}\n\n@Component({\n  selector: 'k-alert-description',\n  template: `<ng-content />`,\n  host: { '[class]': '\"text-sm [&_p]:leading-relaxed\"' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAlertDescription {}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/alert/index.ts",
+      "content": "export { KAlert, KAlertTitle, KAlertDescription } from './alert.component';\nexport type { AlertVariant } from './alert.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

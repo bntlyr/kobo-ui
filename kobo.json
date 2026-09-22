@@ -1,0 +1,31 @@
+{
+  "$schema": "https://kobo-ui.dev/schema.json",
+  "name": "kobo-ui",
+  "version": "0.0.0",
+  "description": "Copy-and-own Angular UI component registry with Tailwind CSS",
+  "registry": {
+    "url": "http://localhost:4200/registry",
+    "publicDir": "public/registry"
+  },
+  "aliases": {
+    "components": "src/app/components/ui",
+    "utils": "src/app/core/utils",
+    "styles": "src/styles"
+  },
+  "components": [
+    { "name": "button",  "path": "src/app/components/ui/button/button.directive.ts" },
+    { "name": "badge",   "path": "src/app/components/ui/badge/badge.directive.ts" },
+    { "name": "input",   "path": "src/app/components/ui/input/input.directive.ts" },
+    { "name": "card",    "path": "src/app/components/ui/card/index.ts" },
+    { "name": "dialog",  "path": "src/app/components/ui/dialog/index.ts" }
+  ],
+  "dependencies": {
+    "required": [
+      "@angular/cdk",
+      "class-variance-authority",
+      "clsx",
+      "tailwind-merge",
+      "@lucide/angular"
+    ]
+  }
+}

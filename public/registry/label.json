@@ -1,0 +1,15 @@
+{
+  "name": "label",
+  "description": "label component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/label/label.directive.ts",
+      "content": "import { Directive, computed, input } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n/**\n * KLabelDirective\n *\n * Selector: label[k-label]\n * Accessible form label.\n *\n * @example\n * <label k-label for=\"email\">Email address</label>\n */\n@Directive({\n  selector: 'label[k-label]',\n  host: {\n    '[class]': 'classes()',\n  },\n})\nexport class KLabelDirective {\n  readonly required = input<boolean>(false);\n  readonly disabled = input<boolean>(false);\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(\n      'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n      this.required() ? \"after:content-['*'] after:ml-0.5 after:text-destructive\" : '',\n      this.disabled() ? 'cursor-not-allowed opacity-70' : '',\n      this.class()\n    )\n  );\n}\n",
+      "type": "directive"
+    }
+  ],
+  "tags": []
+}

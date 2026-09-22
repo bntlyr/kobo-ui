@@ -1,0 +1,20 @@
+{
+  "name": "avatar",
+  "description": "avatar component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/avatar/avatar.component.ts",
+      "content": "import {\n  ChangeDetectionStrategy,\n  Component,\n  ViewEncapsulation,\n  computed,\n  input,\n  signal,\n} from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst avatarVariants = cva(\n  'relative flex shrink-0 overflow-hidden',\n  {\n    variants: {\n      size: {\n        xs:      'h-6 w-6 text-[10px]',\n        sm:      'h-8 w-8 text-xs',\n        default: 'h-10 w-10 text-sm',\n        lg:      'h-12 w-12 text-base',\n        xl:      'h-16 w-16 text-lg',\n      },\n      shape: {\n        circle: 'rounded-full',\n        square: 'rounded-lg',\n      }\n    },\n    defaultVariants: {\n      size: 'default',\n      shape: 'circle',\n    },\n  }\n);\n\nexport type AvatarSize  = NonNullable<VariantProps<typeof avatarVariants>['size']>;\nexport type AvatarShape = NonNullable<VariantProps<typeof avatarVariants>['shape']>;\n\n// ---- Avatar Root ----\n\n/**\n * <k-avatar>\n * Circular or square avatar container. Manages the fallback visibility signal\n * shared with child image/fallback components via template variables.\n *\n * @example\n * <k-avatar>\n *   <k-avatar-image src=\"https://...\" alt=\"John Doe\" />\n *   <k-avatar-fallback>JD</k-avatar-fallback>\n * </k-avatar>\n */\n@Component({\n  selector: 'k-avatar',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAvatar {\n  readonly size  = input<AvatarSize>('default');\n  readonly shape = input<AvatarShape>('circle');\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(avatarVariants({ size: this.size(), shape: this.shape() }), this.class())\n  );\n}\n\n// ---- Avatar Image ----\n\n@Component({\n  selector: 'k-avatar-image',\n  template: `\n    <img\n      [src]=\"src()\"\n      [alt]=\"alt()\"\n      (error)=\"onError()\"\n      (load)=\"onLoad()\"\n      [class]=\"imageClasses()\"\n    />\n  `,\n  host: {\n    '[class]': '\"contents\"',\n  },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAvatarImage {\n  readonly src   = input.required<string>();\n  readonly alt   = input<string>('');\n  readonly class = input<string>('');\n\n  /** Set to false when image fails to load — drives CSS visibility */\n  readonly loaded = signal(true);\n\n  protected readonly imageClasses = computed(() =>\n    cn(\n      'aspect-square h-full w-full object-cover transition-opacity duration-200',\n      this.loaded() ? 'opacity-100' : 'opacity-0 absolute inset-0',\n      this.class()\n    )\n  );\n\n  onError(): void { this.loaded.set(false); }\n  onLoad():  void { this.loaded.set(true); }\n}\n\n// ---- Avatar Fallback ----\n\n@Component({\n  selector: 'k-avatar-fallback',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAvatarFallback {\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(\n      'flex h-full w-full items-center justify-center rounded-full',\n      'bg-muted text-muted-foreground text-sm font-medium select-none',\n      this.class()\n    )\n  );\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/avatar/index.ts",
+      "content": "export { KAvatar, KAvatarImage, KAvatarFallback } from './avatar.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

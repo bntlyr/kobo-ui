@@ -1,0 +1,20 @@
+{
+  "name": "collapsible",
+  "description": "collapsible component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/collapsible/collapsible.component.ts",
+      "content": "import {\n  ChangeDetectionStrategy,\n  Component,\n  InjectionToken,\n  ViewEncapsulation,\n  computed,\n  inject,\n  input,\n  model,\n  signal,\n} from '@angular/core';\nimport {\n  animate,\n  state,\n  style,\n  transition,\n  trigger,\n} from '@angular/animations';\nimport { cn } from '../../../core/utils/cn';\n\nexport const K_COLLAPSIBLE = new InjectionToken<KCollapsible>('K_COLLAPSIBLE');\n\n/**\n * <k-collapsible>\n * Interactive animated show/hide primitive.\n *\n * @example\n * <k-collapsible [(open)]=\"expanded\">\n *   <k-collapsible-trigger>Toggle</k-collapsible-trigger>\n *   <k-collapsible-content>Content...</k-collapsible-content>\n * </k-collapsible>\n */\n@Component({\n  selector: 'k-collapsible',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  providers: [{ provide: K_COLLAPSIBLE, useExisting: KCollapsible }],\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KCollapsible {\n  readonly open  = model<boolean>(false);\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() => cn('w-full', this.class()));\n\n  toggle(): void { this.open.update(v => !v); }\n}\n\n// ---- Trigger ----\n\n@Component({\n  selector: 'k-collapsible-trigger',\n  template: `\n    <button\n      type=\"button\"\n      [attr.aria-expanded]=\"ctx.open()\"\n      (click)=\"ctx.toggle()\"\n      class=\"flex w-full items-center justify-between text-sm font-medium transition-all\n             hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring\n             focus-visible:ring-offset-2\"\n    >\n      <ng-content />\n      <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\"\n           fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"\n           stroke-linejoin=\"round\" class=\"shrink-0 transition-transform duration-200\"\n           [class.rotate-180]=\"ctx.open()\">\n        <path d=\"m6 9 6 6 6-6\"/>\n      </svg>\n    </button>\n  `,\n  host: { '[class]': '\"contents\"' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KCollapsibleTrigger {\n  protected readonly ctx = inject(K_COLLAPSIBLE);\n}\n\n// ---- Content ----\n\n@Component({\n  selector: 'k-collapsible-content',\n  template: `\n    <div [@collapse]=\"ctx.open() ? 'open' : 'closed'\" class=\"overflow-hidden text-sm\">\n      <ng-content />\n    </div>\n  `,\n  animations: [\n    trigger('collapse', [\n      state('closed', style({ height: '0', opacity: '0' })),\n      state('open',   style({ height: '*', opacity: '1' })),\n      transition('closed <=> open', animate('200ms ease-in-out')),\n    ]),\n  ],\n  host: { '[class]': '\"contents\"' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KCollapsibleContent {\n  protected readonly ctx = inject(K_COLLAPSIBLE);\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/collapsible/index.ts",
+      "content": "export { KCollapsible, KCollapsibleTrigger, KCollapsibleContent } from './collapsible.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

@@ -1,3 +1,175 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   Kobo UI — Global Styles
+   ============================================================ */
 
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Tailwind CSS v4 */
 @import "tailwindcss";
+
+/* Semantic design tokens */
+@import "./styles/tokens.css";
+
+/* ---- Tailwind v4 Theme Extension via @theme ---- */
+@theme {
+  /* Colors mapped from CSS custom properties */
+  --color-background:           hsl(var(--background));
+  --color-foreground:           hsl(var(--foreground));
+  --color-card:                 hsl(var(--card));
+  --color-card-foreground:      hsl(var(--card-foreground));
+  --color-popover:              hsl(var(--popover));
+  --color-popover-foreground:   hsl(var(--popover-foreground));
+  --color-primary:              hsl(var(--primary));
+  --color-primary-foreground:   hsl(var(--primary-foreground));
+  --color-secondary:            hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted:                hsl(var(--muted));
+  --color-muted-foreground:     hsl(var(--muted-foreground));
+  --color-accent:               hsl(var(--accent));
+  --color-accent-foreground:    hsl(var(--accent-foreground));
+  --color-destructive:          hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-info:                 hsl(var(--info));
+  --color-info-foreground:      hsl(var(--info-foreground));
+  --color-success:              hsl(var(--success));
+  --color-success-foreground:   hsl(var(--success-foreground));
+  --color-warning:              hsl(var(--warning));
+  --color-warning-foreground:   hsl(var(--warning-foreground));
+  --color-border:               hsl(var(--border));
+  --color-input:                hsl(var(--input));
+  --color-ring:                 hsl(var(--ring));
+
+  /* Border radius */
+  --radius-sm:   calc(var(--radius) - 4px);
+  --radius-md:   calc(var(--radius) - 2px);
+  --radius-lg:   var(--radius);
+  --radius-xl:   calc(var(--radius) + 4px);
+  --radius-2xl:  calc(var(--radius) + 8px);
+
+  /* Typography */
+  --font-sans:  'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, monospace;
+
+  /* Animations */
+  --animate-fade-in:             fade-in 0.2s ease-out;
+  --animate-fade-out:            fade-out 0.2s ease-in;
+  --animate-slide-in-up:         slide-in-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-out-down:      slide-out-down 0.2s ease-in;
+  --animate-slide-in-from-right: slide-in-from-right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-in-from-left:  slide-in-from-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-in-from-top:   slide-in-from-top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-in-from-bottom: slide-in-from-bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-slide-out-to-right:  slide-out-to-right 0.25s ease-in;
+  --animate-slide-out-to-left:   slide-out-to-left 0.25s ease-in;
+  --animate-slide-out-to-top:    slide-out-to-top 0.25s ease-in;
+  --animate-slide-out-to-bottom: slide-out-to-bottom 0.25s ease-in;
+  --animate-toast-in:            toast-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-toast-out:           toast-out 0.25s ease-in;
+  --animate-spin:                spin 1s linear infinite;
+  --animate-pulse:               pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-ping:                ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+  @keyframes slide-in-up {
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes slide-out-down {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(8px); }
+  }
+  @keyframes slide-in-from-right {
+    from { opacity: 0; transform: translateX(100%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slide-in-from-left {
+    from { opacity: 0; transform: translateX(-100%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slide-in-from-top {
+    from { opacity: 0; transform: translateY(-100%); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-in-from-bottom {
+    from { opacity: 0; transform: translateY(100%); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-out-to-right {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(100%); }
+  }
+  @keyframes slide-out-to-left {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(-100%); }
+  }
+  @keyframes slide-out-to-top {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-100%); }
+  }
+  @keyframes slide-out-to-bottom {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(100%); }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateX(calc(100% + 16px)); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes toast-out {
+    from { opacity: 1; transform: translateX(0); max-height: 200px; margin-bottom: 8px; }
+    to   { opacity: 0; transform: translateX(calc(100% + 16px)); max-height: 0; margin-bottom: 0; }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+  }
+  @keyframes ping {
+    75%, 100% { transform: scale(2); opacity: 0; }
+  }
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+  }
+
+} /* end @theme */
+
+/* ---- Base Resets ---- */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+  }
+
+  /* Focus visible ring */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+}
+
+/* ---- Utility: hide scrollbar ---- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

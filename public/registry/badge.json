@@ -1,0 +1,23 @@
+{
+  "name": "badge",
+  "description": "A small status badge directive with semantic color variants.",
+  "type": "directive",
+  "selector": "span[k-badge]",
+  "dependencies": [
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/badge/badge.directive.ts",
+      "content": "import { Directive, computed, input } from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst badgeVariants = cva(\n  [\n    'inline-flex items-center rounded-full border font-semibold',\n    'transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',\n  ],\n  {\n    variants: {\n      variant: {\n        default:\n          'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',\n        secondary:\n          'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',\n        destructive:\n          'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',\n        outline:\n          'text-foreground border-border',\n        success:\n          'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/20',\n        warning:\n          'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20',\n        info:\n          'bg-sky-500/15 text-sky-700 dark:text-sky-400 border-sky-500/20',\n      },\n      size: {\n        sm:      'px-2 py-0.5 text-[10px] font-medium',\n        default: 'px-2.5 py-0.5 text-xs font-semibold',\n        lg:      'px-3 py-1 text-sm font-semibold',\n      }\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n    },\n  }\n);\n\nexport type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>['variant']>;\nexport type BadgeSize    = NonNullable<VariantProps<typeof badgeVariants>['size']>;\n\n/**\n * KBadgeDirective\n *\n * Selector: span[k-badge], [k-badge]\n *\n * @example\n * <span k-badge>New</span>\n * <span k-badge variant=\"destructive\" size=\"sm\">Error</span>\n */\n@Directive({\n  selector: 'span[k-badge], [k-badge]',\n  host: {\n    '[class]': 'classes()',\n  },\n})\nexport class KBadgeDirective {\n  readonly variant = input<BadgeVariant>('default');\n  readonly size    = input<BadgeSize>('default');\n  readonly class   = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(badgeVariants({ variant: this.variant(), size: this.size() }), this.class())\n  );\n}\n",
+      "type": "directive"
+    }
+  ],
+  "tags": [
+    "display",
+    "primitive"
+  ]
+}

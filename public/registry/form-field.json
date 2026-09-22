@@ -1,0 +1,20 @@
+{
+  "name": "form-field",
+  "description": "form-field component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/form-field/form-field.component.ts",
+      "content": "import {\n  ChangeDetectionStrategy,\n  Component,\n  InjectionToken,\n  OnInit,\n  ViewEncapsulation,\n  computed,\n  inject,\n  input,\n  signal,\n} from '@angular/core';\nimport { AbstractControl } from '@angular/forms';\nimport { cn } from '../../../core/utils/cn';\n\n// ---- DI Token ----\n\nexport const K_FORM_FIELD = new InjectionToken<KFormField>('K_FORM_FIELD');\n\n// ---- Form Field Root ----\n\n/**\n * <k-form-field>\n *\n * Provides a context that coordinates label, error, and hint children.\n * Optionally pass [control] to enable automatic error display in <k-form-error>.\n *\n * @example\n * <k-form-field [control]=\"form.get('email')\">\n *   <label k-label for=\"email\">Email</label>\n *   <input k-input id=\"email\" formControlName=\"email\" />\n *   <k-form-error />\n *   <k-form-hint>We'll never share your email.</k-form-hint>\n * </k-form-field>\n */\n@Component({\n  selector: 'k-form-field',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  providers: [{ provide: K_FORM_FIELD, useExisting: KFormField }],\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KFormField {\n  readonly control = input<AbstractControl | null>(null);\n  readonly class   = input<string>('');\n\n  /** Tracks whether the control is in an invalid+touched state */\n  readonly hasError = computed(() => {\n    const ctrl = this.control();\n    return ctrl ? ctrl.invalid && ctrl.touched : false;\n  });\n\n  /** First validation error message, if any */\n  readonly firstError = computed((): string => {\n    const ctrl = this.control();\n    if (!ctrl?.errors) return '';\n    const key = Object.keys(ctrl.errors)[0];\n    const err = ctrl.errors[key];\n    if (typeof err === 'string') return err;\n    if (err.message) return err.message;\n    // Built-in error messages\n    switch (key) {\n      case 'required':   return 'This field is required.';\n      case 'email':      return 'Please enter a valid email address.';\n      case 'minlength':  return `Minimum ${err.requiredLength} characters required.`;\n      case 'maxlength':  return `Maximum ${err.requiredLength} characters allowed.`;\n      case 'min':        return `Minimum value is ${err.min}.`;\n      case 'max':        return `Maximum value is ${err.max}.`;\n      case 'pattern':    return 'Invalid format.';\n      default:           return 'Invalid value.';\n    }\n  });\n\n  protected readonly classes = computed(() =>\n    cn('flex flex-col gap-1.5', this.class())\n  );\n}\n\n// ---- Form Error ----\n\n/**\n * <k-form-error>\n * Reads the control error from the parent KFormField.\n * Shows nothing if the control is valid or untouched.\n */\n@Component({\n  selector: 'k-form-error',\n  template: `\n    @if (formField.hasError()) {\n      <span role=\"alert\" class=\"text-xs text-destructive font-medium\">\n        {{ formField.firstError() }}\n      </span>\n    }\n  `,\n  host: { '[class]': '\"contents\"' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KFormError {\n  protected readonly formField = inject(K_FORM_FIELD);\n}\n\n// ---- Form Hint ----\n\n/**\n * <k-form-hint>\n * Helper text shown below the input.\n */\n@Component({\n  selector: 'k-form-hint',\n  template: `<ng-content />`,\n  host: { 'class': 'text-xs text-muted-foreground' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KFormHint {}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/form-field/index.ts",
+      "content": "export { KFormField, KFormError, KFormHint, K_FORM_FIELD } from './form-field.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}
