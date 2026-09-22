@@ -61,7 +61,7 @@ export type CheckboxSize = NonNullable<VariantProps<typeof checkboxVariants>['si
   template: `
     <label
       [id]="'checkbox-wrapper-' + _uid"
-      class="flex items-start gap-2 cursor-pointer select-none group"
+      [class]="wrapperClasses()"
       [class.opacity-50]="disabled()"
       [class.cursor-not-allowed]="disabled()"
     >
@@ -120,10 +120,15 @@ export class KCheckbox implements ControlValueAccessor {
   readonly checked       = model<boolean>(false);
   readonly size          = input<CheckboxSize>('default');
   readonly error         = input<boolean>(false);
+  readonly class         = input<string>('');
   readonly disabled      = signal<boolean>(false);
 
   private _onChange: (value: boolean) => void = () => {};
   protected onTouched: () => void = () => {};
+
+  protected readonly wrapperClasses = computed(() => 
+    cn('flex items-start gap-2 cursor-pointer select-none group', this.class())
+  );
 
   protected readonly boxClasses = computed(() => {
     const c = this.checked();

@@ -84,29 +84,37 @@ const USAGE = `<!-- Heading directives -->
       </app-tabs>
 
       <!-- API Table -->
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">Directives</h2>
-        <div class="rounded-xl border border-border overflow-hidden">
-          <table class="w-full text-sm">
-            <thead class="bg-muted/50">
-              <tr>
-                <th class="text-left px-4 py-3 font-semibold">Directive</th>
-                <th class="text-left px-4 py-3 font-semibold">Selector</th>
-                <th class="text-left px-4 py-3 font-semibold">Style</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              @for (d of directives; track d.selector) {
-                <tr class="hover:bg-muted/30">
-                  <td class="px-4 py-3 font-mono text-primary text-xs">{{ d.name }}</td>
-                  <td class="px-4 py-3 font-mono text-xs text-muted-foreground">{{ d.selector }}</td>
-                  <td class="px-4 py-3 text-xs text-muted-foreground">{{ d.style }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">Directives</h3>
+            <p class="text-sm text-muted-foreground">Attribute directives applied to semantic HTML elements.</p>
+            
+            <div class="rounded-xl border border-border overflow-hidden">
+              <table class="w-full text-sm">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="text-left px-4 py-3 font-semibold">Directive</th>
+                    <th class="text-left px-4 py-3 font-semibold">Selector</th>
+                    <th class="text-left px-4 py-3 font-semibold">Style Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  @for (d of directives; track d.selector) {
+                    <tr class="hover:bg-muted/30">
+                      <td class="px-4 py-3 font-mono text-primary text-xs">{{ d.name }}</td>
+                      <td class="px-4 py-3 font-mono text-xs text-muted-foreground">{{ d.selector }}</td>
+                      <td class="px-4 py-3 text-xs text-muted-foreground">{{ d.style }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   `,
 })

@@ -19,6 +19,7 @@ import { KButtonDirective } from '../../components/ui/button/button.directive';
 import { KInputDirective } from '../../components/ui/input/input.directive';
 import { CodeBlockComponent } from '../../shared/code-block.component';
 import { TabsComponent, type Tab } from '../../shared/tabs.component';
+import { LucideAlertTriangle } from '@lucide/angular';
 
 // ---- Demo Dialog Components ----
 
@@ -27,6 +28,7 @@ import { TabsComponent, type Tab } from '../../shared/tabs.component';
   imports: [
     KDialog, KDialogHeader, KDialogTitle, KDialogDescription,
     KDialogContent, KDialogFooter, KDialogClose, KButtonDirective,
+    LucideAlertTriangle
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -39,8 +41,9 @@ import { TabsComponent, type Tab } from '../../shared/tabs.component';
         </k-dialog-description>
       </k-dialog-header>
       <k-dialog-content>
-        <div class="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
-          ⚠️ All your data will be permanently removed.
+        <div class="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+          <svg lucideAlertTriangle [size]="16" [strokeWidth]="2.5" class="shrink-0"></svg>
+          <span>All your data will be permanently removed.</span>
         </div>
       </k-dialog-content>
       <k-dialog-footer>
@@ -190,7 +193,8 @@ export class MyComponent {
               <ul class="text-sm text-muted-foreground space-y-1.5 list-none p-0 m-0">
                 @for (f of features; track f) {
                   <li class="flex items-center gap-2">
-                    <span class="text-green-500 shrink-0">✓</span>{{ f }}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500 shrink-0 h-4 w-4"><polyline points="20 6 9 17 4 12"/></svg>
+                    {{ f }}
                   </li>
                 }
               </ul>
@@ -213,30 +217,145 @@ export class MyComponent {
         }
       </app-tabs>
 
-      <!-- Components -->
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">API Reference</h2>
-        <div class="rounded-xl border border-border overflow-hidden">
-          <table class="w-full text-sm">
-            <thead class="bg-muted/50">
-              <tr>
-                <th class="text-left px-4 py-3 font-semibold">Item</th>
-                <th class="text-left px-4 py-3 font-semibold">Type</th>
-                <th class="text-left px-4 py-3 font-semibold">Description</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              @for (item of apiItems; track item.name) {
-                <tr class="hover:bg-muted/30">
-                  <td class="px-4 py-3 font-mono text-primary text-xs">{{ item.name }}</td>
-                  <td class="px-4 py-3 font-mono text-xs text-muted-foreground">{{ item.type }}</td>
-                  <td class="px-4 py-3 text-muted-foreground text-xs">{{ item.desc }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KDialogService</h3>
+            <p class="text-sm text-muted-foreground">Injectable service for opening dialogs programmatically.</p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Method</th>
+                    <th class="px-4 py-3 font-medium">Parameters</th>
+                    <th class="px-4 py-3 font-medium">Returns</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">open</td>
+                    <td class="px-4 py-3 font-mono text-xs">component, config?</td>
+                    <td class="px-4 py-3 font-mono text-xs">DialogRef&lt;unknown, C&gt;</td>
+                    <td class="px-4 py-3 text-muted-foreground">Opens a modal dialog containing the given component.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KDialogConfig</h3>
+            <p class="text-sm text-muted-foreground">Configuration options when opening a dialog.</p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">data</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">T</td>
+                    <td class="px-4 py-3 font-mono text-xs">undefined</td>
+                    <td class="px-4 py-3 text-muted-foreground">Data being injected into the child component.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">panelClass</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string | string[]</td>
+                    <td class="px-4 py-3 font-mono text-xs">undefined</td>
+                    <td class="px-4 py-3 text-muted-foreground">Custom class(es) for the overlay panel.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">disableClose</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Whether the dialog can be closed by user interaction (escape or backdrop click).</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">ariaLabel</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">undefined</td>
+                    <td class="px-4 py-3 text-muted-foreground">Aria label to assign to the dialog element.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KDialog</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-dialog</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">size</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'sm' | 'default' | 'lg' | 'xl' | 'full'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The max-width of the dialog container.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KDialogHeader, KDialogTitle, KDialogDescription, KDialogContent, KDialogFooter</h3>
+            <p class="text-sm text-muted-foreground">Selectors: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-dialog-header</code>, <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-dialog-title</code>, <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-dialog-description</code>, <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-dialog-content</code>, <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-dialog-footer</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KDialogClose</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">[k-dialog-close]</code></p>
+            <p class="text-sm text-muted-foreground">Directive to apply to a button inside a dialog to automatically close it on click.</p>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   `,
 })
@@ -261,17 +380,7 @@ export class DialogShowcaseComponent {
     'Accessible role="dialog" with aria-labelledby',
   ];
 
-  readonly apiItems = [
-    { name: 'KDialogService',     type: 'Service',    desc: 'Injectable service — call .open(Component, config)' },
-    { name: 'KDialog',            type: 'Component',  desc: 'Root dialog panel <k-dialog>' },
-    { name: 'KDialogHeader',      type: 'Component',  desc: '<k-dialog-header> — header section' },
-    { name: 'KDialogTitle',       type: 'Component',  desc: '<k-dialog-title> — dialog heading' },
-    { name: 'KDialogDescription', type: 'Component',  desc: '<k-dialog-description> — subtitle' },
-    { name: 'KDialogContent',     type: 'Component',  desc: '<k-dialog-content> — body area' },
-    { name: 'KDialogFooter',      type: 'Component',  desc: '<k-dialog-footer> — action buttons area' },
-    { name: 'KDialogClose',       type: 'Directive',  desc: '[k-dialog-close] — closes dialog on button click' },
-    { name: 'K_DIALOG_DATA',      type: 'InjectionToken', desc: 'Inject data passed via config.data' },
-  ];
+
 
   openConfirm(): void {
     const ref = this.dialogService.open(ConfirmDialogComponent);

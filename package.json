@@ -1,10 +1,21 @@
 {
   "name": "kobo-ui",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A beautifully crafted Angular component library with Tailwind CSS v4 and CDK.",
+  "author": "Kobo UI Team",
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "components",
+    "tailwind",
+    "ui",
+    "shadcn"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng-packagr -p ng-package.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "registry:build": "npx tsx scripts/build-registry.ts"
@@ -21,9 +32,9 @@
       }
     ]
   },
-  "private": true,
+  "private": false,
   "packageManager": "npm@11.6.2",
-  "dependencies": {
+  "peerDependencies": {
     "@angular/animations": "^21.2.23",
     "@angular/cdk": "^21.2.14",
     "@angular/common": "^21.1.0",
@@ -47,6 +58,7 @@
     "@angular/compiler-cli": "^21.1.0",
     "@tailwindcss/postcss": "^4.1.12",
     "jsdom": "^27.1.0",
+    "ng-packagr": "^21.2.7",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.12",
     "typescript": "~5.9.2",

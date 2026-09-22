@@ -68,38 +68,50 @@ export class KAlertDialog {
 @Component({
   selector: 'k-alert-dialog-header',
   template: `<ng-content />`,
-  host: { '[class]': '"flex flex-col space-y-2 text-center sm:text-left"' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAlertDialogHeader {}
+export class KAlertDialogHeader {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('flex flex-col space-y-2 text-center sm:text-left', this.class()));
+}
 
 @Component({
   selector: 'k-alert-dialog-title',
   template: `<ng-content />`,
-  host: { '[class]': '"text-lg font-semibold"', role: 'heading', 'aria-level': '2' },
+  host: { '[class]': 'classes()', role: 'heading', 'aria-level': '2' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAlertDialogTitle {}
+export class KAlertDialogTitle {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('text-lg font-semibold', this.class()));
+}
 
 @Component({
   selector: 'k-alert-dialog-description',
   template: `<ng-content />`,
-  host: { '[class]': '"text-sm text-muted-foreground"' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAlertDialogDescription {}
+export class KAlertDialogDescription {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('text-sm text-muted-foreground', this.class()));
+}
 
 @Component({
   selector: 'k-alert-dialog-footer',
   template: `<ng-content />`,
-  host: { '[class]': '"flex flex-col-reverse sm:flex-row sm:justify-end gap-2"' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAlertDialogFooter {}
+export class KAlertDialogFooter {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('flex flex-col-reverse sm:flex-row sm:justify-end gap-2', this.class()));
+}
 
 // ---- Alert Dialog Panel (internal, opened programmatically) ----
 

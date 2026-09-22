@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { KButtonDirective } from '../../components/ui/button/button.directive';
 import { CodeBlockComponent } from '../../shared/code-block.component';
 import { TabsComponent, type Tab } from '../../shared/tabs.component';
+import { LucideAlertTriangle } from '@lucide/angular';
 
 const INSTALL_CODE = `npm install @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular`;
 
@@ -47,7 +48,7 @@ export class MyComponent {}`;
 
 @Component({
   selector: 'app-installation-page',
-  imports: [RouterLink, KButtonDirective, CodeBlockComponent],
+  imports: [RouterLink, KButtonDirective, CodeBlockComponent, LucideAlertTriangle],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="space-y-10 max-w-3xl">
@@ -60,7 +61,7 @@ export class MyComponent {}`;
 
       <!-- Prerequisites -->
       <div class="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 flex gap-3">
-        <span class="text-amber-500 shrink-0">⚠️</span>
+        <svg lucideAlertTriangle class="text-amber-500 shrink-0 mt-0.5" [size]="20" [strokeWidth]="2"></svg>
         <div class="text-sm">
           <p class="font-semibold text-foreground mb-1">Prerequisites</p>
           <p class="text-muted-foreground">Angular 18+ project with Tailwind CSS 4.x configured.</p>

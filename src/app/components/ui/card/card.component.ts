@@ -9,7 +9,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../core/utils/cn';
 
 const cardVariants = cva(
-  'rounded-xl text-card-foreground',
+  'block rounded-xl text-card-foreground',
   {
     variants: {
       variant: {
@@ -69,7 +69,7 @@ export class KCardHeader {
 export class KCardTitle {
   readonly class = input<string>('');
   protected readonly classes = computed(() =>
-    cn('font-semibold leading-none tracking-tight text-foreground', this.class())
+    cn('block font-semibold leading-none tracking-tight text-foreground', this.class())
   );
 }
 
@@ -84,7 +84,7 @@ export class KCardTitle {
 export class KCardDescription {
   readonly class = input<string>('');
   protected readonly classes = computed(() =>
-    cn('text-sm text-muted-foreground', this.class())
+    cn('block text-sm text-muted-foreground', this.class())
   );
 }
 
@@ -99,7 +99,7 @@ export class KCardDescription {
 export class KCardContent {
   readonly class = input<string>('');
   protected readonly classes = computed(() =>
-    cn('p-6 pt-0', this.class())
+    cn('block p-6 pt-0', this.class())
   );
 }
 

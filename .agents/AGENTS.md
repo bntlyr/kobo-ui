@@ -8,11 +8,11 @@
 
 ## 1. What is Kobo UI?
 
-Kobo UI is a **copy-and-own Angular 18+ component registry** — not an npm package.
-Inspired by `shadcn/ui`, developers copy raw source files into their own projects
-and own the code outright. There is **no `@kobo-ui/angular` package to install**.
+Kobo UI is a **beautifully crafted Angular 18+ component library**.
+It provides accessible, unstyled primitives powered by `@angular/cdk` combined with 
+Tailwind CSS v4 styling for a complete UI toolkit.
 
-The registry ships:
+The project consists of:
 - **Unstyled, accessible primitives** powered by `@angular/cdk`
 - **Tailwind CSS v4 styling** via semantic CSS custom properties
 - **Interactive documentation** at `http://localhost:4200` (dev server)
@@ -488,6 +488,7 @@ export class KTabTrigger {
 | `NgModule` | Standalone components (`standalone: true` — actually no `standalone` property needed in Angular 21) |
 | Missing `ChangeDetectionStrategy.OnPush` | Always set `changeDetection: ChangeDetectionStrategy.OnPush` |
 | Missing `encapsulation: ViewEncapsulation.None` | Always set for all UI components |
+| Using emojis (`🔥`, `⚠️`) in UI/Showcases | Use Lucide icons (`lucide-angular`) instead |
 
 ---
 
@@ -515,9 +516,7 @@ The registry is built with:
 npx ts-node --esm scripts/build-registry.ts
 ```
 
-Output: `public/registry/` — JSON files with component source for copy-and-paste integration.
-
-After adding a new component, run the registry build so the component is available in the registry output.
+Output: `public/registry/` — JSON files with component source.
 
 ---
 

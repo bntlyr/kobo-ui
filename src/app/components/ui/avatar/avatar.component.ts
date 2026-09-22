@@ -118,7 +118,7 @@ export class KAvatarFallback {
 
   protected readonly classes = computed(() =>
     cn(
-      'flex h-full w-full items-center justify-center rounded-full',
+      'flex h-full w-full items-center justify-center',
       'bg-muted text-muted-foreground text-sm font-medium select-none',
       this.class()
     )

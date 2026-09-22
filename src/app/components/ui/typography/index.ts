@@ -1,0 +1,1 @@
+export { KH1Directive,KH2Directive,KH3Directive,KH4Directive,KPDirective,KBlockquoteDirective,KCodeDirective,KListDirective,KLeadDirective,KLargeDirective,KSmallDirective,KMutedDirective } from './typography.directives';

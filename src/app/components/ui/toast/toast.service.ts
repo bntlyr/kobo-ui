@@ -10,6 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { cn } from '../../../core/utils/cn';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 // ---- Types ----
 
@@ -91,11 +92,11 @@ const VARIANT_CLASSES: Record<ToastVariant, string> = {
 };
 
 const VARIANT_ICONS: Record<ToastVariant, string> = {
-  default:     '🔔',
-  success:     '✓',
-  warning:     '⚠',
-  destructive: '✕',
-  info:        'ℹ',
+  default:     `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`,
+  success:     `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`,
+  warning:     `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`,
+  destructive: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
+  info:        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
 };
 
 export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
@@ -125,8 +126,7 @@ export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-le
           (click)="dismiss(toast.id)"
         >
           <!-- Icon -->
-          <span class="shrink-0 text-base leading-none mt-0.5 font-bold">
-            {{ variantIcon(toast.variant ?? 'default') }}
+          <span class="shrink-0 text-base leading-none mt-0.5 font-bold" [innerHTML]="variantIcon(toast.variant ?? 'default')">
           </span>
 
           <!-- Content -->
@@ -154,6 +154,7 @@ export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-le
 export class KToaster {
   readonly position = input<ToastPosition>('bottom-right');
   protected readonly toastService = inject(KToastService);
+  protected readonly sanitizer = inject(DomSanitizer);
 
   protected readonly containerClasses = computed(() => {
     const pos = this.position();
@@ -180,8 +181,8 @@ export class KToaster {
     );
   }
 
-  variantIcon(variant: ToastVariant): string {
-    return VARIANT_ICONS[variant];
+  variantIcon(variant: ToastVariant): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(VARIANT_ICONS[variant]);
   }
 
   dismiss(id: string): void {

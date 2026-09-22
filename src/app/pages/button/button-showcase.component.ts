@@ -189,42 +189,67 @@ type BtnSize    = 'default' | 'sm' | 'lg' | 'icon';
         }
       </app-tabs>
 
-      <!-- Props table -->
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">API Reference</h2>
-        <div class="rounded-xl border border-border overflow-hidden">
-          <table class="w-full text-sm">
-            <thead class="bg-muted/50">
-              <tr>
-                <th class="text-left px-4 py-3 font-semibold">Input</th>
-                <th class="text-left px-4 py-3 font-semibold">Type</th>
-                <th class="text-left px-4 py-3 font-semibold">Default</th>
-                <th class="text-left px-4 py-3 font-semibold">Description</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              <tr class="hover:bg-muted/30">
-                <td class="px-4 py-3 font-mono text-primary text-xs">variant</td>
-                <td class="px-4 py-3 font-mono text-xs text-muted-foreground">ButtonVariant</td>
-                <td class="px-4 py-3 font-mono text-xs">'default'</td>
-                <td class="px-4 py-3 text-muted-foreground text-xs">Visual style variant</td>
-              </tr>
-              <tr class="hover:bg-muted/30">
-                <td class="px-4 py-3 font-mono text-primary text-xs">size</td>
-                <td class="px-4 py-3 font-mono text-xs text-muted-foreground">ButtonSize</td>
-                <td class="px-4 py-3 font-mono text-xs">'default'</td>
-                <td class="px-4 py-3 text-muted-foreground text-xs">Size variant</td>
-              </tr>
-              <tr class="hover:bg-muted/30">
-                <td class="px-4 py-3 font-mono text-primary text-xs">class</td>
-                <td class="px-4 py-3 font-mono text-xs text-muted-foreground">string</td>
-                <td class="px-4 py-3 font-mono text-xs">''</td>
-                <td class="px-4 py-3 text-muted-foreground text-xs">Additional CSS classes (merged via tailwind-merge)</td>
-              </tr>
-            </tbody>
-          </table>
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KButtonDirective</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">button[k-button]</code>, <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">a[k-button]</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">variant</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The visual style variant.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">size</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'default' | 'sm' | 'lg' | 'icon' | 'icon-sm'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The size variant.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">loading</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Displays a loading spinner and disables the button.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">fullWidth</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Makes the button expand to the full width of its container.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">disabled</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Standard HTML disabled attribute.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   `,
 })

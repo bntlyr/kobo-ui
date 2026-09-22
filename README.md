@@ -1,59 +1,110 @@
-# KoboUi
+# Kobo UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+**Kobo UI** is a beautifully crafted Angular 18+ component library. It provides accessible, unstyled primitives powered by `@angular/cdk` combined with **Tailwind CSS v4** styling for a complete, modern UI toolkit.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Angular 18+** & **Standalone Components**
+- **Tailwind CSS v4** First-Class Support
+- **Accessible** via `@angular/cdk`
+- **Signal-Based APIs** (`input()`, `output()`, `model()`)
+- **Customizable Theming** using CSS Variables
+- **Dark Mode** & Extended Color Palettes Support
 
-```bash
-ng serve
-```
+## Installation
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Kobo UI is distributed as a standard NPM package. To add it to your Angular project, run:
 
 ```bash
-ng generate --help
+npm install kobo-ui
 ```
 
-## Building
+### Peer Dependencies
 
-To build the project run:
+Kobo UI relies on a few key peer dependencies:
 
 ```bash
-ng build
+npm install @angular/cdk @lucide/angular tailwind-merge clsx class-variance-authority
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Setup & Theming
 
-## Running unit tests
+Kobo UI relies on Tailwind CSS v4 and its own CSS variables for styling and theming.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+1. Ensure your project is set up with Tailwind CSS v4.
+2. Import the Kobo UI themes and tokens into your global `styles.css` (or `styles.scss`):
 
-```bash
-ng test
+```css
+@import "tailwindcss";
+
+/* Import Kobo UI default tokens (Zinc) */
+@import "kobo-ui/assets/tokens.css";
+
+/* (Optional) Import Kobo UI extended themes */
+@import "kobo-ui/assets/themes.css";
+
+@theme {
+  /* Map CSS variables to Tailwind colors */
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
 ```
 
-## Running end-to-end tests
+## Quick Start
 
-For end-to-end (e2e) testing, run:
+Import the components you need directly into your standalone Angular components:
 
-```bash
-ng e2e
+```typescript
+import { Component } from '@angular/core';
+import { KButtonDirective } from 'kobo-ui';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [KButtonDirective],
+  template: `
+    <button k-button variant="default">Click me</button>
+  `
+})
+export class AppComponent {}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Available Themes
 
-## Additional Resources
+If you imported `themes.css`, you can apply color themes dynamically by adding classes to your `<body>` or `<html>` element. Available themes:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `.theme-zinc` (Default)
+- `.theme-slate`
+- `.theme-neutral`
+- `.theme-red`
+- `.theme-rose`
+- `.theme-orange`
+- `.theme-yellow`
+- `.theme-green`
+- `.theme-blue`
+- `.theme-violet`
+
+## Documentation
+
+For full API references, examples, and showcase, visit the [Kobo UI Documentation](https://github.com/bntlyr/kobo-ui) repository.
+
+## License
+
+MIT © Kobo UI Team

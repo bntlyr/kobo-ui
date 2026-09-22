@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { KButtonDirective } from '../../components/ui/button/button.directive';
+import { LucideBox, LucideAccessibility, LucidePalette, LucideRuler, LucideIconData } from '@lucide/angular';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-introduction-page',
-  imports: [RouterLink, KButtonDirective],
+  imports: [RouterLink, KButtonDirective, NgComponentOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="space-y-10 max-w-3xl">
@@ -33,7 +35,9 @@ import { KButtonDirective } from '../../components/ui/button/button.directive';
         <div class="space-y-3">
           @for (p of principles; track p.title) {
             <div class="flex gap-4 p-4 rounded-lg border border-border bg-card">
-              <span class="text-2xl shrink-0 mt-0.5">{{ p.icon }}</span>
+              <div class="shrink-0 mt-0.5 text-foreground/80 [&>svg]:w-7 [&>svg]:h-7 [&>svg]:stroke-[1.5]">
+                <ng-container *ngComponentOutlet="$any(p.icon)" />
+              </div>
               <div>
                 <h3 class="font-semibold text-sm text-foreground mb-1">{{ p.title }}</h3>
                 <p class="text-sm text-muted-foreground">{{ p.description }}</p>
@@ -85,22 +89,22 @@ import { KButtonDirective } from '../../components/ui/button/button.directive';
 export class IntroductionPageComponent {
   readonly principles = [
     {
-      icon: '🧱',
+      icon: LucideBox,
       title: 'Copy-and-own, not install-and-pray',
       description: 'Every component is source code you paste into your project. No runtime Kobo UI dependency.',
     },
     {
-      icon: '♿',
+      icon: LucideAccessibility,
       title: 'Accessibility is non-negotiable',
       description: 'All interactive components use @angular/cdk for ARIA, focus management, and keyboard navigation.',
     },
     {
-      icon: '🎨',
+      icon: LucidePalette,
       title: 'Design tokens over hard-coded values',
       description: 'Semantic CSS variables power every color, radius, and animation — swap your entire theme in one file.',
     },
     {
-      icon: '📐',
+      icon: LucideRuler,
       title: 'Angular idioms, not wrappers',
       description: 'Attribute directives on native elements. Compound components for structural containers. No unnecessary wrappers.',
     },

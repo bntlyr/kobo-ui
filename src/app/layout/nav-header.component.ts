@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeToggleComponent } from '../shared/theme-toggle.component';
+import { ThemeColorSwitcherComponent } from '../shared/theme-color-switcher.component';
 
 @Component({
   selector: 'app-nav-header',
-  imports: [RouterLink, ThemeToggleComponent],
+  imports: [RouterLink, ThemeToggleComponent, ThemeColorSwitcherComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="sticky top-0 z-50 w-full border-b border-border/60
@@ -74,8 +75,11 @@ import { ThemeToggleComponent } from '../shared/theme-toggle.component';
           </svg>
         </a>
 
-        <!-- Theme Toggle -->
-        <app-theme-toggle />
+        <!-- Theme & Color Toggles -->
+        <div class="flex items-center gap-1">
+          <app-theme-color-switcher />
+          <app-theme-toggle />
+        </div>
       </div>
     </header>
   `,

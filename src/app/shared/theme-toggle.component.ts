@@ -1,25 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-  signal,
-} from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ThemeService } from '../core/services/theme.service';
 
 @Component({
   selector: 'app-theme-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
-      (click)="toggle()"
-      [attr.aria-label]="isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      (click)="themeService.toggleDark()"
+      [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
       class="relative inline-flex items-center justify-center w-9 h-9 rounded-md
              border border-border text-muted-foreground
              hover:bg-accent hover:text-accent-foreground
              transition-colors duration-150 cursor-pointer"
     >
-      @if (isDark()) {
+      @if (themeService.isDark()) {
         <!-- Sun icon -->
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -36,28 +30,6 @@ import { DOCUMENT } from '@angular/common';
     </button>
   `,
 })
-export class ThemeToggleComponent implements OnInit {
-  private readonly doc = inject(DOCUMENT);
-  readonly isDark = signal(false);
-
-  ngOnInit(): void {
-    const stored = localStorage.getItem('kobo-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const dark = stored ? stored === 'dark' : prefersDark;
-    this.setTheme(dark);
-  }
-
-  toggle(): void {
-    this.setTheme(!this.isDark());
-  }
-
-  private setTheme(dark: boolean): void {
-    this.isDark.set(dark);
-    if (dark) {
-      this.doc.documentElement.classList.add('dark');
-    } else {
-      this.doc.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('kobo-theme', dark ? 'dark' : 'light');
-  }
+export class ThemeToggleComponent {
+  readonly themeService = inject(ThemeService);
 }

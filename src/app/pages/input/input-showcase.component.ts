@@ -135,31 +135,59 @@ export class MyComponent {}`;
         }
       </app-tabs>
 
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">API Reference</h2>
-        <div class="rounded-xl border border-border overflow-hidden">
-          <table class="w-full text-sm">
-            <thead class="bg-muted/50">
-              <tr>
-                <th class="text-left px-4 py-3 font-semibold">Input</th>
-                <th class="text-left px-4 py-3 font-semibold">Type</th>
-                <th class="text-left px-4 py-3 font-semibold">Default</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              <tr class="hover:bg-muted/30">
-                <td class="px-4 py-3 font-mono text-primary text-xs">class</td>
-                <td class="px-4 py-3 font-mono text-xs text-muted-foreground">string</td>
-                <td class="px-4 py-3 font-mono text-xs">''</td>
-              </tr>
-            </tbody>
-          </table>
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KInputDirective</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">input[k-input]</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">size</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'sm' | 'default' | 'lg'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The visual size of the input.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">error</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Whether to apply error styling.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">disabled</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Disables the input. (Also applies native disabled attribute).</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            All native <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">input</code> attributes are preserved
+            (type, placeholder, disabled, required, formControlName, etc.).
+          </p>
         </div>
-        <p class="text-sm text-muted-foreground">
-          All native <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">input</code> attributes are preserved
-          (type, placeholder, disabled, required, formControlName, etc.).
-        </p>
-      </div>
+      </section>
     </div>
   `,
 })

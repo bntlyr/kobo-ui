@@ -76,6 +76,9 @@ export class MyComponent {}`;
                 <span k-badge variant="secondary">Secondary</span>
                 <span k-badge variant="destructive">Destructive</span>
                 <span k-badge variant="outline">Outline</span>
+                <span k-badge variant="success">Success</span>
+                <span k-badge variant="warning">Warning</span>
+                <span k-badge variant="info">Info</span>
               </div>
             </div>
 
@@ -84,7 +87,10 @@ export class MyComponent {}`;
                 In context — Status labels
               </p>
               <div class="flex flex-wrap gap-3">
-                <span k-badge variant="default">✓ Published</span>
+                <span k-badge variant="default">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 h-3 w-3"><polyline points="20 6 9 17 4 12"/></svg>
+                  Published
+                </span>
                 <span k-badge variant="secondary">In Review</span>
                 <span k-badge variant="outline">Draft</span>
                 <span k-badge variant="destructive">Failed</span>
@@ -124,27 +130,49 @@ export class MyComponent {}`;
         }
       </app-tabs>
 
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">API Reference</h2>
-        <div class="rounded-xl border border-border overflow-hidden">
-          <table class="w-full text-sm">
-            <thead class="bg-muted/50">
-              <tr>
-                <th class="text-left px-4 py-3 font-semibold">Input</th>
-                <th class="text-left px-4 py-3 font-semibold">Type</th>
-                <th class="text-left px-4 py-3 font-semibold">Default</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              <tr class="hover:bg-muted/30">
-                <td class="px-4 py-3 font-mono text-primary text-xs">variant</td>
-                <td class="px-4 py-3 font-mono text-xs text-muted-foreground">'default' | 'secondary' | 'destructive' | 'outline'</td>
-                <td class="px-4 py-3 font-mono text-xs">'default'</td>
-              </tr>
-            </tbody>
-          </table>
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KBadgeDirective</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">span[k-badge]</code>, <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">[k-badge]</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">variant</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The visual variant of the badge.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">size</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'sm' | 'default' | 'lg'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The size of the badge.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   `,
 })

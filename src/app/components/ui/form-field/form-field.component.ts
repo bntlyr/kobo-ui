@@ -87,7 +87,7 @@ export class KFormField {
   selector: 'k-form-error',
   template: `
     @if (formField.hasError()) {
-      <span role="alert" class="text-xs text-destructive font-medium">
+      <span role="alert" [class]="classes()">
         {{ formField.firstError() }}
       </span>
     }
@@ -97,7 +97,10 @@ export class KFormField {
   encapsulation: ViewEncapsulation.None,
 })
 export class KFormError {
+  readonly class = input<string>('');
   protected readonly formField = inject(K_FORM_FIELD);
+
+  protected readonly classes = computed(() => cn('text-xs text-destructive font-medium', this.class()));
 }
 
 // ---- Form Hint ----
@@ -109,8 +112,11 @@ export class KFormError {
 @Component({
   selector: 'k-form-hint',
   template: `<ng-content />`,
-  host: { 'class': 'text-xs text-muted-foreground' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KFormHint {}
+export class KFormHint {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('text-xs text-muted-foreground', this.class()));
+}

@@ -1,6 +1,6 @@
 {
   "version": "0.0.0",
-  "generated": "2026-09-21T08:52:00.470Z",
+  "generated": "2026-09-22T02:24:12.185Z",
   "components": [
     {
       "name": "accordion",
@@ -17,6 +17,12 @@
     {
       "name": "alert-dialog",
       "description": "alert-dialog component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "autocomplete",
+      "description": "autocomplete component",
       "type": "component",
       "tags": []
     },
@@ -116,8 +122,20 @@
       "tags": []
     },
     {
+      "name": "multi-select",
+      "description": "multi-select component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "pagination",
       "description": "pagination component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "password-input",
+      "description": "password-input component",
       "type": "component",
       "tags": []
     },

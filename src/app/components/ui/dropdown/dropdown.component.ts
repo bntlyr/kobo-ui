@@ -54,7 +54,7 @@ export class KDropdownContent {
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const dropdownItemVariants = cva(
-  'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors',
+  'relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors',
   {
     variants: {
       variant: {
@@ -107,20 +107,26 @@ export class KDropdownItem {
 @Component({
   selector: 'k-dropdown-separator',
   template: ``,
-  host: { '[class]': '"-mx-1 my-1 h-px bg-border"', role: 'separator' },
+  host: { '[class]': 'classes()', role: 'separator' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KDropdownSeparator {}
+export class KDropdownSeparator {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('block -mx-1 my-1 h-px bg-border', this.class()));
+}
 
 @Component({
   selector: 'k-dropdown-label',
   template: `<ng-content />`,
-  host: { '[class]': '"px-2 py-1.5 text-xs font-semibold text-muted-foreground"' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KDropdownLabel {}
+export class KDropdownLabel {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('block w-full px-2 py-1.5 text-xs font-semibold text-muted-foreground', this.class()));
+}
 
 // ---- Trigger Directive ----
 

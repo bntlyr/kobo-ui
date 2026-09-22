@@ -2,10 +2,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { KButtonDirective } from '../../components/ui/button/button.directive';
 import { KBadgeDirective } from '../../components/ui/badge/badge.directive';
+import { LucideBox, LucideAccessibility, LucideZap, LucidePalette, LucideGitMerge, LucidePackage, LucideMousePointerClick, LucideTag, LucideType, LucideLayoutTemplate, LucideMessageSquare } from '@lucide/angular';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-home-page',
-  imports: [RouterLink, KButtonDirective, KBadgeDirective],
+  imports: [RouterLink, KButtonDirective, KBadgeDirective, NgComponentOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="space-y-24">
@@ -76,8 +78,8 @@ import { KBadgeDirective } from '../../components/ui/badge/badge.directive';
                         transition-all duration-200 cursor-default">
               <!-- Icon -->
               <div class="mb-4 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center
-                          text-primary group-hover:bg-primary/20 transition-colors duration-200">
-                <span class="text-xl leading-none">{{ feature.icon }}</span>
+                          text-primary group-hover:bg-primary/20 transition-colors duration-200 [&>svg]:w-6 [&>svg]:h-6 [&>svg]:stroke-[2] [&>svg]:leading-none">
+                <ng-container *ngComponentOutlet="$any(feature.icon)" />
               </div>
               <h3 class="font-semibold text-foreground mb-1.5">{{ feature.title }}</h3>
               <p class="text-sm text-muted-foreground leading-relaxed">{{ feature.description }}</p>
@@ -99,7 +101,9 @@ import { KBadgeDirective } from '../../components/ui/badge/badge.directive';
                class="flex flex-col items-center gap-2 p-4 rounded-xl border border-border/60
                       hover:border-primary/30 hover:bg-accent/50 transition-all duration-150
                       no-underline text-center group cursor-pointer">
-              <span class="text-2xl">{{ comp.icon }}</span>
+              <div class="text-foreground/80 group-hover:text-primary transition-colors flex items-center justify-center [&>svg]:w-7 [&>svg]:h-7 [&>svg]:stroke-[1.5]">
+                <ng-container *ngComponentOutlet="$any(comp.icon)" />
+              </div>
               <span class="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                 {{ comp.name }}
               </span>
@@ -133,42 +137,42 @@ import { KBadgeDirective } from '../../components/ui/badge/badge.directive';
 export class HomePageComponent {
   readonly features = [
     {
-      icon: '🧱',
+      icon: LucideBox,
       title: 'Copy & Own',
       description: 'No package to update. The code lives in your project, fully under your control.',
     },
     {
-      icon: '♿',
+      icon: LucideAccessibility,
       title: 'Accessible First',
       description: 'Built on @angular/cdk primitives — focus trapping, ARIA, keyboard navigation out of the box.',
     },
     {
-      icon: '⚡',
+      icon: LucideZap,
       title: 'Angular Signals',
       description: 'Uses input(), computed(), and model() signals for optimal change detection performance.',
     },
     {
-      icon: '🎨',
+      icon: LucidePalette,
       title: 'Design Tokens',
       description: 'Semantic CSS custom properties for effortless theming and dark mode support.',
     },
     {
-      icon: '🔀',
+      icon: LucideGitMerge,
       title: 'Variant System',
       description: 'class-variance-authority + tailwind-merge for type-safe, conflict-free class composition.',
     },
     {
-      icon: '📦',
+      icon: LucidePackage,
       title: 'Zero Lock-in',
       description: 'No runtime dependency on Kobo UI. Just Angular, Tailwind, and your code.',
     },
   ];
 
   readonly components = [
-    { name: 'Button',  icon: '🔘', route: '/button',  selector: 'button[k-button]' },
-    { name: 'Badge',   icon: '🏷️', route: '/badge',   selector: 'span[k-badge]' },
-    { name: 'Input',   icon: '📝', route: '/input',   selector: 'input[k-input]' },
-    { name: 'Card',    icon: '🃏', route: '/card',    selector: 'k-card' },
-    { name: 'Dialog',  icon: '💬', route: '/dialog',  selector: 'k-dialog' },
+    { name: 'Button',  icon: LucideMousePointerClick, route: '/button',  selector: 'button[k-button]' },
+    { name: 'Badge',   icon: LucideTag, route: '/badge',   selector: 'span[k-badge]' },
+    { name: 'Input',   icon: LucideType, route: '/input',   selector: 'input[k-input]' },
+    { name: 'Card',    icon: LucideLayoutTemplate, route: '/card',    selector: 'k-card' },
+    { name: 'Dialog',  icon: LucideMessageSquare, route: '/dialog',  selector: 'k-dialog' },
   ];
 }

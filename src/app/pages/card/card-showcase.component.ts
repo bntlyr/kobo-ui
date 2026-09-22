@@ -163,30 +163,173 @@ export class MyComponent {}`;
         }
       </app-tabs>
 
-      <!-- Components list -->
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">Components</h2>
-        <div class="rounded-xl border border-border overflow-hidden">
-          <table class="w-full text-sm">
-            <thead class="bg-muted/50">
-              <tr>
-                <th class="text-left px-4 py-3 font-semibold">Component</th>
-                <th class="text-left px-4 py-3 font-semibold">Selector</th>
-                <th class="text-left px-4 py-3 font-semibold">Description</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-              @for (c of cardComponents; track c.name) {
-                <tr class="hover:bg-muted/30">
-                  <td class="px-4 py-3 font-mono text-primary text-xs">{{ c.name }}</td>
-                  <td class="px-4 py-3 font-mono text-xs text-muted-foreground">{{ c.selector }}</td>
-                  <td class="px-4 py-3 text-muted-foreground text-xs">{{ c.desc }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KCard</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-card</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">variant</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'default' | 'outline' | 'ghost' | 'interactive'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'default'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The visual style of the card.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KCardHeader</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-card-header</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KCardTitle</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-card-title</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KCardDescription</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-card-description</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KCardContent</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-card-content</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KCardFooter</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-card-footer</code></p>
+            
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">class</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">string</td>
+                    <td class="px-4 py-3 font-mono text-xs">''</td>
+                    <td class="px-4 py-3 text-muted-foreground">Additional CSS classes to apply.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   `,
 })

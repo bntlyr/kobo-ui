@@ -8,33 +8,10 @@ import {
 } from '@angular/core';
 import { cn } from '../../../core/utils/cn';
 
-import { cva, type VariantProps } from 'class-variance-authority';
+import { buttonVariants, type ButtonVariant, type ButtonSize } from '../button/button.directive';
 
-const paginationLinkVariants = cva(
-  'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-  {
-    variants: {
-      variant: {
-        default: 'hover:bg-accent hover:text-accent-foreground',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        ghost:   'hover:bg-accent hover:text-accent-foreground',
-      },
-      size: {
-        default: 'h-9 px-4 py-2',
-        sm:      'h-8 rounded-md px-3 text-xs',
-        lg:      'h-10 rounded-md px-8',
-        icon:    'h-9 w-9',
-      }
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'icon',
-    }
-  }
-);
-
-export type PaginationVariant = NonNullable<VariantProps<typeof paginationLinkVariants>['variant']>;
-export type PaginationSize = NonNullable<VariantProps<typeof paginationLinkVariants>['size']>;
+export type PaginationVariant = 'default' | 'outline' | 'ghost';
+export type PaginationSize = 'default' | 'sm' | 'lg';
 
 /**
  * <k-pagination>
@@ -109,7 +86,7 @@ export class KPagination {
   readonly pageCount    = input<number>(1);
   readonly siblingCount = input<number>(1);
   readonly variant      = input<PaginationVariant>('default');
-  readonly size         = input<Omit<PaginationSize, 'icon'>>('default');
+  readonly size         = input<PaginationSize>('default');
   readonly class        = input<string>('');
 
   readonly pageChange = output<number>();
@@ -118,15 +95,28 @@ export class KPagination {
     cn('mx-auto flex w-full justify-center', this.class())
   );
 
-  protected readonly prevNextClasses = computed(() =>
-    cn(paginationLinkVariants({ variant: this.variant(), size: 'default' }), 'gap-1 pl-2.5 pr-2.5')
-  );
+  protected readonly prevNextClasses = computed(() => {
+    let v: ButtonVariant = 'ghost';
+    if (this.variant() === 'outline') v = 'outline';
+    return cn(buttonVariants({ variant: v, size: 'default' }), 'gap-1 pl-2.5 pr-2.5');
+  });
 
   protected pageClasses(p: number) {
     const isCurrent = p === this.page();
-    // Default Shadcn behavior: if active, give it a subtle outline appearance unless it's already outline
-    const baseVariant = isCurrent && this.variant() === 'default' ? 'outline' : this.variant();
-    return cn(paginationLinkVariants({ variant: baseVariant, size: 'icon' }));
+    let btnVariant: ButtonVariant = 'ghost';
+    
+    if (this.variant() === 'default') {
+      btnVariant = isCurrent ? 'outline' : 'ghost';
+    } else if (this.variant() === 'outline') {
+      btnVariant = isCurrent ? 'default' : 'outline';
+    } else if (this.variant() === 'ghost') {
+      btnVariant = isCurrent ? 'secondary' : 'ghost';
+    }
+    
+    // Map size to button size (default -> icon, sm -> icon-sm)
+    const btnSize = this.size() === 'sm' ? 'icon-sm' : (this.size() === 'lg' ? 'default' : 'icon');
+    
+    return cn(buttonVariants({ variant: btnVariant, size: btnSize }));
   }
 
   /** Generates array of page numbers with -1 for ellipsis */

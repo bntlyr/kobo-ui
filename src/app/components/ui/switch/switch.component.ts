@@ -25,6 +25,7 @@ import { cn } from '../../../core/utils/cn';
   selector: 'k-switch',
   template: `
     <label class="flex items-center gap-3 cursor-pointer select-none group"
+           [class]="wrapClasses()"
            [class.opacity-50]="disabled()"
            [class.cursor-not-allowed]="disabled()">
 
@@ -61,12 +62,15 @@ import { cn } from '../../../core/utils/cn';
   ],
 })
 export class KSwitch implements ControlValueAccessor {
-  readonly size    = input<'sm' | 'default' | 'lg'>('default');
+  readonly size     = input<'sm' | 'default' | 'lg'>('default');
+  readonly class    = input<string>('');
   readonly checked  = model<boolean>(false);
   readonly disabled = signal<boolean>(false);
 
   private _onChange: (value: boolean) => void = () => {};
   private _onTouched: () => void = () => {};
+
+  protected readonly wrapClasses = computed(() => cn('', this.class()));
 
   protected readonly trackClasses = computed(() => {
     const size = this.size();

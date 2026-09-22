@@ -9,7 +9,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../core/utils/cn';
 
 const alertVariants = cva(
-  'relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7',
+  'relative block w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7',
   {
     variants: {
       variant: {
@@ -52,17 +52,23 @@ export class KAlert {
 @Component({
   selector: 'k-alert-title',
   template: `<ng-content />`,
-  host: { '[class]': '"mb-1 font-medium leading-none tracking-tight"' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAlertTitle {}
+export class KAlertTitle {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('mb-1 block font-medium leading-none tracking-tight', this.class()));
+}
 
 @Component({
   selector: 'k-alert-description',
   template: `<ng-content />`,
-  host: { '[class]': '"text-sm [&_p]:leading-relaxed"' },
+  host: { '[class]': 'classes()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAlertDescription {}
+export class KAlertDescription {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('block text-sm [&_p]:leading-relaxed', this.class()));
+}

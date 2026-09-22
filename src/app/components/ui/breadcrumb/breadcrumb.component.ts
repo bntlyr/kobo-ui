@@ -75,12 +75,15 @@ export class KBreadcrumbList {
 
 @Component({
   selector: 'k-breadcrumb-item',
-  template: `<li class="inline-flex items-center gap-1.5"><ng-content /></li>`,
+  template: `<li [class]="classes()"><ng-content /></li>`,
   host: { '[class]': '"contents"' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KBreadcrumbItem {}
+export class KBreadcrumbItem {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('inline-flex items-center gap-1.5', this.class()));
+}
 
 @Component({
   selector: 'k-breadcrumb-link',
@@ -110,17 +113,20 @@ export class KBreadcrumbLink {
 
 @Component({
   selector: 'k-breadcrumb-page',
-  template: `<span role="link" aria-disabled="true" aria-current="page" class="font-normal text-foreground"><ng-content /></span>`,
+  template: `<span role="link" aria-disabled="true" aria-current="page" [class]="classes()"><ng-content /></span>`,
   host: { '[class]': '"contents"' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KBreadcrumbPage {}
+export class KBreadcrumbPage {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('font-normal text-foreground', this.class()));
+}
 
 @Component({
   selector: 'k-breadcrumb-separator',
   template: `
-    <li role="presentation" aria-hidden="true" class="[&>svg]:w-3.5 [&>svg]:h-3.5">
+    <li role="presentation" aria-hidden="true" [class]="classes()">
       <ng-content>
         @if (type() === 'slash') {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -142,12 +148,14 @@ export class KBreadcrumbPage {}
 })
 export class KBreadcrumbSeparator {
   readonly type = input<'chevron' | 'slash'>('chevron');
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('[&>svg]:w-3.5 [&>svg]:h-3.5', this.class()));
 }
 
 @Component({
   selector: 'k-breadcrumb-ellipsis',
   template: `
-    <span role="presentation" aria-hidden="true" class="flex h-9 w-9 items-center justify-center">
+    <span role="presentation" aria-hidden="true" [class]="classes()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
@@ -159,4 +167,7 @@ export class KBreadcrumbSeparator {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KBreadcrumbEllipsis {}
+export class KBreadcrumbEllipsis {
+  readonly class = input<string>('');
+  protected readonly classes = computed(() => cn('flex h-9 w-9 items-center justify-center', this.class()));
+}

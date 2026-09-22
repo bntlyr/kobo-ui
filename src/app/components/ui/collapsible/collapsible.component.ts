@@ -56,9 +56,7 @@ export class KCollapsible {
       type="button"
       [attr.aria-expanded]="ctx.open()"
       (click)="ctx.toggle()"
-      class="flex w-full items-center justify-between text-sm font-medium transition-all
-             hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
-             focus-visible:ring-offset-2"
+      [class]="classes()"
     >
       <ng-content />
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -74,7 +72,12 @@ export class KCollapsible {
   encapsulation: ViewEncapsulation.None,
 })
 export class KCollapsibleTrigger {
+  readonly class = input<string>('');
   protected readonly ctx = inject(K_COLLAPSIBLE);
+  
+  protected readonly classes = computed(() => 
+    cn('flex w-full items-center justify-between text-sm font-medium transition-all hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2', this.class())
+  );
 }
 
 // ---- Content ----
@@ -82,7 +85,7 @@ export class KCollapsibleTrigger {
 @Component({
   selector: 'k-collapsible-content',
   template: `
-    <div [@collapse]="ctx.open() ? 'open' : 'closed'" class="overflow-hidden text-sm">
+    <div [@collapse]="ctx.open() ? 'open' : 'closed'" [class]="classes()">
       <ng-content />
     </div>
   `,
@@ -98,5 +101,10 @@ export class KCollapsibleTrigger {
   encapsulation: ViewEncapsulation.None,
 })
 export class KCollapsibleContent {
+  readonly class = input<string>('');
   protected readonly ctx = inject(K_COLLAPSIBLE);
+
+  protected readonly classes = computed(() => 
+    cn('overflow-hidden text-sm', this.class())
+  );
 }

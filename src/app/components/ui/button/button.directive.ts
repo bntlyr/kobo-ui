@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../core/utils/cn';
 
 // ---- CVA Variant Definition ----
-const buttonVariants = cva(
+export const buttonVariants = cva(
   // Base classes applied to every variant
   [
     'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium',
