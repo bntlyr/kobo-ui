@@ -1,0 +1,20 @@
+{
+  "name": "toggle",
+  "description": "toggle component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/toggle/index.ts",
+      "content": "export { KToggleDirective } from './toggle.directive';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/toggle/toggle.directive.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, model, ViewEncapsulation } from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst toggleVariants = cva(\n  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground',\n  {\n    variants: {\n      variant: {\n        default: 'bg-transparent',\n        outline: 'border border-input bg-transparent hover:bg-accent hover:text-accent-foreground',\n      },\n      size: {\n        default: 'h-10 px-3',\n        sm: 'h-9 px-2.5',\n        lg: 'h-11 px-5',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n    },\n  }\n);\n\nexport type ToggleVariant = NonNullable<VariantProps<typeof toggleVariants>['variant']>;\nexport type ToggleSize = NonNullable<VariantProps<typeof toggleVariants>['size']>;\n\n@Component({\n  selector: 'button[k-toggle]',\n  template: `<ng-content />`,\n  host: {\n    '[class]': 'classes()',\n    '[attr.data-state]': 'pressed() ? \"on\" : \"off\"',\n    '[attr.aria-pressed]': 'pressed()',\n    '[disabled]': 'disabled()',\n    '(click)': 'toggle()',\n  },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KToggleDirective {\n  readonly variant = input<ToggleVariant>('default');\n  readonly size = input<ToggleSize>('default');\n  readonly class = input<string>('');\n  readonly disabled = input<boolean>(false);\n  \n  readonly pressed = model<boolean>(false);\n\n  protected readonly classes = computed(() => cn(toggleVariants({ variant: this.variant(), size: this.size() }), this.class()));\n\n  toggle(): void {\n    if (this.disabled()) return;\n    this.pressed.update(v => !v);\n  }\n}\n",
+      "type": "directive"
+    }
+  ],
+  "tags": []
+}

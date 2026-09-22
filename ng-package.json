@@ -8,6 +8,7 @@
   "assets": [
     { "glob": "*.css", "input": "src/styles", "output": "assets" },
     { "glob": "*.css", "input": "src/styles", "output": "." },
+    { "glob": "**/*", "input": "public/registry", "output": "registry" },
     "AGENTS.md",
     "LICENSE",
     { "glob": "*", "input": "bin", "output": "bin" }

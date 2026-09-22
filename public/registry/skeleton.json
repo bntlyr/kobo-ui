@@ -6,6 +6,11 @@
   "devDependencies": [],
   "files": [
     {
+      "path": "src/app/components/ui/skeleton/index.ts",
+      "content": "export { KSkeletonDirective } from './skeleton.directive';\n",
+      "type": "util"
+    },
+    {
       "path": "src/app/components/ui/skeleton/skeleton.directive.ts",
       "content": "import { Directive, computed, input } from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst skeletonVariants = cva(\n  'rounded-md',\n  {\n    variants: {\n      animation: {\n        pulse: 'animate-pulse bg-muted',\n        shimmer: 'bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)] bg-[length:200%_100%] animate-shimmer bg-muted',\n        none: 'bg-muted',\n      },\n    },\n    defaultVariants: {\n      animation: 'pulse',\n    },\n  }\n);\n\nexport type SkeletonAnimation = NonNullable<VariantProps<typeof skeletonVariants>['animation']>;\n\n/**\n * KSkeletonDirective\n *\n * Selector: div[k-skeleton], span[k-skeleton]\n * A loading placeholder with animation variants.\n *\n * @example\n * <div k-skeleton class=\"h-4 w-32\" />\n * <div k-skeleton animation=\"shimmer\" class=\"h-10 w-full rounded-full\" />\n */\n@Directive({\n  selector: 'div[k-skeleton], span[k-skeleton]',\n  host: {\n    '[class]': 'classes()',\n    'aria-hidden': 'true',\n  },\n})\nexport class KSkeletonDirective {\n  readonly animation = input<SkeletonAnimation>('pulse');\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(skeletonVariants({ animation: this.animation() }), this.class())\n  );\n}\n",
       "type": "directive"

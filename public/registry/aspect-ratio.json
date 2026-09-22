@@ -1,0 +1,20 @@
+{
+  "name": "aspect-ratio",
+  "description": "aspect-ratio component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/aspect-ratio/aspect-ratio.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-aspect-ratio',\n  template: `\n    <div class=\"relative h-full w-full\">\n      <ng-content />\n    </div>\n  `,\n  host: {\n    '[class]': 'classes()',\n    '[style.aspect-ratio]': 'ratio()',\n  },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAspectRatio {\n  readonly ratio = input<number>(1);\n  readonly class = input<string>('');\n\n  protected readonly classes = computed(() => cn('block w-full', this.class()));\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/aspect-ratio/index.ts",
+      "content": "export { KAspectRatio } from './aspect-ratio.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

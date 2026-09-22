@@ -1,6 +1,6 @@
 {
-  "version": "0.0.0",
-  "generated": "2026-09-22T02:24:12.185Z",
+  "version": "1.0.1",
+  "generated": "2026-09-22T14:17:28.966Z",
   "components": [
     {
       "name": "accordion",
@@ -17,6 +17,12 @@
     {
       "name": "alert-dialog",
       "description": "alert-dialog component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "aspect-ratio",
+      "description": "aspect-ratio component",
       "type": "component",
       "tags": []
     },
@@ -58,6 +64,18 @@
       ]
     },
     {
+      "name": "button-group",
+      "description": "button-group component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "calendar",
+      "description": "calendar component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "card",
       "description": "A composable card compound component with header, content, and footer slots.",
       "type": "compound",
@@ -65,6 +83,18 @@
         "layout",
         "container"
       ]
+    },
+    {
+      "name": "carousel",
+      "description": "carousel component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "chart",
+      "description": "chart component",
+      "type": "component",
+      "tags": []
     },
     {
       "name": "checkbox",
@@ -79,6 +109,36 @@
       "tags": []
     },
     {
+      "name": "combobox",
+      "description": "combobox component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "command",
+      "description": "command component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "context-menu",
+      "description": "context-menu component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "data-table",
+      "description": "data-table component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "date-picker",
+      "description": "date-picker component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "dialog",
       "description": "An accessible dialog built on @angular/cdk/dialog with focus trapping and ESC-to-close.",
       "type": "compound",
@@ -89,14 +149,32 @@
       ]
     },
     {
+      "name": "drawer",
+      "description": "drawer component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "dropdown",
       "description": "dropdown component",
       "type": "component",
       "tags": []
     },
     {
+      "name": "empty",
+      "description": "empty component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "form-field",
       "description": "form-field component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "hover-card",
+      "description": "hover-card component",
       "type": "component",
       "tags": []
     },
@@ -108,6 +186,24 @@
         "form",
         "primitive"
       ]
+    },
+    {
+      "name": "input-group",
+      "description": "input-group component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "input-otp",
+      "description": "input-otp component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "kbd",
+      "description": "kbd component",
+      "type": "component",
+      "tags": []
     },
     {
       "name": "label",
@@ -122,8 +218,32 @@
       "tags": []
     },
     {
+      "name": "menubar",
+      "description": "menubar component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "messaging",
+      "description": "messaging component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "multi-select",
       "description": "multi-select component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "native-select",
+      "description": "native-select component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "navigation-menu",
+      "description": "navigation-menu component",
       "type": "component",
       "tags": []
     },
@@ -152,8 +272,20 @@
       "tags": []
     },
     {
+      "name": "questionnaire",
+      "description": "questionnaire component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "radio-group",
       "description": "radio-group component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "resizable",
+      "description": "resizable component",
       "type": "component",
       "tags": []
     },
@@ -182,6 +314,12 @@
       "tags": []
     },
     {
+      "name": "sidebar",
+      "description": "sidebar component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "skeleton",
       "description": "skeleton component",
       "type": "component",
@@ -196,6 +334,12 @@
     {
       "name": "spinner",
       "description": "spinner component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "stepper",
+      "description": "stepper component",
       "type": "component",
       "tags": []
     },
@@ -224,8 +368,26 @@
       "tags": []
     },
     {
+      "name": "time-picker",
+      "description": "time-picker component",
+      "type": "component",
+      "tags": []
+    },
+    {
       "name": "toast",
       "description": "toast component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "toggle",
+      "description": "toggle component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "toggle-group",
+      "description": "toggle-group component",
       "type": "component",
       "tags": []
     },
@@ -238,6 +400,12 @@
     {
       "name": "typography",
       "description": "typography component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "utilities",
+      "description": "utilities component",
       "type": "component",
       "tags": []
     }

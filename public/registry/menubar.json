@@ -1,0 +1,20 @@
+{
+  "name": "menubar",
+  "description": "menubar component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/menubar/index.ts",
+      "content": "export { KMenubar } from './menubar.component';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/menubar/menubar.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-menubar',\n  template: `<ng-content />`,\n  host: {\n    '[class]': 'classes()',\n    'role': 'menubar',\n  },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KMenubar {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('flex h-10 items-center space-x-1 rounded-md border bg-background p-1', this.class()));\n}\n",
+      "type": "component"
+    }
+  ],
+  "tags": []
+}

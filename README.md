@@ -86,6 +86,22 @@ import { KButtonDirective } from 'kobo-ui';
 export class AppComponent {}
 ```
 
+## CLI Usage & Adding Components
+
+You can also add individual component source files directly into your project (copy-and-own):
+
+```bash
+# Add specific components
+npx kobo add button
+npx kobo add dialog card toast
+
+# Add all components
+npx kobo add --all
+
+# List all 65 available components
+npx kobo list
+```
+
 ## AI Agent Guidelines (`AGENTS.md`)
 
 Equip your AI coding assistants (Antigravity, Cursor, Claude Code, Copilot, Windsurf) with complete knowledge of Kobo UI components, signal APIs, and Tailwind tokens:

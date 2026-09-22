@@ -1,0 +1,20 @@
+{
+  "name": "native-select",
+  "description": "native-select component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/native-select/index.ts",
+      "content": "export { KNativeSelectDirective, KNativeSelectWrapper } from './native-select.directive';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/native-select/native-select.directive.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, Directive, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Directive({\n  selector: 'select[k-native-select]',\n  host: { '[class]': 'classes()' },\n})\nexport class KNativeSelectDirective {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn(\n    'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none',\n    this.class()\n  ));\n}\n\n@Component({\n  selector: 'k-native-select-wrapper',\n  template: `\n    <div [class]=\"classes()\">\n      <ng-content select=\"select\" />\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        width=\"24\"\n        height=\"24\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        class=\"absolute right-3 top-2.5 h-4 w-4 opacity-50 pointer-events-none\"\n      >\n        <path d=\"m6 9 6 6 6-6\"/>\n      </svg>\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KNativeSelectWrapper {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('relative w-full', this.class()));\n}\n",
+      "type": "directive"
+    }
+  ],
+  "tags": []
+}

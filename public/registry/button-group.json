@@ -1,0 +1,20 @@
+{
+  "name": "button-group",
+  "description": "button-group component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/button-group/button-group.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-button-group',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KButtonGroup {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn(\n    'inline-flex -space-x-px rounded-md [&>*]:rounded-none [&>*:first-child]:rounded-l-md [&>*:last-child]:rounded-r-md',\n    this.class()\n  ));\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/button-group/index.ts",
+      "content": "export { KButtonGroup } from './button-group.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

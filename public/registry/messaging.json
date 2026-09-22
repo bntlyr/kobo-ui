@@ -1,0 +1,20 @@
+{
+  "name": "messaging",
+  "description": "messaging component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/messaging/index.ts",
+      "content": "export { KBubble, KMessage, KMessageScroller, KAttachment, KMarker } from './messaging.component';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/messaging/messaging.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\nimport { cva } from 'class-variance-authority';\n\nconst bubbleVariants = cva(\n  'relative flex w-fit max-w-[80%] flex-col gap-2 rounded-2xl px-4 py-2 text-sm',\n  {\n    variants: {\n      variant: {\n        sent: 'bg-primary text-primary-foreground self-end rounded-br-sm',\n        received: 'bg-muted text-foreground self-start rounded-bl-sm',\n      },\n    },\n    defaultVariants: {\n      variant: 'received',\n    },\n  }\n);\n\n@Component({\n  selector: 'k-bubble',\n  template: `<div [class]=\"classes()\"><ng-content /></div>`,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KBubble {\n  readonly class = input<string>('');\n  readonly variant = input<'sent' | 'received'>('received');\n  \n  protected readonly classes = computed(() => cn(bubbleVariants({ variant: this.variant() }), this.class()));\n}\n\n@Component({\n  selector: 'k-message',\n  template: `<div [class]=\"classes()\"><ng-content /></div>`,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KMessage {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('flex flex-col gap-2 p-4', this.class()));\n}\n\n@Component({\n  selector: 'k-message-scroller',\n  template: `<div [class]=\"classes()\"><ng-content /></div>`,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KMessageScroller {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('flex h-[400px] flex-col overflow-y-auto overflow-x-hidden p-4 scrollbar-thin', this.class()));\n}\n\n@Component({\n  selector: 'k-attachment',\n  template: `\n    <div [class]=\"classes()\">\n      <div class=\"flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"h-4 w-4\"><path d=\"m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48\"/></svg>\n      </div>\n      <div class=\"flex flex-col gap-1 overflow-hidden\">\n        <span class=\"truncate text-sm font-medium\">{{ name() }}</span>\n        @if (size()) {\n          <span class=\"text-xs text-muted-foreground\">{{ size() }}</span>\n        }\n      </div>\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KAttachment {\n  readonly class = input<string>('');\n  readonly name = input<string>('attachment.txt');\n  readonly size = input<string>('');\n  \n  protected readonly classes = computed(() => cn('flex items-center gap-3 rounded-lg border p-2', this.class()));\n}\n\n@Component({\n  selector: 'k-marker',\n  template: `\n    <div [class]=\"classes()\">\n      <span class=\"bg-background px-2 text-xs text-muted-foreground\">\n        <ng-content />\n      </span>\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KMarker {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('relative flex w-full items-center justify-center py-4 before:absolute before:inset-x-0 before:h-px before:bg-border', this.class()));\n}\n",
+      "type": "component"
+    }
+  ],
+  "tags": []
+}

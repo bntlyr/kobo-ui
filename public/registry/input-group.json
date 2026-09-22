@@ -1,0 +1,20 @@
+{
+  "name": "input-group",
+  "description": "input-group component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/input-group/index.ts",
+      "content": "export { KInputGroup, KInputGroupText } from './input-group.component';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/input-group/input-group.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-input-group-text',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KInputGroupText {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('flex items-center px-3 text-sm text-muted-foreground bg-muted border border-input', this.class()));\n}\n\n@Component({\n  selector: 'k-input-group',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KInputGroup {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn(\n    'flex w-full overflow-hidden rounded-md [&>input]:rounded-none [&>input:first-child]:rounded-l-md [&>input:last-child]:rounded-r-md [&>k-input-group-text:first-child]:rounded-l-md [&>k-input-group-text:first-child]:border-r-0 [&>k-input-group-text:last-child]:rounded-r-md [&>k-input-group-text:last-child]:border-l-0',\n    this.class()\n  ));\n}\n",
+      "type": "component"
+    }
+  ],
+  "tags": []
+}

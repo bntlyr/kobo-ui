@@ -1,6 +1,6 @@
 {
   "name": "kobo-ui",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "A beautifully crafted Angular component library with Tailwind CSS v4 and CDK.",
   "author": "Kobo UI Team",
   "license": "MIT",
@@ -51,21 +51,30 @@
   },
   "private": false,
   "packageManager": "npm@11.6.2",
-  "peerDependencies": {
-    "@angular/animations": "^21.2.23",
-    "@angular/cdk": "^21.2.14",
-    "@angular/common": "^21.1.0",
-    "@angular/compiler": "^21.1.0",
-    "@angular/core": "^21.1.0",
-    "@angular/forms": "^21.1.0",
-    "@angular/platform-browser": "^21.1.0",
-    "@angular/router": "^21.1.0",
-    "@lucide/angular": "^1.47.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "rxjs": "~7.8.0",
-    "tailwind-merge": "^3.7.0",
+  "dependencies": {
+    "@lucide/angular": ">=0.300.0",
+    "class-variance-authority": ">=0.7.0",
+    "clsx": ">=2.0.0",
+    "tailwind-merge": ">=2.0.0",
     "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular/animations": ">=18.0.0",
+    "@angular/cdk": ">=18.0.0",
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0",
+    "@angular/forms": ">=18.0.0",
+    "@angular/platform-browser": ">=18.0.0",
+    "@angular/router": ">=18.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@angular/animations": {
+      "optional": true
+    },
+    "@angular/router": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@angular/build": "^21.1.1",

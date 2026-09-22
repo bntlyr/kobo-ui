@@ -1,0 +1,20 @@
+{
+  "name": "data-table",
+  "description": "data-table component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/data-table/data-table.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-data-table',\n  template: `\n    <div [class]=\"classes()\">\n      <ng-content />\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KDataTable {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('rounded-md border', this.class()));\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/data-table/index.ts",
+      "content": "export { KDataTable } from './data-table.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

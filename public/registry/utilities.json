@@ -1,0 +1,20 @@
+{
+  "name": "utilities",
+  "description": "utilities component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/utilities/index.ts",
+      "content": "export { KScrollFade, KShimmer } from './utilities.component';\n",
+      "type": "util"
+    },
+    {
+      "path": "src/app/components/ui/utilities/utilities.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-scroll-fade',\n  template: `\n    <div [class]=\"classes()\">\n      <div class=\"pointer-events-none absolute inset-x-0 top-0 z-10 h-10 bg-gradient-to-b from-background to-transparent\"></div>\n      <ng-content />\n      <div class=\"pointer-events-none absolute inset-x-0 bottom-0 z-10 h-10 bg-gradient-to-t from-background to-transparent\"></div>\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KScrollFade {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('relative w-full overflow-hidden', this.class()));\n}\n\n@Component({\n  selector: 'k-shimmer',\n  template: `\n    <div [class]=\"classes()\">\n      <ng-content />\n      <div class=\"absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent\"></div>\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KShimmer {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('relative overflow-hidden', this.class()));\n}\n",
+      "type": "component"
+    }
+  ],
+  "tags": []
+}

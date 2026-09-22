@@ -6,6 +6,11 @@
   "devDependencies": [],
   "files": [
     {
+      "path": "src/app/components/ui/separator/index.ts",
+      "content": "export { KSeparatorDirective } from './separator.directive';\n",
+      "type": "util"
+    },
+    {
       "path": "src/app/components/ui/separator/separator.directive.ts",
       "content": "import { Directive, computed, input } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n/**\n * KSeparatorDirective\n *\n * Selector: hr[k-separator], [k-separator]\n * A visual divider. Use on <hr> for horizontal, or any block element\n * for vertical separation.\n *\n * @example\n * <hr k-separator />\n * <div k-separator orientation=\"vertical\" class=\"h-8\" />\n */\n@Directive({\n  selector: 'hr[k-separator], [k-separator]',\n  host: {\n    '[class]': 'classes()',\n    '[attr.role]': 'decorative() ? \"none\" : \"separator\"',\n    '[attr.aria-orientation]': 'orientation()',\n  },\n})\nexport class KSeparatorDirective {\n  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');\n  readonly decorative  = input<boolean>(false);\n  readonly class       = input<string>('');\n\n  protected readonly classes = computed(() =>\n    cn(\n      'shrink-0 bg-border',\n      this.orientation() === 'horizontal' ? 'h-[1px] w-full my-0' : 'w-[1px] h-full',\n      this.class()\n    )\n  );\n}\n",
       "type": "directive"

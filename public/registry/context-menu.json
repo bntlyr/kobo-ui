@@ -1,0 +1,20 @@
+{
+  "name": "context-menu",
+  "description": "context-menu component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/context-menu/context-menu.component.ts",
+      "content": "import {\n  Directive,\n  ElementRef,\n  HostListener,\n  inject,\n  input,\n  OnDestroy,\n  TemplateRef,\n  ViewContainerRef,\n} from '@angular/core';\nimport { Overlay, OverlayRef, ConnectedPosition } from '@angular/cdk/overlay';\nimport { TemplatePortal } from '@angular/cdk/portal';\n\n@Directive({\n  selector: '[kContextMenuTrigger]',\n})\nexport class KContextMenuTrigger implements OnDestroy {\n  readonly kContextMenuTrigger = input.required<TemplateRef<void>>();\n\n  private readonly overlay = inject(Overlay);\n  private readonly vcr = inject(ViewContainerRef);\n\n  private overlayRef: OverlayRef | null = null;\n\n  @HostListener('contextmenu', ['$event'])\n  onContextMenu(event: MouseEvent): void {\n    event.preventDefault();\n    this.open(event);\n  }\n\n  open(event: MouseEvent): void {\n    if (this.overlayRef) {\n      this.close();\n    }\n\n    const positionStrategy = this.overlay\n      .position()\n      .flexibleConnectedTo({ x: event.clientX, y: event.clientY })\n      .withPositions([\n        { originX: 'end', originY: 'bottom', overlayX: 'start', overlayY: 'top' },\n        { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'bottom' },\n        { originX: 'start', originY: 'bottom', overlayX: 'end', overlayY: 'top' },\n        { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'bottom' },\n      ]);\n\n    this.overlayRef = this.overlay.create({\n      hasBackdrop: true,\n      backdropClass: 'cdk-overlay-transparent-backdrop',\n      positionStrategy,\n      scrollStrategy: this.overlay.scrollStrategies.close(),\n    });\n\n    this.overlayRef.backdropClick().subscribe(() => this.close());\n    this.overlayRef.keydownEvents().subscribe(e => {\n      if (e.key === 'Escape') this.close();\n    });\n\n    const portal = new TemplatePortal(this.kContextMenuTrigger(), this.vcr);\n    this.overlayRef.attach(portal);\n  }\n\n  close(): void {\n    this.overlayRef?.dispose();\n    this.overlayRef = null;\n  }\n\n  ngOnDestroy(): void {\n    this.close();\n  }\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/context-menu/index.ts",
+      "content": "export { KContextMenuTrigger } from './context-menu.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}

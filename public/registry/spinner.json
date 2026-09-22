@@ -6,6 +6,11 @@
   "devDependencies": [],
   "files": [
     {
+      "path": "src/app/components/ui/spinner/index.ts",
+      "content": "export { KSpinner } from './spinner.component';\n",
+      "type": "util"
+    },
+    {
       "path": "src/app/components/ui/spinner/spinner.component.ts",
       "content": "import {\n  ChangeDetectionStrategy,\n  Component,\n  ViewEncapsulation,\n  computed,\n  input,\n} from '@angular/core';\nimport { cva, type VariantProps } from 'class-variance-authority';\nimport { cn } from '../../../core/utils/cn';\n\nconst spinnerVariants = cva(\n  'animate-spin',\n  {\n    variants: {\n      size: {\n        sm:      'h-4 w-4',\n        default: 'h-6 w-6',\n        lg:      'h-8 w-8',\n        xl:      'h-12 w-12',\n      },\n      color: {\n        primary: 'text-primary',\n        muted:   'text-muted-foreground',\n        white:   'text-white',\n      }\n    },\n    defaultVariants: { size: 'default', color: 'muted' },\n  }\n);\n\nexport type SpinnerSize = NonNullable<VariantProps<typeof spinnerVariants>['size']>;\nexport type SpinnerColor = NonNullable<VariantProps<typeof spinnerVariants>['color']>;\n\n/**\n * <k-spinner>\n * @example\n * <k-spinner />\n * <k-spinner size=\"lg\" color=\"primary\" />\n */\n@Component({\n  selector: 'k-spinner',\n  template: `\n    <span role=\"status\" class=\"inline-flex items-center justify-center\">\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n        [class]=\"svgClasses()\"\n        aria-hidden=\"true\"\n      >\n        <path d=\"M21 12a9 9 0 1 1-6.219-8.56\"/>\n      </svg>\n      <span class=\"sr-only\">{{ label() }}</span>\n    </span>\n  `,\n  host: { '[class]': '\"contents\"' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KSpinner {\n  readonly size  = input<SpinnerSize>('default');\n  readonly color = input<SpinnerColor>('muted');\n  readonly label = input<string>('Loading...');\n  readonly class = input<string>('');\n\n  protected readonly svgClasses = computed(() =>\n    cn(spinnerVariants({ size: this.size(), color: this.color() }), this.class())\n  );\n}\n",
       "type": "component"

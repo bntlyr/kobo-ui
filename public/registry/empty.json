@@ -1,0 +1,20 @@
+{
+  "name": "empty",
+  "description": "empty component",
+  "type": "component",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/empty/empty.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';\nimport { cn } from '../../../core/utils/cn';\n\n@Component({\n  selector: 'k-empty-icon',\n  template: `\n    <div [class]=\"classes()\">\n      <ng-content />\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KEmptyIcon {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-muted', this.class()));\n}\n\n@Component({\n  selector: 'k-empty-title',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KEmptyTitle {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('text-xl font-semibold', this.class()));\n}\n\n@Component({\n  selector: 'k-empty-description',\n  template: `<ng-content />`,\n  host: { '[class]': 'classes()' },\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KEmptyDescription {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('mb-4 mt-2 text-sm text-muted-foreground', this.class()));\n}\n\n@Component({\n  selector: 'k-empty',\n  template: `\n    <div [class]=\"classes()\">\n      <ng-content />\n    </div>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class KEmpty {\n  readonly class = input<string>('');\n  protected readonly classes = computed(() => cn('flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50', this.class()));\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/empty/index.ts",
+      "content": "export { KEmpty, KEmptyIcon, KEmptyTitle, KEmptyDescription } from './empty.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": []
+}
