@@ -4,15 +4,16 @@ import { ShellComponent } from './layout/shell.component';
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () =>
+      import('./pages/home/home.component').then(m => m.HomePageComponent),
+    title: 'Kobo UI (工房) — Angular Component Registry',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     component: ShellComponent,
     children: [
       // ---- Getting Started ----
-      {
-        path: '',
-        loadComponent: () =>
-          import('./pages/home/home.component').then(m => m.HomePageComponent),
-        title: 'Kobo UI (工房) — Angular Component Registry',
-      },
       {
         path: 'introduction',
         loadComponent: () =>

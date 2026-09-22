@@ -22,10 +22,17 @@ import { KCommandSearchDialog } from '../shared/command-search-dialog.component'
         <!-- Logo / Brand -->
         <a routerLink="/"
            class="flex items-center gap-2.5 font-semibold text-foreground hover:opacity-80 transition-opacity no-underline shrink-0">
-          <!-- Kobo Icon -->
-          <div class="w-7 h-7 rounded-md bg-primary flex items-center justify-center shrink-0">
-            <span class="text-primary-foreground text-xs font-bold leading-none">工</span>
-          </div>
+          <!-- Kobo Icon (Angular Shield + Cog) -->
+          <svg viewBox="0 0 24 24" class="w-7 h-7 shrink-0" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shield shape adapted for 24x24 viewBox -->
+            <path d="M12 1.5L2 5l1.5 13.5L12 23l8.5-4.5L22 5l-10-3.5z" fill="#DD0031"/>
+            <path d="M12 1.5L22 5l-1.5 13.5L12 23V1.5z" fill="#C3002F"/>
+            <!-- Cog / Settings shape centered and scaled -->
+            <g transform="translate(4,4) scale(0.666)" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </g>
+          </svg>
           <span class="text-sm font-semibold tracking-tight">Kobo UI</span>
           <span class="text-muted-foreground/60 text-xs font-normal hidden sm:inline">工房</span>
         </a>
