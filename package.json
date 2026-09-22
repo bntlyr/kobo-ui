@@ -11,11 +11,28 @@
     "ui",
     "shadcn"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bntlyr/kobo-ui.git"
+  },
+  "homepage": "https://github.com/bntlyr/kobo-ui#readme",
+  "bugs": {
+    "url": "https://github.com/bntlyr/kobo-ui/issues"
+  },
+  "bin": {
+    "kobo": "./bin/kobo.cjs",
+    "kobo-ui": "./bin/kobo.cjs"
+  },
+  "exports": {
+    "./assets/*": "./assets/*",
+    "./*": "./*"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng-packagr -p ng-package.json",
+    "publish:lib": "npm run build:lib && npm publish dist/kobo-ui",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "registry:build": "npx tsx scripts/build-registry.ts"
@@ -46,22 +63,29 @@
     "@lucide/angular": "^1.47.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "highlight.js": "^11.12.0",
     "rxjs": "~7.8.0",
     "tailwind-merge": "^3.7.0",
-    "tslib": "^2.3.0",
-    "tsx": "^4.23.15"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^21.1.1",
     "@angular/cli": "^21.1.1",
     "@angular/compiler-cli": "^21.1.0",
     "@tailwindcss/postcss": "^4.1.12",
+    "highlight.js": "^11.12.0",
     "jsdom": "^27.1.0",
     "ng-packagr": "^21.2.7",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.12",
+    "tsx": "^4.23.15",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "lmdb@3.5.1": true,
+    "msgpackr-extract@3.0.4": true
   }
 }

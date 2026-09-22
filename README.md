@@ -86,6 +86,21 @@ import { KButtonDirective } from 'kobo-ui';
 export class AppComponent {}
 ```
 
+## AI Agent Guidelines (`AGENTS.md`)
+
+Equip your AI coding assistants (Antigravity, Cursor, Claude Code, Copilot, Windsurf) with complete knowledge of Kobo UI components, signal APIs, and Tailwind tokens:
+
+```bash
+# Generate AGENTS.md in your project root
+npx kobo skills
+
+# Or for Cursor .cursorrules
+npx kobo skills --cursor
+
+# Or for .agents/AGENTS.md
+npx kobo skills --agents
+```
+
 ## Available Themes
 
 If you imported `themes.css`, you can apply color themes dynamically by adding classes to your `<body>` or `<html>` element. Available themes:

@@ -6,8 +6,11 @@
     "cssUrl": "inline"
   },
   "assets": [
-    "src/styles/tokens.css",
-    "src/styles/themes.css"
+    { "glob": "*.css", "input": "src/styles", "output": "assets" },
+    { "glob": "*.css", "input": "src/styles", "output": "." },
+    "AGENTS.md",
+    "LICENSE",
+    { "glob": "*", "input": "bin", "output": "bin" }
   ],
   "allowedNonPeerDependencies": [
     "clsx",
