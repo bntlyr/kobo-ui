@@ -308,6 +308,10 @@
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
+
+  input[k-input][type="file"] {
+    @apply pt-1.5;
+  }
 }
 
 /* ---- Utility: hide scrollbar ---- */
@@ -316,6 +320,24 @@
 }
 
 .no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---- CDK Dialog: Command Search Overlay ---- */
+.k-command-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+}
+
+/* ---- Utility: hide scrollbar on carousel ---- */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

@@ -99,7 +99,7 @@ const tabListVariants = cva(
       }
     },
     compoundVariants: [
-      { variant: 'line', class: 'h-auto' }
+      { variant: 'line', class: 'h-auto w-full justify-start' }
     ],
     defaultVariants: {
       variant: 'pills',

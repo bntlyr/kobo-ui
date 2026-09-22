@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  inject,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Dialog } from '@angular/cdk/dialog';
 import { ThemeToggleComponent } from '../shared/theme-toggle.component';
 import { ThemeColorSwitcherComponent } from '../shared/theme-color-switcher.component';
+import { KCommandSearchDialog } from '../shared/command-search-dialog.component';
 
 @Component({
   selector: 'app-nav-header',
@@ -45,13 +52,14 @@ import { ThemeColorSwitcherComponent } from '../shared/theme-color-switcher.comp
                        border border-border text-muted-foreground text-sm
                        hover:bg-accent hover:text-foreground transition-colors
                        bg-transparent cursor-pointer"
-                aria-label="Search documentation">
+                aria-label="Search documentation"
+                (click)="openSearch()">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
           </svg>
           <span class="text-xs">Search...</span>
-          <kbd class="ml-4 text-xs bg-muted px-1.5 py-0.5 rounded font-mono">⌘K</kbd>
+          <kbd class="ml-4 text-xs bg-muted px-1.5 py-0.5 rounded font-mono">&#8984;K</kbd>
         </button>
 
         <!-- GitHub -->
@@ -84,4 +92,27 @@ import { ThemeColorSwitcherComponent } from '../shared/theme-color-switcher.comp
     </header>
   `,
 })
-export class NavHeaderComponent {}
+export class NavHeaderComponent {
+  private readonly dialog = inject(Dialog);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private dialogRef: any = null;
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      event.preventDefault();
+      this.openSearch();
+    }
+  }
+
+  openSearch(): void {
+    if (this.dialogRef) return;
+    this.dialogRef = this.dialog.open(KCommandSearchDialog, {
+      panelClass: 'k-command-search-overlay',
+      hasBackdrop: false,
+    });
+    this.dialogRef.closed.subscribe(() => {
+      this.dialogRef = null;
+    });
+  }
+}

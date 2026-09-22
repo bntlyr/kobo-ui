@@ -14,7 +14,7 @@ import { KAvatar, KAvatarImage, KAvatarFallback } from '../../components/ui/avat
         <p class="text-muted-foreground mt-2">For sighted users to preview content available behind a link.</p>
       </div>
 
-      <k-tabs value="preview">
+      <k-tabs value="preview" variant="line">
         <k-tab-list>
           <k-tab-trigger value="preview">Preview</k-tab-trigger>
           <k-tab-trigger value="code">Code</k-tab-trigger>

@@ -21,6 +21,7 @@ import { KTimePicker, TimeValue } from '../time-picker/time-picker.component';
         </k-calendar>
         @if (showTime()) {
           <k-time-picker 
+            [inline]="true"
             [value]="timeValue()"
             (valueChange)="onTimeSelect($event)">
           </k-time-picker>

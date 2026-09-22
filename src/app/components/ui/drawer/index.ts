@@ -1,1 +1,8 @@
-export { KDrawerService, KDrawerContent, KDrawerHeader, KDrawerFooter } from './drawer.component';
+export {
+  KDrawerService,
+  KDrawerContent,
+  KDrawerHeader,
+  KDrawerTitle,
+  KDrawerDescription,
+  KDrawerFooter,
+} from './drawer.component';

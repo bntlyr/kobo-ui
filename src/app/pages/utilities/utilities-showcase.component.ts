@@ -13,7 +13,7 @@ import { KShimmer } from '../../components/ui/utilities';
         <p class="text-muted-foreground mt-2">Useful utility components and directives for UI enhancements.</p>
       </div>
 
-      <k-tabs value="preview">
+      <k-tabs value="preview" variant="line">
         <k-tab-list>
           <k-tab-trigger value="preview">Preview</k-tab-trigger>
           <k-tab-trigger value="code">Code</k-tab-trigger>
@@ -59,6 +59,17 @@ import { KShimmer } from '../../components/ui/utilities';
           </div>
         </k-tab-content>
       </k-tabs>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KScrollFade</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-scroll-fade</code></p>
+            <p class="text-sm text-muted-foreground mt-2">A layout utility that adds animated fade masks to the top and bottom of scrollable containers based on their scroll position.</p>
+          </div>
+        </div>
+      </section>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

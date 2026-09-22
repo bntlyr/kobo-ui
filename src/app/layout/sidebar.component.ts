@@ -115,6 +115,7 @@ export class SidebarComponent {
         { label: 'Skeleton', route: '/skeleton' },
         { label: 'Slider', route: '/slider' },
         { label: 'Spinner', route: '/spinner' },
+        { label: 'Stepper', route: '/stepper', badge: 'New' },
         { label: 'Switch', route: '/switch' },
         { label: 'Table', route: '/table' },
         { label: 'Tabs', route: '/tabs' },

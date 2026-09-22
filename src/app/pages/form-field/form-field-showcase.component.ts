@@ -74,7 +74,7 @@ import { TabsComponent, type Tab } from '../../shared/tabs.component';
                     <td class="px-4 py-3 font-mono text-xs">control</td>
                     <td class="px-4 py-3 font-mono text-xs text-primary">AbstractControl | null</td>
                     <td class="px-4 py-3 font-mono text-xs">null</td>
-                    <td class="px-4 py-3 text-muted-foreground">The form control to track for errors.</td>
+                    <td class="px-4 py-3 text-muted-foreground">The form control to track for errors. Automatically syncs error and required states to child label and input components.</td>
                   </tr>
                   <tr>
                     <td class="px-4 py-3 font-mono text-xs">class</td>

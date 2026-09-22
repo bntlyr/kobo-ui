@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal, inject, ViewEncapsulation } from '@angular/core';
 import { cn } from '../../../core/utils/cn';
 
 @Component({
@@ -21,6 +21,12 @@ export class KQuestionnaire {
   readonly class = input<string>('');
   readonly title = input<string>('Questionnaire');
   readonly description = input<string>('');
+  
+  readonly currentStepIndex = signal<number>(0);
+  
+  next() { this.currentStepIndex.update(v => v + 1); }
+  previous() { this.currentStepIndex.update(v => Math.max(0, v - 1)); }
+  goTo(index: number) { this.currentStepIndex.set(index); }
   
   protected readonly classes = computed(() => cn('mx-auto max-w-2xl rounded-xl border bg-card p-6 text-card-foreground shadow', this.class()));
 }
@@ -47,10 +53,18 @@ export class KQuestionnaire {
   encapsulation: ViewEncapsulation.None,
 })
 export class KQuestionnaireStep {
+  private readonly questionnaire = inject(KQuestionnaire);
+
   readonly class = input<string>('');
   readonly step = input<number>(1);
   readonly title = input<string>('Step');
   readonly description = input<string>('');
   
-  protected readonly classes = computed(() => cn('relative py-4', this.class()));
+  protected readonly isActive = computed(() => this.questionnaire.currentStepIndex() === this.step() - 1);
+  
+  protected readonly classes = computed(() => cn(
+    'relative py-4 transition-all duration-300', 
+    this.isActive() ? 'block animate-in fade-in slide-in-from-right-4' : 'hidden',
+    this.class()
+  ));
 }

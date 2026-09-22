@@ -5,11 +5,12 @@ import {
   OnInit,
   ViewEncapsulation,
   computed,
+  effect,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { cn } from '../../../core/utils/cn';
 
 // ---- DI Token ----
@@ -44,18 +45,50 @@ export class KFormField {
   readonly control = input<AbstractControl | null>(null);
   readonly class   = input<string>('');
 
+  /** Internal state that tracks the control's properties reactively */
+  private readonly state = signal({ invalid: false, touched: false, errors: null as any });
+
+  constructor() {
+    effect((onCleanup) => {
+      const ctrl = this.control();
+      if (!ctrl) {
+        this.state.set({ invalid: false, touched: false, errors: null });
+        return;
+      }
+
+      // Set initial state
+      this.state.set({ invalid: ctrl.invalid, touched: ctrl.touched, errors: ctrl.errors });
+
+      // React to control events (touched, status, value changes)
+      const sub = ctrl.events.subscribe(() => {
+        this.state.set({ invalid: ctrl.invalid, touched: ctrl.touched, errors: ctrl.errors });
+      });
+      
+      onCleanup(() => sub.unsubscribe());
+    });
+  }
+
   /** Tracks whether the control is in an invalid+touched state */
   readonly hasError = computed(() => {
+    const s = this.state();
+    return s.invalid && s.touched;
+  });
+
+  /** Checks if the control has a required validator */
+  readonly isRequired = computed(() => {
     const ctrl = this.control();
-    return ctrl ? ctrl.invalid && ctrl.touched : false;
+    if (!ctrl || !ctrl.hasValidator) return false;
+    // Check for standard required validators (need to import Validators)
+    // To avoid importing Validators dynamically, we can check if it returns true.
+    return ctrl.hasValidator(Validators.required) || ctrl.hasValidator(Validators.requiredTrue);
   });
 
   /** First validation error message, if any */
   readonly firstError = computed((): string => {
-    const ctrl = this.control();
-    if (!ctrl?.errors) return '';
-    const key = Object.keys(ctrl.errors)[0];
-    const err = ctrl.errors[key];
+    const s = this.state();
+    if (!s.errors) return '';
+    const key = Object.keys(s.errors)[0];
+    const err = s.errors[key];
     if (typeof err === 'string') return err;
     if (err.message) return err.message;
     // Built-in error messages

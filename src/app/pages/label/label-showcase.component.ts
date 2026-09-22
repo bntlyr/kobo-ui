@@ -75,7 +75,13 @@ import { TabsComponent, type Tab } from '../../shared/tabs.component';
                     <td class="px-4 py-3 font-mono text-xs">required</td>
                     <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
                     <td class="px-4 py-3 font-mono text-xs">false</td>
-                    <td class="px-4 py-3 text-muted-foreground">Whether to display a required asterisk.</td>
+                    <td class="px-4 py-3 text-muted-foreground">Whether to display a required asterisk. Automatically inferred if inside a <code class="font-mono text-xs">k-form-field</code> with a required control.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">error</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Whether the label is in an error state (red text). Automatically inferred if inside a <code class="font-mono text-xs">k-form-field</code> with an invalid/touched control.</td>
                   </tr>
                   <tr>
                     <td class="px-4 py-3 font-mono text-xs">disabled</td>

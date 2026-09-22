@@ -14,7 +14,7 @@ import { KButtonDirective } from '../../components/ui/button';
         <p class="text-muted-foreground mt-2">Group a series of buttons together on a single line or column with the button group component.</p>
       </div>
 
-      <k-tabs value="preview">
+      <k-tabs value="preview" variant="line">
         <k-tab-list>
           <k-tab-trigger value="preview">Preview</k-tab-trigger>
           <k-tab-trigger value="code">Code</k-tab-trigger>

@@ -16,7 +16,7 @@ import { KContextMenuTrigger } from '../../components/ui/context-menu';
         <p class="text-muted-foreground mt-2">Displays a menu to the user — such as a set of actions or functions — triggered by a right-click.</p>
       </div>
 
-      <k-tabs value="preview">
+      <k-tabs value="preview" variant="line">
         <k-tab-list>
           <k-tab-trigger value="preview">Preview</k-tab-trigger>
           <k-tab-trigger value="code">Code</k-tab-trigger>

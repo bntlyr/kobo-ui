@@ -13,7 +13,7 @@ import { KResizablePanelGroup, KResizablePanel, KResizableHandle } from '../../c
         <p class="text-muted-foreground mt-2">Accessible resizable panel groups and layouts with keyboard support.</p>
       </div>
 
-      <k-tabs value="preview">
+      <k-tabs value="preview" variant="line">
         <k-tab-list>
           <k-tab-trigger value="preview">Preview</k-tab-trigger>
           <k-tab-trigger value="code">Code</k-tab-trigger>
@@ -80,6 +80,61 @@ import { KResizablePanelGroup, KResizablePanel, KResizableHandle } from '../../c
           </div>
         </k-tab-content>
       </k-tabs>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">API Reference</h2>
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KResizablePanelGroup</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-resizable-panel-group</code></p>
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">direction</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'horizontal' | 'vertical'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'horizontal'</td>
+                    <td class="px-4 py-3 text-muted-foreground">The flex direction of the resizable panels.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-lg font-semibold">KResizableHandle</h3>
+            <p class="text-sm text-muted-foreground">Selector: <code class="font-mono bg-muted px-1 py-0.5 rounded text-xs">k-resizable-handle</code></p>
+            <div class="rounded-xl border border-border overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Property</th>
+                    <th class="px-4 py-3 font-medium">Type</th>
+                    <th class="px-4 py-3 font-medium">Default</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">withHandle</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">If true, renders a grab handle icon on the resizer.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

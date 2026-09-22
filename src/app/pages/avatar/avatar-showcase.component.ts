@@ -38,19 +38,19 @@ const AVATAR_USAGE = `<k-avatar>
 
                 <!-- With fallback (broken src) -->
                 <k-avatar size="lg">
-                  <k-avatar-image src="https://broken-url.example.com/pic.jpg" alt="User" />
+                  <k-avatar-image src="/assets/broken.png" alt="User" />
                   <k-avatar-fallback>JD</k-avatar-fallback>
                 </k-avatar>
 
                 <!-- Default size -->
                 <k-avatar>
-                  <k-avatar-image src="https://broken-url.example.com/pic.jpg" alt="User" />
+                  <k-avatar-image src="/assets/broken.png" alt="User" />
                   <k-avatar-fallback class="bg-primary/20 text-primary">AB</k-avatar-fallback>
                 </k-avatar>
 
                 <!-- Small -->
                 <k-avatar size="sm">
-                  <k-avatar-image src="https://broken-url.example.com/pic.jpg" alt="User" />
+                  <k-avatar-image src="/assets/broken.png" alt="User" />
                   <k-avatar-fallback>XY</k-avatar-fallback>
                 </k-avatar>
               </div>

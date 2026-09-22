@@ -85,10 +85,10 @@ export class KToastService {
 
 const VARIANT_CLASSES: Record<ToastVariant, string> = {
   default:     'border-border bg-background text-foreground',
-  success:     'border-success/50 bg-success/10 text-success',
-  warning:     'border-warning/50 bg-warning/10 text-warning',
-  destructive: 'border-destructive/50 bg-destructive/10 text-destructive',
-  info:        'border-info/50 bg-info/10 text-info',
+  success:     'border-success bg-success text-success-foreground',
+  warning:     'border-warning bg-warning text-warning-foreground',
+  destructive: 'border-destructive bg-destructive text-destructive-foreground',
+  info:        'border-info bg-info text-info-foreground',
 };
 
 const VARIANT_ICONS: Record<ToastVariant, string> = {
@@ -101,51 +101,78 @@ const VARIANT_ICONS: Record<ToastVariant, string> = {
 
 export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
 
-/**
- * <k-toaster>
- * Add to the app shell. Renders toasts from KToastService.
- *
- * @example
- * <!-- In shell.component.ts template: -->
- * <k-toaster position="bottom-right" />
- */
+import { Directive, ElementRef, OnDestroy, AfterViewInit, output } from '@angular/core';
+
+@Directive({ selector: '[kToastHeight]' })
+export class KToastHeightDirective implements AfterViewInit, OnDestroy {
+  readonly id = input.required<string>({ alias: 'kToastHeight' });
+  readonly heightChange = output<number>();
+  private readonly el = inject(ElementRef);
+  
+  private observer = new ResizeObserver(entries => {
+    if (entries[0]) {
+      this.heightChange.emit(entries[0].borderBoxSize[0]?.blockSize ?? this.el.nativeElement.offsetHeight);
+    }
+  });
+
+  ngAfterViewInit() {
+    this.observer.observe(this.el.nativeElement);
+    // Initial emit
+    this.heightChange.emit(this.el.nativeElement.offsetHeight);
+  }
+
+  ngOnDestroy() {
+    this.observer.disconnect();
+  }
+}
+
 @Component({
   selector: 'k-toaster',
+  imports: [KToastHeightDirective],
   template: `
-    <div
-      [class]="containerClasses()"
-      aria-live="polite"
-      aria-label="Notifications"
-    >
-      @for (toast of toastService.toasts(); track toast.id) {
-        <div
-          role="status"
-          class="pointer-events-auto flex items-start gap-3 rounded-lg border p-4 shadow-lg
-                 transition-all duration-300 cursor-pointer"
-          [class]="toastClasses(toast)"
-          (click)="dismiss(toast.id)"
-        >
-          <!-- Icon -->
-          <span class="shrink-0 text-base leading-none mt-0.5 font-bold" [innerHTML]="variantIcon(toast.variant ?? 'default')">
-          </span>
+    <div [class]="containerClasses()" aria-live="polite" aria-label="Notifications">
+      <ol 
+        class="relative w-full transition-all duration-300 outline-none"
+        [class.pointer-events-auto]="visibleToasts().length > 0"
+        [style.height.px]="wrapperHeight()"
+        (mouseenter)="isHovered.set(true)"
+        (mouseleave)="isHovered.set(false)"
+      >
+        @for (toast of visibleToasts(); track toast.id; let i = $index) {
+          <li
+            [kToastHeight]="toast.id"
+            (heightChange)="updateHeight(toast.id, $event)"
+            role="status"
+            class="absolute w-full flex items-start gap-3 rounded-lg border p-4 shadow-lg transition-all duration-300 cursor-pointer"
+            [class]="toastClasses(toast)"
+            [style.z-index]="100 - i"
+            [style.transform]="getTransform(i, toast)"
+            [style.opacity]="getOpacity(i, toast)"
+            [style.bottom]="isBottom() ? '0' : 'auto'"
+            [style.top]="!isBottom() ? '0' : 'auto'"
+            (click)="dismiss(toast.id)"
+          >
+            <!-- Icon -->
+            <span class="shrink-0 text-base leading-none mt-0.5 font-bold" [innerHTML]="variantIcon(toast.variant ?? 'default')"></span>
 
-          <!-- Content -->
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-semibold leading-none mb-1">{{ toast.title }}</p>
-            @if (toast.description) {
-              <p class="text-xs opacity-80 leading-relaxed">{{ toast.description }}</p>
-            }
-          </div>
+            <!-- Content -->
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold leading-none mb-1">{{ toast.title }}</p>
+              @if (toast.description) {
+                <p class="text-xs opacity-80 leading-relaxed">{{ toast.description }}</p>
+              }
+            </div>
 
-          <!-- Close -->
-          <button
-            type="button"
-            (click)="dismiss(toast.id); $event.stopPropagation()"
-            class="shrink-0 opacity-50 hover:opacity-100 transition-opacity text-sm font-bold leading-none"
-            aria-label="Dismiss notification"
-          >×</button>
-        </div>
-      }
+            <!-- Close -->
+            <button
+              type="button"
+              (click)="dismiss(toast.id); $event.stopPropagation()"
+              class="shrink-0 opacity-50 hover:opacity-100 transition-opacity text-sm font-bold leading-none"
+              aria-label="Dismiss notification"
+            >×</button>
+          </li>
+        }
+      </ol>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -153,32 +180,99 @@ export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-le
 })
 export class KToaster {
   readonly position = input<ToastPosition>('bottom-right');
+  readonly maxToasts = input<number>(3);
+  
   protected readonly toastService = inject(KToastService);
   protected readonly sanitizer = inject(DomSanitizer);
+  
+  protected readonly isHovered = signal(false);
+  protected readonly heights = signal<Map<string, number>>(new Map());
+
+  protected readonly isBottom = computed(() => this.position().startsWith('bottom'));
 
   protected readonly containerClasses = computed(() => {
     const pos = this.position();
     return cn(
-      'fixed z-[9999] flex flex-col gap-2 max-w-sm w-full pointer-events-none p-4 sm:p-6',
+      'fixed z-[9999] flex max-w-sm w-full pointer-events-none p-4 sm:p-6',
       {
         'top-left':      'top-0 left-0',
         'top-right':     'top-0 right-0',
         'top-center':    'top-0 left-1/2 -translate-x-1/2',
-        'bottom-left':   'bottom-0 left-0 flex-col-reverse',
-        'bottom-right':  'bottom-0 right-0 flex-col-reverse',
-        'bottom-center': 'bottom-0 left-1/2 -translate-x-1/2 flex-col-reverse',
+        'bottom-left':   'bottom-0 left-0 items-end',
+        'bottom-right':  'bottom-0 right-0 items-end',
+        'bottom-center': 'bottom-0 left-1/2 -translate-x-1/2 items-end',
       }[pos]
     );
   });
 
+  protected readonly visibleToasts = computed(() => {
+    const all = this.toastService.toasts();
+    // Reverse so newest is index 0
+    return [...all].reverse().slice(0, this.maxToasts() + 1);
+  });
+
+  protected readonly wrapperHeight = computed(() => {
+    const toasts = this.visibleToasts();
+    if (toasts.length === 0) return 0;
+    
+    if (!this.isHovered()) {
+      return this.heights().get(toasts[0].id) || 0;
+    }
+    
+    let total = 0;
+    const gap = 16;
+    for (let i = 0; i < toasts.length; i++) {
+      if (toasts[i].removing || i >= this.maxToasts()) continue;
+      total += (this.heights().get(toasts[i].id) || 0) + (i > 0 ? gap : 0);
+    }
+    return total;
+  });
+
+  updateHeight(id: string, height: number) {
+    this.heights.update(m => {
+      const nm = new Map(m);
+      nm.set(id, height);
+      return nm;
+    });
+  }
+
+  getTransform(index: number, toast: Toast): string {
+    const isBottom = this.isBottom();
+    const dir = isBottom ? -1 : 1;
+    const gap = 16;
+
+    if (toast.removing) {
+      // Exit animation: slide away based on position
+      const x = this.position().endsWith('right') ? '100%' : this.position().endsWith('left') ? '-100%' : '0';
+      const y = this.position().endsWith('center') ? (isBottom ? '100%' : '-100%') : '0';
+      return `translate3d(${x}, ${y}, 0) scale(0.9)`;
+    }
+
+    if (!this.isHovered()) {
+      // Collapsed stack
+      const y = index * 16 * dir;
+      const scale = 1 - (index * 0.05);
+      return `translate3d(0, ${y}px, 0) scale(${scale})`;
+    } else {
+      // Expanded column
+      let offset = 0;
+      for (let i = 0; i < index; i++) {
+        const t = this.visibleToasts()[i];
+        offset += (this.heights().get(t.id) || 0) + gap;
+      }
+      return `translate3d(0, ${offset * dir}px, 0) scale(1)`;
+    }
+  }
+
+  getOpacity(index: number, toast: Toast): number {
+    if (toast.removing) return 0;
+    // Hide items beyond maxToasts
+    if (index >= this.maxToasts()) return 0;
+    return 1;
+  }
+
   toastClasses(toast: Toast): string {
-    const isTop = this.position().startsWith('top');
-    return cn(
-      VARIANT_CLASSES[toast.variant ?? 'default'],
-      toast.removing
-        ? (isTop ? 'opacity-0 -translate-y-full' : 'opacity-0 translate-y-full')
-        : (isTop ? 'animate-slide-in-from-top opacity-100' : 'animate-slide-in-from-bottom opacity-100')
-    );
+    return cn(VARIANT_CLASSES[toast.variant ?? 'default']);
   }
 
   variantIcon(variant: ToastVariant): SafeHtml {

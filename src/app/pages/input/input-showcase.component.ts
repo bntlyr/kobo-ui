@@ -164,7 +164,7 @@ export class MyComponent {}`;
                     <td class="px-4 py-3 font-mono text-xs">error</td>
                     <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
                     <td class="px-4 py-3 font-mono text-xs">false</td>
-                    <td class="px-4 py-3 text-muted-foreground">Whether to apply error styling.</td>
+                    <td class="px-4 py-3 text-muted-foreground">Whether to apply error styling. Automatically inferred if inside a <code class="font-mono text-xs">k-form-field</code> with an invalid/touched control.</td>
                   </tr>
                   <tr>
                     <td class="px-4 py-3 font-mono text-xs">disabled</td>

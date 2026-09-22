@@ -1,1 +1,18 @@
-export { KSidebarProvider, KSidebar, KSidebarTrigger } from './sidebar.component';
+export {
+  KSidebarProvider,
+  KSidebar,
+  KSidebarTrigger,
+  KSidebarHeader,
+  KSidebarFooter,
+  KSidebarContent,
+  KSidebarGroup,
+  KSidebarGroupLabel,
+  KSidebarGroupContent,
+  KSidebarMenu,
+  KSidebarMenuItem,
+  KSidebarMenuButton,
+  KSidebarMenuBadge,
+  KSidebarMenuSub,
+  KSidebarMenuSubItem,
+  KSidebarMenuSubButton,
+} from './sidebar.component';

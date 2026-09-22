@@ -3,7 +3,7 @@ import { cn } from '../../../core/utils/cn';
 import { cva } from 'class-variance-authority';
 
 const bubbleVariants = cva(
-  'relative flex w-max max-w-[80%] flex-col gap-2 rounded-2xl px-4 py-2 text-sm',
+  'relative flex w-fit max-w-[80%] flex-col gap-2 rounded-2xl px-4 py-2 text-sm',
   {
     variants: {
       variant: {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, InjectionToken, input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, ElementRef, inject, InjectionToken, input, signal, viewChild, ViewEncapsulation } from '@angular/core';
 import { cn } from '../../../core/utils/cn';
 
 export const K_CAROUSEL = new InjectionToken<KCarousel>('K_CAROUSEL');
@@ -17,14 +17,15 @@ export const K_CAROUSEL = new InjectionToken<KCarousel>('K_CAROUSEL');
 export class KCarousel {
   readonly class = input<string>('');
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
-  
+
   protected readonly classes = computed(() => cn('relative', this.class()));
 
-  @ViewChild('content') contentRef?: ElementRef<HTMLElement>;
+  /** Set by KCarouselContent after render */
+  readonly _scrollTarget = signal<HTMLElement | null>(null);
 
   scrollPrev(): void {
-    if (!this.contentRef) return;
-    const el = this.contentRef.nativeElement;
+    const el = this._scrollTarget();
+    if (!el) return;
     if (this.orientation() === 'horizontal') {
       el.scrollBy({ left: -el.offsetWidth, behavior: 'smooth' });
     } else {
@@ -33,8 +34,8 @@ export class KCarousel {
   }
 
   scrollNext(): void {
-    if (!this.contentRef) return;
-    const el = this.contentRef.nativeElement;
+    const el = this._scrollTarget();
+    if (!el) return;
     if (this.orientation() === 'horizontal') {
       el.scrollBy({ left: el.offsetWidth, behavior: 'smooth' });
     } else {
@@ -58,6 +59,7 @@ export class KCarousel {
 export class KCarouselContent {
   readonly class = input<string>('');
   private readonly carousel = inject(K_CAROUSEL);
+  private readonly contentRef = viewChild<ElementRef<HTMLElement>>('content');
 
   protected readonly classes = computed(() => cn(
     'flex snap-mandatory',
@@ -65,12 +67,13 @@ export class KCarouselContent {
     this.class()
   ));
 
-  ngAfterViewInit() {
-    // Attach the ref back to the parent
-    const contentRef = inject(ElementRef).nativeElement.querySelector('#content');
-    if (this.carousel) {
-      this.carousel.contentRef = new ElementRef(inject(ElementRef).nativeElement.querySelector('div > div'));
-    }
+  constructor() {
+    afterNextRender(() => {
+      const ref = this.contentRef();
+      if (ref) {
+        this.carousel._scrollTarget.set(ref.nativeElement);
+      }
+    });
   }
 }
 

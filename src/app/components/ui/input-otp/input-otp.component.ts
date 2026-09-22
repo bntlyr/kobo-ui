@@ -1,5 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, HostListener, input, model, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  InjectionToken,
+  input,
+  model,
+  OnInit,
+  signal,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { cn } from '../../../core/utils/cn';
+
+export const K_INPUT_OTP = new InjectionToken<KInputOtp>('K_INPUT_OTP');
 
 @Component({
   selector: 'k-input-otp',
@@ -34,15 +49,23 @@ export class KInputOtp {
   readonly maxLength = input<number>(6);
   readonly value = model<string>('');
   
-  protected readonly isFocused = signal<boolean>(false);
+  readonly isFocused = signal<boolean>(false);
+  private readonly _slots = signal<KInputOtpSlot[]>([]);
 
   @ViewChild('otpInput') inputElement!: ElementRef<HTMLInputElement>;
 
   protected readonly classes = computed(() => cn('relative flex items-center gap-2 has-[:disabled]:opacity-50 cursor-text', this.class()));
 
+  registerSlot(slot: KInputOtpSlot): void {
+    this._slots.update(slots => [...slots, slot]);
+  }
+
+  getSlotIndex(slot: KInputOtpSlot): number {
+    return this._slots().indexOf(slot);
+  }
+
   onInput(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
-    // Allow only digits
     const digitsOnly = val.replace(/\\D/g, '').slice(0, this.maxLength());
     this.value.set(digitsOnly);
     if (this.inputElement) {
@@ -91,16 +114,35 @@ export class KInputOtpGroup {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KInputOtpSlot {
+export class KInputOtpSlot implements OnInit {
   readonly class = input<string>('');
-  readonly char = input<string>('');
-  readonly isActive = input<boolean>(false);
+  
+  private readonly otp = inject(KInputOtp);
+
+  readonly index = computed(() => this.otp.getSlotIndex(this));
+  readonly char = computed(() => this.otp.value()[this.index()] ?? '');
+  
+  readonly isActive = computed(() => {
+    const valLen = this.otp.value().length;
+    const idx = this.index();
+    const isFocused = this.otp.isFocused();
+    if (!isFocused) return false;
+    
+    // Active if it's the next slot to be filled, or if we're at the end and it's the last slot.
+    if (idx === valLen) return true;
+    if (valLen === this.otp.maxLength() && idx === valLen - 1) return true;
+    return false;
+  });
 
   protected readonly classes = computed(() => cn(
     'relative flex h-10 w-10 items-center justify-center border-y border-r border-input text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md',
     this.isActive() && 'z-10 ring-2 ring-ring ring-offset-background',
     this.class()
   ));
+
+  ngOnInit() {
+    this.otp.registerSlot(this);
+  }
 }
 
 @Component({
