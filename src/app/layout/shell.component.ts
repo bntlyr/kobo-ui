@@ -10,12 +10,14 @@ import { KToaster } from '../components/ui/toast/toast.service';
   imports: [RouterOutlet, NavHeaderComponent, SidebarComponent, TocComponent, KToaster],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="min-h-screen bg-background text-foreground">
+    <div class="min-h-screen bg-background text-foreground flex flex-col pt-14">
       <!-- Top navigation -->
-      <app-nav-header />
+      <div class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <app-nav-header />
+      </div>
 
       <!-- Content area -->
-      <div class="flex max-w-screen-2xl mx-auto w-full">
+      <div class="flex-1 flex max-w-screen-2xl mx-auto w-full">
         <!-- Sidebar -->
         <app-sidebar />
 

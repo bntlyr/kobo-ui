@@ -73,6 +73,7 @@ export class SidebarComponent {
         { label: 'Button', route: '/button' },
         { label: 'Button Group', route: '/button-group', badge: 'New' },
         { label: 'Calendar', route: '/calendar', badge: 'New' },
+        { label: 'Full Calendar', route: '/full-calendar', badge: 'New' },
         { label: 'Card', route: '/card' },
         { label: 'Carousel', route: '/carousel', badge: 'New' },
         { label: 'Chart', route: '/chart', badge: 'New' },

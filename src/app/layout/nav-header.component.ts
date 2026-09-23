@@ -15,8 +15,7 @@ import { KCommandSearchDialog } from '../shared/command-search-dialog.component'
   imports: [RouterLink, ThemeToggleComponent, ThemeColorSwitcherComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <header class="sticky top-0 z-50 w-full border-b border-border/60
-                   bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+    <header class="w-full">
       <div class="flex h-14 items-center px-4 gap-4 max-w-screen-2xl mx-auto">
 
         <!-- Logo / Brand -->

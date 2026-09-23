@@ -10,6 +10,7 @@ import {
   signal,
   ViewEncapsulation,
   viewChild,
+  OnDestroy,
 } from '@angular/core';
 import { cn } from '../../../core/utils/cn';
 
@@ -139,7 +140,7 @@ export class KChartLegend {
         #svgEl
         [attr.viewBox]="viewBox()"
         class="w-full overflow-visible"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="none"
         (mouseleave)="onMouseLeave()"
       >
         <!-- Y-axis grid lines -->
@@ -218,7 +219,7 @@ export class KChartLegend {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KBarChart {
+export class KBarChart implements AfterViewInit, OnDestroy {
   readonly class = input<string>('');
   readonly data = input.required<ChartDataPoint[]>();
   readonly index = input<string>('name');
@@ -243,7 +244,23 @@ export class KBarChart {
     left: 48,
   }));
 
-  protected readonly svgWidth = computed(() => 500);
+  protected readonly svgWidth = signal(500);
+  private resizeObserver: ResizeObserver | null = null;
+
+  ngAfterViewInit(): void {
+    const el = this.svgEl()?.nativeElement;
+    if (!el || !el.parentElement) return;
+    this.resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        this.svgWidth.set(entries[0].contentRect.width || 500);
+      }
+    });
+    this.resizeObserver.observe(el.parentElement);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+  }
 
   protected readonly viewBox = computed(
     () => `0 0 ${this.svgWidth()} ${this.height()}`
@@ -267,7 +284,8 @@ export class KBarChart {
         if (v > max) max = v;
       }
     }
-    return max || 100;
+    // Add 15% headroom and round up to the nearest 10
+    return max > 0 ? Math.ceil((max * 1.15) / 10) * 10 : 100;
   });
 
   protected readonly yTicks = computed(() => {
@@ -415,7 +433,7 @@ export class KBarChart {
         #svgEl
         [attr.viewBox]="viewBox()"
         class="w-full overflow-visible"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="none"
         (mouseleave)="onMouseLeave()"
         (mousemove)="onMouseMove($event)"
       >
@@ -531,7 +549,7 @@ export class KBarChart {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KLineChart {
+export class KLineChart implements AfterViewInit, OnDestroy {
   readonly class = input<string>('');
   readonly data = input.required<ChartDataPoint[]>();
   readonly index = input<string>('name');
@@ -559,7 +577,23 @@ export class KLineChart {
     left: 48,
   }));
 
-  protected readonly svgWidth = computed(() => 500);
+  protected readonly svgWidth = signal(500);
+  private resizeObserver: ResizeObserver | null = null;
+
+  ngAfterViewInit(): void {
+    const el = this.svgEl()?.nativeElement;
+    if (!el || !el.parentElement) return;
+    this.resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        this.svgWidth.set(entries[0].contentRect.width || 500);
+      }
+    });
+    this.resizeObserver.observe(el.parentElement);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+  }
 
   protected readonly viewBox = computed(
     () => `0 0 ${this.svgWidth()} ${this.height()}`
@@ -583,7 +617,8 @@ export class KLineChart {
         if (v > max) max = v;
       }
     }
-    return max || 100;
+    // Add 15% headroom and round up to the nearest 10
+    return max > 0 ? Math.ceil((max * 1.15) / 10) * 10 : 100;
   });
 
   protected readonly yTicks = computed(() => {
@@ -727,7 +762,7 @@ export class KLineChart {
         #svgEl
         [attr.viewBox]="viewBox()"
         class="w-full overflow-visible"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="none"
         (mouseleave)="onMouseLeave()"
       >
         <defs>
@@ -854,7 +889,7 @@ export class KLineChart {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class KAreaChart {
+export class KAreaChart implements AfterViewInit, OnDestroy {
   readonly class = input<string>('');
   readonly data = input.required<ChartDataPoint[]>();
   readonly index = input<string>('name');
@@ -880,7 +915,23 @@ export class KAreaChart {
     left: 48,
   }));
 
-  protected readonly svgWidth = computed(() => 500);
+  protected readonly svgWidth = signal(500);
+  private resizeObserver: ResizeObserver | null = null;
+
+  ngAfterViewInit(): void {
+    const el = this.svgEl()?.nativeElement;
+    if (!el || !el.parentElement) return;
+    this.resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        this.svgWidth.set(entries[0].contentRect.width || 500);
+      }
+    });
+    this.resizeObserver.observe(el.parentElement);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+  }
 
   protected readonly viewBox = computed(
     () => `0 0 ${this.svgWidth()} ${this.height()}`
@@ -904,7 +955,8 @@ export class KAreaChart {
         if (v > max) max = v;
       }
     }
-    return max || 100;
+    // Add 15% headroom and round up to the nearest 10
+    return max > 0 ? Math.ceil((max * 1.15) / 10) * 10 : 100;
   });
 
   protected readonly yTicks = computed(() => {

@@ -7,7 +7,7 @@ import { KInputDirective } from '../../components/ui/input/input.directive';
 import { KLabelDirective } from '../../components/ui/label/label.directive';
 import { KCheckbox } from '../../components/ui/checkbox/checkbox.component';
 import { KSwitch } from '../../components/ui/switch/switch.component';
-import { KChartContainer, KBarChart, KLineChart, KAreaChart, KPieChart, type ChartConfig, type ChartDataPoint } from '../../components/ui/chart/chart.component';
+import { KChartContainer, KBarChart, KLineChart, KAreaChart, type ChartConfig, type ChartDataPoint } from '../../components/ui/chart/chart.component';
 import { NavHeaderComponent } from '../../layout/nav-header.component';
 import { KToaster, KToastService } from '../../components/ui/toast/toast.service';
 import { KDialogService, KDialog, KDialogHeader, KDialogTitle, KDialogDescription, KDialogContent, KDialogFooter, KDialogClose } from '../../components/ui/dialog';
@@ -15,8 +15,9 @@ import { KSheetService, KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KS
 import { LucideMail, LucideBriefcase, LucideHeart, LucideLayoutDashboard, LucideCalendarDays, LucideSettings, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideLogOut, LucideChevronLeft, LucideChevronRight, LucideActivity, LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo } from '@lucide/angular';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { KTabs, KTabList, KTabTrigger, KTabContent } from '../../components/ui/tabs';
-import { KSidebarProvider, KSidebar, KSidebarHeader, KSidebarContent, KSidebarFooter } from '../../components/ui/sidebar';
+import { KSidebarProvider, KSidebar, KSidebarHeader, KSidebarContent, KSidebarFooter, KSidebarMenu, KSidebarMenuItem, KSidebarMenuButton } from '../../components/ui/sidebar';
 import { KCalendar } from '../../components/ui/calendar';
+import { KFullCalendar } from '../../components/ui/full-calendar';
 import { KAvatar, KAvatarImage, KAvatarFallback } from '../../components/ui/avatar/avatar.component';
 import { KScrollArea } from '../../components/ui/scroll-area';
 import { KButtonGroup } from '../../components/ui/button-group/button-group.component';
@@ -99,23 +100,22 @@ export class HomeDemoSheetComponent {}
 
 @Component({
   selector: 'app-home-page',
-  imports: [
+  imports: [KFullCalendar,
     RouterLink,
     KButtonDirective,
-    KCard, KCardHeader, KCardTitle, KCardDescription, KCardContent, KCardFooter,
+    KCard, KCardHeader, KCardTitle, KCardDescription, KCardContent,
     KInputDirective,
     KLabelDirective,
     KCheckbox,
     KSwitch,
     KChartContainer,
-    KBarChart, KLineChart, KAreaChart, KPieChart,
+    KBarChart, KLineChart, KAreaChart,
     NavHeaderComponent,
     KToaster,
-    KButtonDirective,
     ReactiveFormsModule,
     KTabs, KTabList, KTabTrigger, KTabContent,
-    KSidebarProvider, KSidebar, KSidebarHeader, KSidebarContent, KSidebarFooter,
-    KCalendar, KBadgeDirective,
+    KSidebarProvider, KSidebar, KSidebarHeader, KSidebarContent, KSidebarFooter, KSidebarMenu, KSidebarMenuItem, KSidebarMenuButton,
+    KBadgeDirective,
     KAvatar, KAvatarImage, KAvatarFallback,
     KScrollArea,
     LucideLayoutDashboard, LucideCalendarDays, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideActivity,
@@ -123,9 +123,11 @@ export class HomeDemoSheetComponent {}
   , KButtonGroup, KSpinner, KSlider, KRadioGroup, KRadioItem, KSelect, KSelectContent, KSelectItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="min-h-screen bg-background text-foreground flex flex-col overflow-x-hidden">
+    <div class="min-h-screen bg-background text-foreground flex flex-col pt-14 overflow-x-hidden">
       <!-- Nav -->
-      <app-nav-header />
+      <div class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <app-nav-header />
+      </div>
 
       <!-- Main Content -->
       <main class="flex-1 flex flex-col items-center px-6">
@@ -176,7 +178,7 @@ export class HomeDemoSheetComponent {}
             <!-- Examples Tab (Bento Grid) -->
             <k-tab-content value="examples" class="mt-0">
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start text-left">
-                
+
                 <!-- COLUMN 1 -->
                 <div class="space-y-6 flex flex-col">
                   <!-- Payment Method -->
@@ -201,7 +203,7 @@ export class HomeDemoSheetComponent {}
                         </div>
                       </div>
                       <p class="text-[13px] text-muted-foreground">Enter your 16-digit card number.</p>
-                      
+
                       <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
                           <label k-label>Month</label>
@@ -233,7 +235,7 @@ export class HomeDemoSheetComponent {}
                       <span class="font-medium text-sm">Same as shipping address.</span>
                     </k-checkbox>
                   </div>
-                  
+
                   <div class="space-y-2">
                     <label k-label>Comments</label>
                     <textarea k-textarea placeholder="Special instructions..."></textarea>
@@ -258,7 +260,7 @@ export class HomeDemoSheetComponent {}
                     <p class="text-sm text-muted-foreground mb-4">Invite your team to collaborate on this project.</p>
                     <button k-button variant="outline" size="sm" class="mx-auto rounded-full px-4"><svg lucidePlus class="h-4 w-4 mr-2"></svg> Invite Members</button>
                   </k-card>
-                  
+
                   <!-- Syncing Pills -->
                   <div class="flex items-center gap-2">
                     <span k-badge variant="outline" class="rounded-full px-3 py-1"><k-spinner size="sm" class="mr-2 h-3 w-3 inline" /> Loading</span>
@@ -276,20 +278,20 @@ export class HomeDemoSheetComponent {}
                       <k-slider [value]="150" [max]="500" />
                     </k-card-content>
                   </k-card>
-                  
+
                   <!-- Search Inputs -->
                   <div class="relative">
                     <svg lucideSearch class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
                     <input k-input class="pl-9 pr-20" placeholder="Search..." />
                     <span class="absolute right-3 top-2.5 text-xs text-muted-foreground">12 results</span>
                   </div>
-                  
+
                   <div class="relative">
                     <span class="absolute left-3 top-2.5 text-sm text-muted-foreground">https://</span>
                     <input k-input class="pl-16 pr-9" placeholder="example.com" />
                     <svg lucideInfo class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
                   </div>
-                  
+
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20">
                     <k-card-content class="p-4 space-y-4">
                       <textarea k-textarea placeholder="Ask, Search or Chat..." class="border-0 bg-transparent resize-none p-0 focus-visible:ring-0 shadow-none text-base" rows="3"></textarea>
@@ -302,9 +304,9 @@ export class HomeDemoSheetComponent {}
                       </div>
                     </k-card-content>
                   </k-card>
-                  
+
                   <div class="relative">
-                    <input k-input value="@spartan" class="pr-9 font-medium" readonly />
+                    <input k-input value="@kobui" class="pr-9 font-medium" readonly />
                     <svg lucideCheckCircle2 class="absolute right-3 top-2.5 h-4 w-4 text-primary"></svg>
                   </div>
                 </div>
@@ -316,7 +318,7 @@ export class HomeDemoSheetComponent {}
                     <input k-input class="pl-9 pr-9" value="https://" readonly />
                     <svg lucideStar class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
                   </div>
-                  
+
                   <!-- Two factor -->
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20">
                     <k-card-content class="p-4 flex items-center justify-between gap-4">
@@ -327,7 +329,7 @@ export class HomeDemoSheetComponent {}
                       <button k-button variant="secondary" size="sm">Enable</button>
                     </k-card-content>
                   </k-card>
-                  
+
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20">
                     <k-card-content class="p-4 flex items-center justify-between">
                       <div class="flex items-center gap-2">
@@ -337,18 +339,18 @@ export class HomeDemoSheetComponent {}
                       <svg lucideChevronRight class="h-4 w-4 text-muted-foreground"></svg>
                     </k-card-content>
                   </k-card>
-                  
+
                   <div class="relative py-2">
                     <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-border"></span></div>
                     <div class="relative flex justify-center text-xs text-muted-foreground"><span class="bg-background px-2">Appearance Settings</span></div>
                   </div>
-                  
+
                   <div class="space-y-4">
                     <div class="space-y-1">
                       <h4 class="text-sm font-medium">Compute Environment</h4>
                       <p class="text-[13px] text-muted-foreground">Select the compute environment for your cluster.</p>
                     </div>
-                    
+
                     <k-radio-group>
                       <label class="flex items-start justify-between border border-border rounded-lg p-4 cursor-pointer hover:bg-accent/50 transition-colors [&:has([data-state=checked])]:border-primary">
                         <div class="space-y-1">
@@ -357,7 +359,7 @@ export class HomeDemoSheetComponent {}
                         </div>
                         <k-radio-item value="kubernetes" class="mt-1" />
                       </label>
-                      
+
                       <label class="flex items-start justify-between border border-border rounded-lg p-4 cursor-pointer hover:bg-accent/50 transition-colors mt-3">
                         <div class="space-y-1">
                           <h4 class="text-sm font-medium">Virtual Machine</h4>
@@ -367,7 +369,7 @@ export class HomeDemoSheetComponent {}
                       </label>
                     </k-radio-group>
                   </div>
-                  
+
                   <div class="flex items-center justify-between pt-2">
                     <div class="space-y-1">
                       <h4 class="text-sm font-medium">Number of GPUs</h4>
@@ -379,7 +381,7 @@ export class HomeDemoSheetComponent {}
                       <button class="h-8 w-8 flex items-center justify-center hover:bg-accent"><svg lucidePlus class="h-3 w-3"></svg></button>
                     </div>
                   </div>
-                  
+
                   <div class="flex items-center justify-between pt-2">
                     <div class="space-y-1">
                       <h4 class="text-sm font-medium">Wallpaper Tinting</h4>
@@ -405,7 +407,7 @@ export class HomeDemoSheetComponent {}
                       </div>
                     </k-card-content>
                   </k-card>
-                  
+
                   <!-- Small Action Bar -->
                   <div class="flex items-center gap-2">
                     <button k-button variant="outline" size="icon-sm"><svg lucideArrowLeft class="h-4 w-4"></svg></button>
@@ -416,7 +418,7 @@ export class HomeDemoSheetComponent {}
                       <button k-button variant="outline" size="sm" class="px-2"><svg lucideMoreHorizontal class="h-4 w-4"></svg></button>
                     </k-button-group>
                   </div>
-                  
+
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20 py-1">
                     <k-card-content class="p-3">
                       <k-checkbox [checked]="true">
@@ -424,24 +426,24 @@ export class HomeDemoSheetComponent {}
                       </k-checkbox>
                     </k-card-content>
                   </k-card>
-                  
+
                   <div class="flex items-center justify-between">
                     <k-button-group>
                       <button k-button variant="outline" size="sm" class="w-8">1</button>
                       <button k-button variant="outline" size="sm" class="w-8">2</button>
                       <button k-button variant="outline" size="sm" class="w-8">3</button>
                     </k-button-group>
-                    
+
                     <k-button-group>
                       <button k-button variant="outline" size="sm" class="px-2"><svg lucideArrowLeft class="h-4 w-4"></svg></button>
                       <button k-button variant="outline" size="sm" class="px-2"><svg lucideArrowRight class="h-4 w-4"></svg></button>
                     </k-button-group>
-                    
+
                     <button k-button variant="outline" size="sm" class="rounded-md">
                       <svg lucideBot class="mr-2 h-4 w-4"></svg> Copilot <svg lucideChevronDown class="ml-2 h-3 w-3"></svg>
                     </button>
                   </div>
-                  
+
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20">
                     <k-card-header class="pb-3">
                       <k-card-title class="text-base">How did you hear about us?</k-card-title>
@@ -456,14 +458,14 @@ export class HomeDemoSheetComponent {}
                       </div>
                     </k-card-content>
                   </k-card>
-                  
+
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20 border-dashed border-2 bg-transparent text-center p-8">
                     <k-spinner class="mx-auto mb-4 text-muted-foreground" />
                     <h3 class="font-semibold text-sm mb-2">Processing your request</h3>
                     <p class="text-[13px] text-muted-foreground mb-4">Please wait while we process your request. Do not refresh the page.</p>
                     <button k-button variant="outline" size="sm" class="mx-auto rounded-full px-4">Cancel</button>
                   </k-card>
-                  
+
                 </div>
 
               </div>
@@ -475,40 +477,58 @@ export class HomeDemoSheetComponent {}
                 <div class="absolute top-0 left-0 flex w-[133.33%] h-[133.33%] origin-top-left scale-75">
                 <!-- Sidebar -->
                 <k-sidebar-provider>
-                  <k-sidebar class="border-r border-border w-64 bg-background">
-                    <k-sidebar-header class="h-16 border-b border-border flex flex-row items-center px-4 font-semibold shrink-0">
-                      <div class="flex items-center gap-2.5 w-full">
-                        <div class="h-7 w-7 bg-primary rounded-md flex items-center justify-center shadow-sm">
+                  <k-sidebar collapsible="icon" class="border-r border-border bg-background">
+                    <k-sidebar-header class="h-16 border-b border-border flex flex-row items-center px-2 group-data-[collapsible=icon]:px-0 font-semibold shrink-0">
+                      <div class="flex items-center gap-2.5 w-full group-data-[collapsible=icon]:justify-center">
+                        <div class="h-7 w-7 bg-primary rounded-md flex items-center justify-center shadow-sm group-data-[collapsible=icon]:mx-auto">
                           <svg lucideLayoutDashboard class="h-4 w-4 text-primary-foreground"></svg>
                         </div>
-                        <span class="text-base font-bold tracking-tight leading-none mt-0.5">Beautifully Crafted</span>
+                        <span class="text-base font-bold tracking-tight leading-none mt-0.5 group-data-[collapsible=icon]:hidden">Beautifully Crafted</span>
                       </div>
                     </k-sidebar-header>
-                    <k-sidebar-content class="p-3 space-y-1">
-                      <button k-button variant="secondary" class="w-full justify-start font-medium h-9 px-3">
-                        <svg lucideLayoutDashboard class="w-4 h-4 mr-3 text-primary"></svg> Dashboard
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucideBarChart3 class="w-4 h-4 mr-3"></svg> Analytics
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucideUsers class="w-4 h-4 mr-3"></svg> Visitors
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucideShoppingCart class="w-4 h-4 mr-3"></svg> Sales
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucidePackage class="w-4 h-4 mr-3"></svg> Products
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucideMegaphone class="w-4 h-4 mr-3"></svg> Marketing
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucideFileText class="w-4 h-4 mr-3"></svg> Reports
-                      </button>
-                      <button k-button variant="ghost" class="w-full justify-start text-muted-foreground font-normal h-9 px-3">
-                        <svg lucideSettings class="w-4 h-4 mr-3"></svg> Settings
-                      </button>
+                    <k-sidebar-content class="p-3">
+                      <k-sidebar-menu>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton [isActive]="true">
+                            <svg lucideLayoutDashboard></svg> <span>Dashboard</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucideBarChart3></svg> <span>Analytics</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucideUsers></svg> <span>Visitors</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucideShoppingCart></svg> <span>Sales</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucidePackage></svg> <span>Products</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucideMegaphone></svg> <span>Marketing</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucideFileText></svg> <span>Reports</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                        <k-sidebar-menu-item>
+                          <button kSidebarMenuButton>
+                            <svg lucideSettings></svg> <span>Settings</span>
+                          </button>
+                        </k-sidebar-menu-item>
+                      </k-sidebar-menu>
                     </k-sidebar-content>
                     <k-sidebar-footer class="p-4 pt-0">
                       <k-card class="bg-primary/5 border-primary/10 shadow-none relative overflow-hidden">
@@ -551,7 +571,7 @@ export class HomeDemoSheetComponent {}
                       </div>
                     </header>
                     <k-scroll-area class="flex-1 p-6">
-                      
+
                       <!-- Header Row -->
                       <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                         <div>
@@ -567,7 +587,7 @@ export class HomeDemoSheetComponent {}
                       <div class="grid grid-cols-12 gap-6">
                         <!-- Main Left Column -->
                         <div class="col-span-12 lg:col-span-9 space-y-6">
-                          
+
                           <!-- Stat Cards -->
                           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                             <k-card class="shadow-sm">
@@ -786,7 +806,7 @@ export class HomeDemoSheetComponent {}
 
                         <!-- Right Sidebar Column -->
                         <div class="col-span-12 lg:col-span-3 space-y-6">
-                          
+
                           <!-- Grow your business -->
                           <k-card class="bg-primary text-primary-foreground border-none overflow-hidden relative shadow-md">
                             <div class="absolute right-0 bottom-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-16 -mb-16 pointer-events-none"></div>
@@ -889,7 +909,7 @@ export class HomeDemoSheetComponent {}
 
                         </div>
                       </div>
-                      
+
                       <!-- Footer Quick Links (Optional space filler at the bottom) -->
                       <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
                         <k-card class="shadow-sm hover:border-primary/50 transition-colors cursor-pointer group">
@@ -949,148 +969,7 @@ export class HomeDemoSheetComponent {}
             <!-- Calendar Tab -->
             <k-tab-content value="calendar" class="mt-0">
               <div class="rounded-xl border border-border bg-background shadow-lg overflow-hidden relative h-[650px] w-full text-left flex">
-                <div class="absolute top-0 left-0 flex w-[133.33%] h-[133.33%] origin-top-left scale-75 bg-background">
-                  
-                  <!-- Left Sidebar (Calendars List) -->
-                  <div class="w-64 border-r border-border bg-muted/30 flex flex-col h-full shrink-0">
-                    <div class="h-14 flex items-center px-4 border-b border-border shrink-0">
-                      <span class="font-semibold">Calendars</span>
-                    </div>
-                    <div class="p-4 flex-1 overflow-y-auto">
-                      <k-calendar class="mb-6 scale-90 origin-top-left -ml-2" />
-                      
-                      <div class="space-y-4 mt-[-20px]">
-                        <div>
-                          <h4 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">iCloud</h4>
-                          <div class="space-y-1">
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="true" class="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500" />
-                              <span class="text-sm">Personal</span>
-                            </label>
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="true" class="data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500" />
-                              <span class="text-sm">Work</span>
-                            </label>
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="true" class="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500" />
-                              <span class="text-sm">Family</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div>
-                          <h4 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Other</h4>
-                          <div class="space-y-1">
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="false" class="data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500" />
-                              <span class="text-sm">Holidays</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Main Calendar Area -->
-                  <div class="flex-1 flex flex-col h-full overflow-hidden bg-background">
-                    <!-- Top Bar -->
-                    <div class="h-14 flex items-center justify-between px-6 border-b border-border shrink-0">
-                      <div class="flex items-center gap-4">
-                        <h2 class="text-xl font-semibold">September 2025</h2>
-                        <div class="flex items-center rounded-md border border-border">
-                          <button class="px-2 py-1 hover:bg-muted border-r border-border rounded-l-md"><svg lucideChevronLeft class="h-4 w-4"></svg></button>
-                          <button class="px-3 py-1 text-sm font-medium hover:bg-muted border-r border-border">Today</button>
-                          <button class="px-2 py-1 hover:bg-muted rounded-r-md"><svg lucideChevronRight class="h-4 w-4"></svg></button>
-                        </div>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <k-button-group>
-                          <button k-button variant="outline" size="sm" class="px-3">Day</button>
-                          <button k-button variant="outline" size="sm" class="px-3">Week</button>
-                          <button k-button variant="secondary" size="sm" class="px-3">Month</button>
-                          <button k-button variant="outline" size="sm" class="px-3">Year</button>
-                        </k-button-group>
-                        <div class="relative w-48 ml-4">
-                          <svg lucideSearch class="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground"></svg>
-                          <input k-input class="pl-8 h-8 text-sm" placeholder="Search" />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <!-- Days of Week Header -->
-                    <div class="grid grid-cols-7 border-b border-border shrink-0">
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground border-r border-border">Sun</div>
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground border-r border-border">Mon</div>
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground border-r border-border">Tue</div>
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground border-r border-border">Wed</div>
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground border-r border-border">Thu</div>
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground border-r border-border">Fri</div>
-                      <div class="py-2 text-center text-xs font-semibold text-muted-foreground">Sat</div>
-                    </div>
-
-                    <!-- Calendar Grid -->
-                    <div class="flex-1 grid grid-cols-7 grid-rows-5 bg-border gap-px">
-                      <!-- Row 1 -->
-                      <div class="bg-muted/30 p-1 flex flex-col gap-1 min-h-[100px]"><span class="text-xs text-muted-foreground/50 text-right p-1">31</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">1</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">2</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">3</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">4</span>
-                        <div class="px-2 py-0.5 rounded text-xs truncate bg-blue-500/10 text-blue-700 dark:text-blue-400 font-medium border-l-2 border-blue-500">10a Design Review</div>
-                      </div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">5</span></div>
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1 text-muted-foreground">6</span></div>
-
-                      <!-- Row 2 -->
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1 min-h-[100px]"><span class="text-xs font-medium text-right p-1 text-muted-foreground">7</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">8</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1 relative"><span class="text-xs font-medium text-right p-1">9</span>
-                         <!-- Multi-day event mock -->
-                         <div class="absolute top-8 left-0 right-0 px-2 py-0.5 rounded-sm text-xs truncate bg-purple-500/10 text-purple-700 dark:text-purple-400 font-medium z-10">Conference</div>
-                      </div>
-                      <div class="bg-background p-1 flex flex-col gap-1 relative"><span class="text-xs font-medium text-right p-1">10</span>
-                         <div class="absolute top-8 left-0 right-0 px-2 py-0.5 rounded-sm text-xs truncate bg-purple-500/10 text-transparent z-10">-</div>
-                      </div>
-                      <div class="bg-background p-1 flex flex-col gap-1 relative"><span class="text-xs font-medium text-right p-1">11</span>
-                         <div class="absolute top-8 left-0 right-1 px-2 py-0.5 rounded-r text-xs truncate bg-purple-500/10 text-transparent z-10">-</div>
-                      </div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">12</span></div>
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1 text-muted-foreground">13</span></div>
-
-                      <!-- Row 3 -->
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1 min-h-[100px]"><span class="text-xs font-medium text-right p-1 text-muted-foreground">14</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">15</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-bold text-right w-6 h-6 rounded-full bg-primary text-primary-foreground ml-auto flex items-center justify-center mt-1 mr-1">16</span>
-                        <div class="px-2 py-0.5 rounded text-xs truncate bg-blue-500/10 text-blue-700 dark:text-blue-400 font-medium border-l-2 border-blue-500">1:30p Sync</div>
-                        <div class="px-2 py-0.5 rounded text-xs truncate bg-green-500/10 text-green-700 dark:text-green-400 font-medium border-l-2 border-green-500">4p Dentist</div>
-                      </div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">17</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">18</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">19</span></div>
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1 text-muted-foreground">20</span></div>
-
-                      <!-- Row 4 -->
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1 min-h-[100px]"><span class="text-xs font-medium text-right p-1 text-muted-foreground">21</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">22</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">23</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">24</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">25</span>
-                        <div class="px-2 py-0.5 rounded text-xs truncate bg-orange-500/10 text-orange-700 dark:text-orange-400 font-medium border-l-2 border-orange-500">Mom's Bday</div>
-                      </div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">26</span></div>
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1 text-muted-foreground">27</span></div>
-
-                      <!-- Row 5 -->
-                      <div class="bg-muted/10 p-1 flex flex-col gap-1 min-h-[100px]"><span class="text-xs font-medium text-right p-1 text-muted-foreground">28</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">29</span></div>
-                      <div class="bg-background p-1 flex flex-col gap-1"><span class="text-xs font-medium text-right p-1">30</span></div>
-                      <div class="bg-muted/30 p-1 flex flex-col gap-1"><span class="text-xs text-muted-foreground/50 text-right p-1">1</span></div>
-                      <div class="bg-muted/30 p-1 flex flex-col gap-1"><span class="text-xs text-muted-foreground/50 text-right p-1">2</span></div>
-                      <div class="bg-muted/30 p-1 flex flex-col gap-1"><span class="text-xs text-muted-foreground/50 text-right p-1">3</span></div>
-                      <div class="bg-muted/30 p-1 flex flex-col gap-1"><span class="text-xs text-muted-foreground/50 text-right p-1">4</span></div>
-                    </div>
-                  </div>
-
-                </div>
+                <k-full-calendar />
               </div>
             </k-tab-content>
 
@@ -1106,7 +985,7 @@ export class HomeDemoSheetComponent {}
             </p>
           </div>
 
-          <div class="relative w-full max-w-4xl mx-auto overflow-hidden px-4">
+          <div class="relative w-full max-w-4xl mx-auto overflow-hidden px-4 pt-1.5">
             <!-- Gradient Masks for Marquee -->
             <div class="absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
             <div class="absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>

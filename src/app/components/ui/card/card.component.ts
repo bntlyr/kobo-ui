@@ -69,7 +69,7 @@ export class KCardHeader {
 export class KCardTitle {
   readonly class = input<string>('');
   protected readonly classes = computed(() =>
-    cn('block font-semibold leading-none tracking-tight text-foreground', this.class())
+    cn('block font-semibold leading-none tracking-tight', this.class())
   );
 }
 

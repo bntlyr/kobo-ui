@@ -9,7 +9,7 @@ export const K_SIDEBAR = new InjectionToken<KSidebarProvider>('K_SIDEBAR');
   template: `<div [class]="classes()"><ng-content /></div>`,
   host: {
     '[style.--sidebar-width]': '"16rem"',
-    '[style.--sidebar-width-icon]': '"2.25rem"',
+    '[style.--sidebar-width-icon]': '"3rem"',
   },
   providers: [{ provide: K_SIDEBAR, useExisting: KSidebarProvider }],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,7 +19,7 @@ export const K_SIDEBAR = new InjectionToken<KSidebarProvider>('K_SIDEBAR');
 export class KSidebarProvider {
   readonly class = input<string>('');
   readonly open = model<boolean>(true);
-  
+
   protected readonly classes = computed(() => cn('flex min-h-screen w-full group/sidebar-wrapper', this.class()));
 
   toggle(): void {
@@ -31,7 +31,7 @@ export class KSidebarProvider {
   selector: 'k-sidebar',
   template: `
     <div [class]="classes()" [attr.data-state]="provider.open() ? 'expanded' : 'collapsed'" [attr.data-collapsible]="provider.open() ? '' : collapsible()">
-      <div class="flex h-full w-full flex-col bg-sidebar text-sidebar-foreground">
+      <div class="flex h-full w-full flex-col overflow-hidden bg-sidebar text-sidebar-foreground">
         <ng-content />
       </div>
     </div>
@@ -45,7 +45,7 @@ export class KSidebar {
   readonly provider = inject(K_SIDEBAR);
 
   protected readonly classes = computed(() => cn(
-    'group sticky top-0 z-10 hidden h-svh w-[length:var(--sidebar-width)] shrink-0 transition-[width] duration-300 ease-in-out md:flex flex-col',
+    'group sticky top-0 z-10 hidden h-svh w-[length:var(--sidebar-width)] shrink-0 transition-[width] duration-300 ease-in-out md:flex flex-col overflow-hidden',
     'data-[state=collapsed]:w-[length:var(--sidebar-width-icon)] group-data-[hidden=true]:hidden',
     this.class()
   ));
@@ -78,7 +78,11 @@ export class KSidebarTrigger {
 })
 export class KSidebarHeader {
   readonly class = input<string>('');
-  protected readonly classes = computed(() => cn('flex flex-col gap-2 p-2 group-data-[collapsible=icon]:p-1', this.class()));
+  protected readonly classes = computed(() => cn(
+    'flex flex-col gap-2 p-2 shrink-0 overflow-hidden',
+    'group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:items-center',
+    this.class()
+  ));
 }
 
 @Component({
@@ -90,7 +94,11 @@ export class KSidebarHeader {
 })
 export class KSidebarFooter {
   readonly class = input<string>('');
-  protected readonly classes = computed(() => cn('flex flex-col gap-2 p-2 group-data-[collapsible=icon]:p-1', this.class()));
+  protected readonly classes = computed(() => cn(
+    'flex flex-col gap-2 p-2 shrink-0 overflow-hidden',
+    'group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:items-center',
+    this.class()
+  ));
 }
 
 @Component({
@@ -103,7 +111,8 @@ export class KSidebarFooter {
 export class KSidebarContent {
   readonly class = input<string>('');
   protected readonly classes = computed(() => cn(
-    'flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden',
+    'flex min-h-0 flex-1 flex-col gap-2 overflow-auto',
+    'group-data-[collapsible=icon]:overflow-hidden',
     this.class()
   ));
 }
@@ -173,7 +182,7 @@ export class KSidebarMenuItem {
 }
 
 export const sidebarMenuButtonVariants = cva(
-  'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] duration-300 ease-in-out group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 group-data-[collapsible=icon]:!size-7 group-data-[collapsible=icon]:!p-1.5 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+  'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] duration-300 ease-in-out group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 group-data-[collapsible=icon]:justify-center hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>span]:group-data-[collapsible=icon]:hidden',
   {
     variants: {
       variant: {

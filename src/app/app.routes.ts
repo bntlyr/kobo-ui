@@ -290,6 +290,11 @@ export const routes: Routes = [
         title: 'Stepper — Kobo UI',
       },
       {
+        path: 'full-calendar',
+        loadComponent: () => import('./pages/full-calendar/full-calendar-showcase.component').then(m => m.default),
+        title: 'Full Calendar — Kobo UI',
+      },
+      {
         path: 'calendar',
         loadComponent: () => import('./pages/calendar/calendar-showcase.component').then(m => m.default),
         title: 'Calendar — Kobo UI',
