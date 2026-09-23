@@ -71,14 +71,8 @@ npx kobo list
 Equip your AI coding assistants (Antigravity, Cursor, Claude Code, Copilot, Windsurf) with complete knowledge of Kobo UI components, signal APIs, and Tailwind tokens:
 
 ```bash
-# Generate AGENTS.md in your project root
-npx kobo skills
-
-# Or for Cursor .cursorrules
-npx kobo skills --cursor
-
-# Or for .agents/AGENTS.md
-npx kobo skills --agents
+# Install Kobo UI AI agent skills (via skills.sh)
+npx skills add bntlyr/kobo-ui
 ```
 
 ## Available Themes

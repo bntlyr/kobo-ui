@@ -29,6 +29,7 @@ import { KSlider } from '../../components/ui/slider/slider.component';
 import { KRadioGroup, KRadioItem } from '../../components/ui/radio-group/radio-group.component';
 import { KSelect, KSelectContent, KSelectItem } from '../../components/ui/select/select.component';
 import { KTextareaDirective } from '../../components/ui/textarea/textarea.directive';
+import packageJson from '../../../../package.json';
 
 
 @Component({
@@ -155,7 +156,7 @@ export class HomeDemoSheetComponent {}
               <!-- Left Column: Content -->
               <div class="flex flex-col items-start text-left space-y-8">
                 <a routerLink="/introduction" class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full bg-primary/5 text-primary border border-primary/10 hover:bg-primary/10 transition-colors no-underline">
-                  <svg lucideStar class="h-4 w-4"></svg> Kobo UI v1.0.10 is here
+                  <svg lucideStar class="h-4 w-4"></svg> Kobo UI v{{ version }} is here
                 </a>
 
                 <h1 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-foreground leading-[1.15]">
@@ -1193,6 +1194,8 @@ export class HomeDemoSheetComponent {}
   `,
 })
 export class HomePageComponent {
+  protected readonly version = packageJson.version;
+
   readonly themeService = inject(ThemeService);
   private readonly toast = inject(KToastService);
   private readonly dialog = inject(KDialogService);

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import packageJson from '../../../package.json';
 
 interface NavItem  { label: string; route: string; badge?: string; }
 interface NavGroup { title: string; items: NavItem[]; }
@@ -43,7 +44,7 @@ interface NavGroup { title: string; items: NavItem[]; }
       <div class="mt-auto pt-4 px-3 border-t border-border">
         <div class="flex items-center gap-2 text-xs text-muted-foreground">
           <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
-                       bg-primary/10 text-primary font-mono font-medium">v0.1.0</span>
+                       bg-primary/10 text-primary font-mono font-medium">v{{ version }}</span>
           <span>Kobo UI</span>
         </div>
       </div>
@@ -131,4 +132,6 @@ export class SidebarComponent {
       ],
     },
   ];
+
+  protected readonly version = packageJson.version;
 }

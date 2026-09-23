@@ -18,14 +18,8 @@ npx kobo add --all
 # List all 65 available components
 npx kobo list`;
 
-const CLI_SKILLS = `# Generate AGENTS.md in your project root
-npx kobo skills
-
-# Or for Cursor .cursorrules
-npx kobo skills --cursor
-
-# Or for .agents/AGENTS.md
-npx kobo skills --agents`;
+const CLI_SKILLS = `# Install Kobo UI AI agent skills (via skills.sh)
+npx skills add bntlyr/kobo-ui`;
 
 const INSTALL_CODE = `npm install kobo-ui @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular`;
 
