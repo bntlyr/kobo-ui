@@ -338,6 +338,16 @@ ${themesImport}
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+
+  /* Sidebar */
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
 }
 `;
     newStyles = `${themeBlock.trim()}\n\n${newStyles.trim()}\n`;
@@ -601,7 +611,18 @@ function handleSkills() {
     fs.mkdirSync(targetDir, { recursive: true });
   }
 
-  fs.writeFileSync(targetPath, content, 'utf-8');
+  let finalContent = content;
+  if (isSkill) {
+    const yamlFrontmatter = `---
+name: kobo-ui
+description: Guidelines and component catalogue for building Angular 18+ applications with the Kobo UI library, Tailwind CSS v4, and CDK.
+---
+
+`;
+    finalContent = yamlFrontmatter + content;
+  }
+
+  fs.writeFileSync(targetPath, finalContent, 'utf-8');
 
   console.log(`
 \x1b[32m✔ Successfully generated AI Agent Guidelines!\x1b[0m

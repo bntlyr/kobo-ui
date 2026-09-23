@@ -64,7 +64,7 @@ export class KQuestionnaireStep {
   
   protected readonly classes = computed(() => cn(
     'relative py-4 transition-all duration-300', 
-    this.isActive() ? 'block animate-in fade-in slide-in-from-right-4' : 'hidden',
+    this.isActive() ? 'block animate-slide-in-from-right' : 'hidden',
     this.class()
   ));
 }

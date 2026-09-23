@@ -38,7 +38,7 @@ export class KStepperStep {
   protected readonly classes = computed(() => cn(
     'col-start-1 row-start-1 block w-full transition-all duration-300',
     this._isActive() 
-      ? 'opacity-100 z-10 animate-in fade-in slide-in-from-right-4' 
+      ? 'opacity-100 z-10 animate-slide-in-from-right' 
       : 'opacity-0 z-0 pointer-events-none invisible',
     this.class()
   ));

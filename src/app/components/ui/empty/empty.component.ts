@@ -52,5 +52,5 @@ export class KEmptyDescription {
 })
 export class KEmpty {
   readonly class = input<string>('');
-  protected readonly classes = computed(() => cn('flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50', this.class()));
+  protected readonly classes = computed(() => cn('flex flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-fade-in', this.class()));
 }
