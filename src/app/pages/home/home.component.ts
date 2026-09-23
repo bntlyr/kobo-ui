@@ -12,7 +12,7 @@ import { NavHeaderComponent } from '../../layout/nav-header.component';
 import { KToaster, KToastService } from '../../components/ui/toast/toast.service';
 import { KDialogService, KDialog, KDialogHeader, KDialogTitle, KDialogDescription, KDialogContent, KDialogFooter, KDialogClose } from '../../components/ui/dialog';
 import { KSheetService, KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KSheetContent, KSheetFooter, K_SHEET_CONFIG } from '../../components/ui/sheet';
-import { LucideMail, LucideBriefcase, LucideHeart, LucideLayoutDashboard, LucideCalendarDays, LucideSettings, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideLogOut, LucideChevronLeft, LucideChevronRight, LucideActivity, LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo } from '@lucide/angular';
+import { LucideMail, LucideBriefcase, LucideHeart, LucideLayoutDashboard, LucideCalendarDays, LucideSettings, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideLogOut, LucideChevronLeft, LucideChevronRight, LucideActivity, LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar } from '@lucide/angular';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { KTabs, KTabList, KTabTrigger, KTabContent } from '../../components/ui/tabs';
 import { KSidebarProvider, KSidebar, KSidebarHeader, KSidebarContent, KSidebarFooter, KSidebarMenu, KSidebarMenuItem, KSidebarMenuButton } from '../../components/ui/sidebar';
@@ -120,7 +120,7 @@ export class HomeDemoSheetComponent {}
     KScrollArea,
     LucideLayoutDashboard, LucideCalendarDays, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideActivity,
     LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideSettings, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox
-  , KButtonGroup, KSpinner, KSlider, KRadioGroup, KRadioItem, KSelect, KSelectContent, KSelectItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo],
+  , KButtonGroup, KSpinner, KSlider, KRadioGroup, KRadioItem, KSelect, KSelectContent, KSelectItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen bg-background text-foreground flex flex-col pt-14 overflow-x-hidden">
@@ -130,34 +130,187 @@ export class HomeDemoSheetComponent {}
       </div>
 
       <!-- Main Content -->
-      <main class="flex-1 flex flex-col items-center px-6">
+      <main class="flex-1 flex flex-col items-center px-6 relative w-full">
 
-        <!-- Hero Section -->
-        <section class="w-full max-w-5xl pt-32 pb-24 text-center space-y-8 relative">
-          <!-- Glow -->
-          <div class="pointer-events-none absolute left-1/2 top-10 -translate-x-1/2 h-80 w-full max-w-3xl
-                      bg-primary/20 blur-[100px] rounded-full"></div>
-
-          <div class="relative z-10 flex flex-col items-center space-y-6">
-            <a routerLink="/introduction" class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium rounded-full bg-muted/50 border border-border hover:bg-muted transition-colors no-underline">
-              <span class="flex h-2 w-2 rounded-full bg-primary"></span>
-              Kobo UI v1.0.9 is here
-            </a>
-
-            <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
-              Own your components. <br /> Design without compromise.
-            </h1>
-
-            <p class="max-w-2xl text-lg sm:text-xl text-muted-foreground leading-relaxed">
-              Escape the rigid constraints of traditional Angular libraries. Kobo UI provides unstyled, accessible primitives powered by Signals and modern CSS tokens. Copy the code. Own the behavior. Ship faster.
-            </p>
-
-            <div class="flex flex-wrap justify-center gap-4 pt-4">
-              <a routerLink="/introduction" k-button size="lg">Get Started</a>
-              <a routerLink="/button" k-button variant="outline" size="lg">View Components</a>
-            </div>
+        <!-- Hero Wrapper -->
+        <div class="relative w-full flex justify-center">
+          <!-- Warped Grid Background for Hero -->
+          <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center [perspective:1000px] [mask-image:radial-gradient(ellipse_100%_100%_at_50%_0%,#000_60%,transparent_100%)]">
+            <div class="absolute inset-[-100%] [transform:rotateX(75deg)_translateY(-60%)]
+                        bg-[linear-gradient(to_right,hsl(var(--primary))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary))_1px,transparent_1px)]
+                        bg-[size:4rem_4rem]
+                        opacity-20 dark:opacity-30 blur-[2px]"></div>
+            <!-- Glow -->
+            <div class="absolute left-1/2 top-0 -translate-x-1/2 h-96 w-full max-w-4xl
+                        bg-primary/15 blur-[120px] rounded-full"></div>
           </div>
-        </section>
+
+          <!-- Hero Section -->
+          <section class="w-full max-w-7xl pt-24 pb-16 px-4 sm:px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+              <!-- Left Column: Content -->
+              <div class="flex flex-col items-start text-left space-y-8">
+                <a routerLink="/introduction" class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full bg-primary/5 text-primary border border-primary/10 hover:bg-primary/10 transition-colors no-underline">
+                  <svg lucideStar class="h-4 w-4"></svg> Kobo UI v1.0.9 is here
+                </a>
+
+                <h1 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-foreground leading-[1.15]">
+                  Own your components.<br />
+                  Design without <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-orange-400">compromise.</span>
+                </h1>
+
+                <p class="max-w-xl text-lg sm:text-xl text-muted-foreground leading-relaxed">
+                  Escape the rigid constraints of traditional Angular libraries. Kobo UI provides unstyled, accessible primitives powered by Signals and modern CSS tokens. Copy the code. Own the behavior. Ship faster.
+                </p>
+
+                <div class="flex flex-wrap gap-4 pt-2">
+                  <a routerLink="/introduction" k-button size="lg" class="rounded-xl px-8 shadow-md">
+                    Get Started <svg lucideArrowRight class="ml-2 h-4 w-4"></svg>
+                  </a>
+                  <a routerLink="/button" k-button variant="outline" size="lg" class="rounded-xl px-8 bg-background/50 backdrop-blur-sm">
+                    View Components
+                  </a>
+                </div>
+
+                <div class="pt-8 grid grid-cols-2 sm:grid-cols-4 gap-6 w-full text-sm font-medium text-muted-foreground border-t border-border/40 mt-8">
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 rounded-lg bg-muted/50 border border-border"><svg lucideLayers class="h-4 w-4"></svg></div>
+                    <span class="leading-tight text-[13px]">Unstyled<br/>and flexible</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 rounded-lg bg-muted/50 border border-border"><svg lucideCode class="h-4 w-4"></svg></div>
+                    <span class="leading-tight text-[13px]">Accessible<br/>by default</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 rounded-lg bg-muted/50 border border-border"><svg lucideZap class="h-4 w-4"></svg></div>
+                    <span class="leading-tight text-[13px]">Built with<br/>Signals</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 rounded-lg bg-muted/50 border border-border"><svg lucidePalette class="h-4 w-4"></svg></div>
+                    <span class="leading-tight text-[13px]">Modern<br/>CSS tokens</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Visuals -->
+              <div class="relative h-[500px] w-full hidden lg:block">
+
+                <!-- Floating Toast -->
+                <div class="absolute top-4 right-12 z-20 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
+                  <div class="bg-background/80 backdrop-blur-md border border-border/60 shadow-xl rounded-2xl p-3 flex items-center gap-3 w-64 rotate-[2deg]">
+                    <div class="h-6 w-6 rounded-full bg-green-500/10 flex items-center justify-center">
+                      <svg lucideCheck class="h-3.5 w-3.5 text-green-500"></svg>
+                    </div>
+                    <span class="text-[13px] font-medium flex-1">Changes saved successfully</span>
+                    <svg lucideX class="h-3.5 w-3.5 text-muted-foreground"></svg>
+                  </div>
+                </div>
+
+                <!-- Floating Button Group -->
+                <div class="absolute top-16 left-4 z-10 animate-in fade-in slide-in-from-left-8 duration-1000 delay-200">
+                  <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-72 -rotate-[4deg]">
+                    <div class="text-[13px] font-medium text-muted-foreground mb-3">Button</div>
+                    <k-button-group class="w-full">
+                      <button k-button variant="default" size="sm" class="flex-1 rounded-l-lg">Primary</button>
+                      <button k-button variant="secondary" size="sm" class="flex-1">Secondary</button>
+                      <button k-button variant="outline" size="sm" class="flex-1 rounded-r-lg">Ghost</button>
+                    </k-button-group>
+                  </div>
+                </div>
+
+                <!-- Floating Switch -->
+                <div class="absolute top-28 right-0 z-10 animate-in fade-in zoom-in duration-1000 delay-300">
+                  <div class="bg-background border border-border/50 shadow-xl rounded-2xl p-5 flex flex-col items-center gap-3 rotate-[6deg]">
+                    <div class="text-[13px] font-medium text-muted-foreground">Switch</div>
+                    <k-switch [checked]="true"></k-switch>
+                  </div>
+                </div>
+
+                <!-- Floating Input -->
+                <div class="absolute top-48 left-12 z-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+                  <div class="bg-background/90 backdrop-blur-md border border-border/60 shadow-2xl rounded-2xl p-5 w-80 rotate-[1deg]">
+                    <div class="text-[13px] font-medium text-muted-foreground mb-2">Input</div>
+                    <div class="relative">
+                      <input k-input placeholder="Enter your name..." class="pr-9 rounded-xl bg-muted/50 border-transparent focus-visible:border-primary" />
+                      <svg lucideLock class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/50"></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating Checkbox -->
+                <div class="absolute top-64 right-6 z-20 animate-in fade-in slide-in-from-right-8 duration-1000 delay-700">
+                  <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-48 -rotate-[3deg]">
+                    <div class="text-[13px] font-medium text-muted-foreground mb-3">Checkbox</div>
+                    <k-checkbox [checked]="true">
+                      <span class="text-sm font-medium">Remember me</span>
+                    </k-checkbox>
+                  </div>
+                </div>
+
+                <!-- Floating Code Block -->
+                <div class="absolute bottom-16 left-0 z-30 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-1000">
+                  <div class="bg-[#0c111d] border border-white/10 shadow-2xl shadow-black/20 rounded-2xl p-1 w-80 -rotate-[8deg] overflow-hidden">
+                    <div class="flex items-center justify-between px-4 py-2 border-b border-white/10">
+                      <div class="flex items-center gap-4 text-[11px] font-mono font-medium text-white/50">
+                        <span class="text-white">HTML</span>
+                        <span>TS</span>
+                        <span>CSS</span>
+                      </div>
+                      <svg lucideCode class="h-3 w-3 text-white/40"></svg>
+                    </div>
+                    <div class="p-4 font-mono text-[13px] leading-relaxed text-blue-300">
+                      <span class="text-slate-400">&lt;</span><span class="text-pink-400">k-button</span> <span class="text-emerald-300"> variant</span><span class="text-slate-400">=</span><span class="text-amber-300">"primary"</span><span class="text-slate-400">&gt;</span><br/>
+                      &nbsp;&nbsp;<span class="text-slate-100">Get Started</span><br/>
+                      <span class="text-slate-400">&lt;/</span><span class="text-pink-400">k-button</span><span class="text-slate-400">&gt;</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating Select -->
+                <div class="absolute bottom-32 left-44 z-20 animate-in fade-in zoom-in duration-1000 delay-1000">
+                  <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-56 rotate-[4deg]">
+                    <div class="text-[13px] font-medium text-muted-foreground mb-2">Select</div>
+                    <k-select placeholder="Choose an option...">
+                      <k-select-content>
+                        <k-select-item value="1">Option 1</k-select-item>
+                      </k-select-content>
+                    </k-select>
+                  </div>
+                </div>
+
+                <!-- Floating Date Picker -->
+                <div class="absolute bottom-24 right-0 z-10 animate-in fade-in slide-in-from-right-12 duration-1000 delay-700">
+                  <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-56 -rotate-[5deg]">
+                    <div class="text-[13px] font-medium text-muted-foreground mb-2">Date Picker</div>
+                    <div class="flex items-center justify-between border border-border rounded-xl px-3 py-2 text-sm bg-muted/30">
+                      <span>Sep 16, 2025</span>
+                      <svg lucideCalendar class="h-4 w-4 text-muted-foreground"></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating Tokens -->
+                <div class="absolute bottom-4 right-16 z-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-1000">
+                  <div class="bg-background/90 backdrop-blur-md border border-border/50 shadow-xl rounded-full p-2.5 pr-4 flex items-center gap-3 rotate-[2deg]">
+                    <div class="flex items-center -space-x-1">
+                      <div class="w-5 h-5 rounded-full bg-slate-900 border-2 border-background"></div>
+                      <div class="w-5 h-5 rounded-full bg-blue-500 border-2 border-background"></div>
+                      <div class="w-5 h-5 rounded-full bg-indigo-500 border-2 border-background"></div>
+                      <div class="w-5 h-5 rounded-full bg-rose-500 border-2 border-background"></div>
+                      <div class="w-5 h-5 rounded-full bg-amber-500 border-2 border-background"></div>
+                      <div class="w-5 h-5 rounded-full bg-emerald-500 border-2 border-background"></div>
+                    </div>
+                    <div class="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
+                      CSS Tokens <svg lucideChevronRight class="h-3 w-3"></svg>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+        </div>
 
         <!-- Component Showcase Tabs -->
         <section class="w-full max-w-[1400px] px-4 md:px-8 py-20 border-t border-border/40 mx-auto">
