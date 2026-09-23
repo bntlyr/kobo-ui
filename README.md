@@ -23,41 +23,13 @@ npm install kobo-ui @angular/cdk @lucide/angular tailwind-merge clsx class-varia
 
 Kobo UI relies on Tailwind CSS v4 and its own CSS variables for styling and theming.
 
-1. Ensure your project is set up with Tailwind CSS v4.
-2. Import the Kobo UI themes and tokens into your global `styles.css` (or `styles.scss`):
+After installation, run the initialization command to automatically set up your project's styles and theming:
 
-```css
-@import "tailwindcss";
-
-/* Import Kobo UI default tokens (Zinc) */
-@import "kobo-ui/assets/tokens.css";
-
-/* (Optional) Import Kobo UI extended themes */
-@import "kobo-ui/assets/themes.css";
-
-@theme {
-  /* Map CSS variables to Tailwind colors */
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-}
+```bash
+npx kobo init
 ```
+
+This command will configure your global `styles.css` (or `styles.scss`) with the necessary Tailwind imports and CSS variables.
 
 ## Quick Start
 
