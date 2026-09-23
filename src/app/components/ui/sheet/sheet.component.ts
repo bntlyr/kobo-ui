@@ -8,6 +8,8 @@ import {
   computed,
   inject,
   input,
+  Directive,
+  HostListener,
 } from '@angular/core';
 import {
   Overlay,
@@ -101,10 +103,13 @@ export class KSheetService {
       if (e.key === 'Escape') overlayRef.detach();
     });
 
-    // Create a child injector that provides the sheet config
+    // Create a child injector that provides the sheet config and the overlay ref
     const sheetConfig: KSheetConfig = { side, size, ...config };
     const sheetInjector = Injector.create({
-      providers: [{ provide: K_SHEET_CONFIG, useValue: sheetConfig }],
+      providers: [
+        { provide: K_SHEET_CONFIG, useValue: sheetConfig },
+        { provide: OverlayRef, useValue: overlayRef }
+      ],
       parent: this.injector,
     });
 
@@ -178,3 +183,16 @@ export class KSheetContent {}
   encapsulation: ViewEncapsulation.None,
 })
 export class KSheetFooter {}
+
+@Directive({
+  selector: '[kSheetClose]',
+  standalone: true,
+})
+export class KSheetClose {
+  private readonly overlayRef = inject(OverlayRef, { optional: true });
+
+  @HostListener('click')
+  onClick(): void {
+    this.overlayRef?.detach();
+  }
+}

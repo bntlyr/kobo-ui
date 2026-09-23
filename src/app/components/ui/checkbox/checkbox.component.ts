@@ -121,7 +121,7 @@ export class KCheckbox implements ControlValueAccessor {
   readonly size          = input<CheckboxSize>('default');
   readonly error         = input<boolean>(false);
   readonly class         = input<string>('');
-  readonly disabled      = signal<boolean>(false);
+  readonly disabled      = model<boolean>(false);
 
   private _onChange: (value: boolean) => void = () => {};
   protected onTouched: () => void = () => {};

@@ -39,10 +39,10 @@ import { TabsComponent, type Tab } from '../../shared/tabs.component';
         <div class="rounded-xl border border-border bg-card p-6">
           <div class="grid sm:grid-cols-2 gap-6">
             <div class="space-y-2">
-              <k-checkbox>Disabled (unchecked)</k-checkbox>
+              <k-checkbox [disabled]="true">Disabled (unchecked)</k-checkbox>
             </div>
             <div class="space-y-2">
-              <k-checkbox [checked]="true">Disabled (checked)</k-checkbox>
+              <k-checkbox [disabled]="true" [checked]="true">Disabled (checked)</k-checkbox>
             </div>
             <div class="space-y-2">
               <k-checkbox [error]="true">Error state</k-checkbox>
@@ -94,6 +94,12 @@ import { TabsComponent, type Tab } from '../../shared/tabs.component';
                     <td class="px-4 py-3 font-mono text-xs text-primary">boolean</td>
                     <td class="px-4 py-3 font-mono text-xs">false</td>
                     <td class="px-4 py-3 text-muted-foreground">Whether to apply error styling.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">disabled</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">ModelSignal&lt;boolean&gt;</td>
+                    <td class="px-4 py-3 font-mono text-xs">false</td>
+                    <td class="px-4 py-3 text-muted-foreground">Two-way bound model for the disabled state.</td>
                   </tr>
                   <tr>
                     <td class="px-4 py-3 font-mono text-xs">class</td>

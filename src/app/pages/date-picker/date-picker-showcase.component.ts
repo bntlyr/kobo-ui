@@ -41,6 +41,16 @@ import { FormsModule } from '@angular/forms';
             </div>
 
             <div class="space-y-2 w-full max-w-sm">
+              <label class="text-sm font-medium">Month Picker</label>
+              <k-date-picker [(value)]="month" type="month" placeholder="Pick a month"></k-date-picker>
+            </div>
+
+            <div class="space-y-2 w-full max-w-sm">
+              <label class="text-sm font-medium">Year Picker</label>
+              <k-date-picker [(value)]="year" type="year" placeholder="Pick a year"></k-date-picker>
+            </div>
+
+            <div class="space-y-2 w-full max-w-sm">
               <label class="text-sm font-medium">Date & Time Range Picker</label>
               <k-date-picker [(value)]="dateTimeRange" mode="range" [showTime]="true" placeholder="Pick date and time range"></k-date-picker>
             </div>
@@ -72,6 +82,12 @@ import { FormsModule } from '@angular/forms';
 
 &lt;!-- Date & Time Range Picker --&gt;
 &lt;k-date-picker [(value)]="dateTimeRange" mode="range" [showTime]="true" placeholder="Pick date and time range"&gt;&lt;/k-date-picker&gt;
+
+&lt;!-- Month Picker --&gt;
+&lt;k-date-picker [(value)]="month" type="month" placeholder="Pick a month"&gt;&lt;/k-date-picker&gt;
+
+&lt;!-- Year Picker --&gt;
+&lt;k-date-picker [(value)]="year" type="year" placeholder="Pick a year"&gt;&lt;/k-date-picker&gt;
 
 &lt;!-- Standalone Time Picker --&gt;
 &lt;k-time-picker [(value)]="time" placeholder="Pick a time"&gt;&lt;/k-time-picker&gt;
@@ -111,6 +127,12 @@ import { FormsModule } from '@angular/forms';
                     <td class="px-4 py-3 font-mono text-xs text-primary">'single' | 'range'</td>
                     <td class="px-4 py-3 font-mono text-xs">'single'</td>
                     <td class="px-4 py-3 text-muted-foreground">Determines if picking a single date or a range of dates.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">type</td>
+                    <td class="px-4 py-3 font-mono text-xs text-primary">'date' | 'month' | 'year'</td>
+                    <td class="px-4 py-3 font-mono text-xs">'date'</td>
+                    <td class="px-4 py-3 text-muted-foreground">Determines the visual grid to show: dates, months, or years.</td>
                   </tr>
                   <tr>
                     <td class="px-4 py-3 font-mono text-xs">showTime</td>
@@ -207,6 +229,8 @@ export default class DatePickerShowcaseComponent {
   readonly dateRange = model<CalendarValue>(null);
   readonly dateTime = model<Date | null>(null);
   readonly dateTimeRange = model<CalendarValue>(null);
+  readonly month = model<Date | null>(null);
+  readonly year = model<Date | null>(null);
   readonly time = model<TimeValue | null>(null);
   readonly timeRange = model<TimeRangeValue | null>(null);
 }

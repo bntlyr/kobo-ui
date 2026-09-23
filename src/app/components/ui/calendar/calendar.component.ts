@@ -11,23 +11,24 @@ export type CalendarValue = Date | { start: Date; end: Date | null } | null;
       <div class="flex items-center justify-between pt-1 relative">
         <button
           type="button"
-          (click)="prevMonth()"
+          (click)="prev()"
           class="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m15 18-6-6 6-6"/></svg>
         </button>
-        <div class="text-sm font-medium">{{ currentMonthLabel() }}</div>
+        <div class="text-sm font-medium">{{ currentHeaderLabel() }}</div>
         <button
           type="button"
-          (click)="nextMonth()"
+          (click)="next()"
           class="h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center rounded-md border border-input hover:bg-accent hover:text-accent-foreground"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m9 18 6-6-6-6"/></svg>
         </button>
       </div>
 
-      <!-- Grid -->
-      <table class="w-full border-collapse space-y-1 mt-4">
+      <!-- Date Grid -->
+      @if (type() === 'date') {
+        <table class="w-full border-collapse space-y-1 mt-4">
         <thead>
           <tr class="flex">
             @for (day of weekDays; track day) {
@@ -56,6 +57,37 @@ export type CalendarValue = Date | { start: Date; end: Date | null } | null;
           }
         </tbody>
       </table>
+      }
+
+      <!-- Month Grid -->
+      @if (type() === 'month') {
+        <div class="grid grid-cols-3 gap-2 mt-4">
+          @for (m of shortMonths; track $index) {
+            <button
+              type="button"
+              (click)="selectMonth($index)"
+              [class]="monthYearClasses($index, 'month')"
+            >
+              {{ m }}
+            </button>
+          }
+        </div>
+      }
+
+      <!-- Year Grid -->
+      @if (type() === 'year') {
+        <div class="grid grid-cols-3 gap-2 mt-4">
+          @for (y of displayedYears(); track y) {
+            <button
+              type="button"
+              (click)="selectYear(y)"
+              [class]="monthYearClasses(y, 'year')"
+            >
+              {{ y }}
+            </button>
+          }
+        </div>
+      }
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,6 +96,7 @@ export type CalendarValue = Date | { start: Date; end: Date | null } | null;
 export class KCalendar {
   readonly class = input<string>('');
   readonly mode = input<'single' | 'range'>('single');
+  readonly type = input<'date' | 'month' | 'year'>('date');
   readonly value = model<CalendarValue>(null);
 
   protected readonly classes = computed(() => cn('p-3', this.class()));
@@ -71,9 +104,17 @@ export class KCalendar {
   protected readonly viewDate = signal(new Date());
 
   protected readonly weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  protected readonly shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  protected readonly currentMonthLabel = computed(() => {
-    return this.viewDate().toLocaleString('default', { month: 'long', year: 'numeric' });
+  protected readonly currentHeaderLabel = computed(() => {
+    const t = this.type();
+    if (t === 'date') return this.viewDate().toLocaleString('default', { month: 'long', year: 'numeric' });
+    if (t === 'month') return this.viewDate().getFullYear().toString();
+    if (t === 'year') {
+      const startYear = Math.floor(this.viewDate().getFullYear() / 12) * 12;
+      return `${startYear} - ${startYear + 11}`;
+    }
+    return '';
   });
 
   protected readonly weeks = computed(() => {
@@ -105,14 +146,23 @@ export class KCalendar {
     return weeks;
   });
 
-  prevMonth(): void {
+  protected readonly displayedYears = computed(() => {
+    const startYear = Math.floor(this.viewDate().getFullYear() / 12) * 12;
+    return Array.from({ length: 12 }, (_, i) => startYear + i);
+  });
+
+  prev(): void {
     const d = this.viewDate();
-    this.viewDate.set(new Date(d.getFullYear(), d.getMonth() - 1, 1));
+    if (this.type() === 'date') this.viewDate.set(new Date(d.getFullYear(), d.getMonth() - 1, 1));
+    if (this.type() === 'month') this.viewDate.set(new Date(d.getFullYear() - 1, d.getMonth(), 1));
+    if (this.type() === 'year') this.viewDate.set(new Date(d.getFullYear() - 12, d.getMonth(), 1));
   }
 
-  nextMonth(): void {
+  next(): void {
     const d = this.viewDate();
-    this.viewDate.set(new Date(d.getFullYear(), d.getMonth() + 1, 1));
+    if (this.type() === 'date') this.viewDate.set(new Date(d.getFullYear(), d.getMonth() + 1, 1));
+    if (this.type() === 'month') this.viewDate.set(new Date(d.getFullYear() + 1, d.getMonth(), 1));
+    if (this.type() === 'year') this.viewDate.set(new Date(d.getFullYear() + 12, d.getMonth(), 1));
   }
 
   selectDate(d: Date): void {
@@ -130,6 +180,20 @@ export class KCalendar {
         }
       }
     }
+  }
+
+  selectMonth(month: number): void {
+    const val = this.value();
+    const current = (val instanceof Date) ? val : new Date();
+    const d = new Date(this.viewDate().getFullYear(), month, current.getDate());
+    this.selectDate(d);
+  }
+
+  selectYear(year: number): void {
+    const val = this.value();
+    const current = (val instanceof Date) ? val : new Date();
+    const d = new Date(year, current.getMonth(), current.getDate());
+    this.selectDate(d);
   }
 
   isSameDay(d1: Date, d2: Date): boolean {
@@ -180,6 +244,36 @@ export class KCalendar {
       : inRange ? 'bg-accent/50 text-accent-foreground' 
       : 'hover:bg-accent hover:text-accent-foreground',
       today && !selected && !inRange ? 'bg-accent text-accent-foreground' : ''
+    );
+  }
+
+  monthYearClasses(val: number, type: 'month' | 'year'): string {
+    const currentVal = this.value();
+    const d = currentVal instanceof Date ? currentVal : new Date();
+    
+    let isSelected = false;
+    let isToday = false;
+
+    if (currentVal) {
+      if (type === 'month') {
+        isSelected = d.getMonth() === val && d.getFullYear() === this.viewDate().getFullYear();
+      } else {
+        isSelected = d.getFullYear() === val;
+      }
+    }
+
+    const todayDate = new Date();
+    if (type === 'month') {
+      isToday = todayDate.getMonth() === val && todayDate.getFullYear() === this.viewDate().getFullYear();
+    } else {
+      isToday = todayDate.getFullYear() === val;
+    }
+    
+    return cn(
+      'inline-flex h-9 w-full items-center justify-center rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+      isSelected ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground' 
+      : 'hover:bg-accent hover:text-accent-foreground',
+      isToday && !isSelected ? 'bg-accent text-accent-foreground' : ''
     );
   }
 }

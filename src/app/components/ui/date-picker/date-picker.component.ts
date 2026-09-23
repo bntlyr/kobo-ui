@@ -17,6 +17,7 @@ import { KTimePicker, TimeValue } from '../time-picker/time-picker.component';
         <k-calendar 
           [value]="value()" 
           [mode]="mode()" 
+          [type]="type()"
           (valueChange)="onDateSelect($event)">
         </k-calendar>
         @if (showTime()) {
@@ -36,6 +37,7 @@ export class KDatePicker {
   readonly class = input<string>('');
   readonly placeholder = input<string>('Pick a date');
   readonly mode = input<'single' | 'range'>('single');
+  readonly type = input<'date' | 'month' | 'year'>('date');
   readonly showTime = input<boolean>(false);
   
   readonly value = model<CalendarValue>(null);
@@ -71,15 +73,24 @@ export class KDatePicker {
     const timeOptions: Intl.DateTimeFormatOptions = this.showTime() ? { hour: 'numeric', minute: 'numeric' } : {};
     
     if (this.mode() === 'single') {
-      return (val as Date).toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric', ...timeOptions });
+      const d = val as Date;
+      if (this.type() === 'month') return d.toLocaleDateString('default', { month: 'long', ...timeOptions });
+      if (this.type() === 'year') return d.getFullYear().toString();
+      return d.toLocaleDateString('default', { month: 'long', day: 'numeric', year: 'numeric', ...timeOptions });
     } else {
       const range = val as { start: Date; end: Date | null };
       if (!range.start) return this.placeholder();
       
-      const startStr = range.start.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric', ...timeOptions });
+      let startStr = range.start.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric', ...timeOptions });
+      if (this.type() === 'month') startStr = range.start.toLocaleDateString('default', { month: 'short' });
+      if (this.type() === 'year') startStr = range.start.getFullYear().toString();
+      
       if (!range.end) return `${startStr} - ...`;
       
-      const endStr = range.end.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric', ...timeOptions });
+      let endStr = range.end.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric', ...timeOptions });
+      if (this.type() === 'month') endStr = range.end.toLocaleDateString('default', { month: 'short' });
+      if (this.type() === 'year') endStr = range.end.getFullYear().toString();
+      
       return `${startStr} - ${endStr}`;
     }
   });

@@ -12,7 +12,8 @@ import { NavHeaderComponent } from '../../layout/nav-header.component';
 import { ThemeService } from '../../core/services/theme.service';
 import { KToaster, KToastService } from '../../components/ui/toast/toast.service';
 import { KDialogService, KDialog, KDialogHeader, KDialogTitle, KDialogDescription, KDialogContent, KDialogFooter, KDialogClose } from '../../components/ui/dialog';
-import { KSheetService, KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KSheetContent, KSheetFooter, K_SHEET_CONFIG } from '../../components/ui/sheet';
+import { KAlertDialogService } from '../../components/ui/alert-dialog';
+import { KSheetService, KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KSheetContent, KSheetFooter, KSheetClose, K_SHEET_CONFIG } from '../../components/ui/sheet';
 import { LucideMail, LucideBriefcase, LucideHeart, LucideLayoutDashboard, LucideCalendarDays, LucideSettings, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideLogOut, LucideChevronLeft, LucideChevronRight, LucideActivity, LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar } from '@lucide/angular';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { KTabs, KTabList, KTabTrigger, KTabContent } from '../../components/ui/tabs';
@@ -22,6 +23,7 @@ import { KFullCalendar } from '../../components/ui/full-calendar';
 import { KAvatar, KAvatarImage, KAvatarFallback } from '../../components/ui/avatar/avatar.component';
 import { KScrollArea } from '../../components/ui/scroll-area';
 import { KButtonGroup } from '../../components/ui/button-group/button-group.component';
+import { KDatePicker } from '../../components/ui/date-picker/date-picker.component';
 import { KSpinner } from '../../components/ui/spinner/spinner.component';
 import { KSlider } from '../../components/ui/slider/slider.component';
 import { KRadioGroup, KRadioItem } from '../../components/ui/radio-group/radio-group.component';
@@ -81,7 +83,7 @@ export class SponsorDialogComponent {}
 
 @Component({
   selector: 'app-home-demo-sheet',
-  imports: [KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KSheetContent, KSheetFooter, KButtonDirective],
+  imports: [KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KSheetContent, KSheetFooter, KSheetClose, KButtonDirective],
   template: `
     <k-sheet side="right">
       <k-sheet-header>
@@ -92,7 +94,7 @@ export class SponsorDialogComponent {}
         <p class="text-sm text-muted-foreground">Drawer content goes here...</p>
       </k-sheet-content>
       <k-sheet-footer>
-        <button k-button variant="outline">Close</button>
+        <button k-button variant="outline" kSheetClose>Close</button>
       </k-sheet-footer>
     </k-sheet>
   `
@@ -121,7 +123,7 @@ export class HomeDemoSheetComponent {}
     KScrollArea,
     LucideLayoutDashboard, LucideCalendarDays, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideActivity,
     LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideSettings, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox
-  , KButtonGroup, KSpinner, KSlider, KRadioGroup, KRadioItem, KSelect, KSelectContent, KSelectItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar],
+  , KButtonGroup, KDatePicker, KSpinner, KSlider, KRadioGroup, KRadioItem, KSelect, KSelectContent, KSelectItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen bg-background text-foreground flex flex-col pt-14 overflow-x-hidden">
@@ -234,7 +236,7 @@ export class HomeDemoSheetComponent {}
                     <div class="text-[13px] font-medium text-muted-foreground mb-2">Input</div>
                     <div class="relative">
                       <input k-input placeholder="Enter your name..." class="pr-9 rounded-xl bg-muted/50 border-transparent focus-visible:border-primary" />
-                      <svg lucideLock class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground/50"></svg>
+                      <svg lucideLock class="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50"></svg>
                     </div>
                   </div>
                 </div>
@@ -362,19 +364,11 @@ export class HomeDemoSheetComponent {}
                       <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
                           <label k-label>Month</label>
-                          <k-select placeholder="MM">
-                            <k-select-content>
-                              <k-select-item value="01">01 - January</k-select-item>
-                            </k-select-content>
-                          </k-select>
+                          <k-date-picker placeholder="MM" type="month" />
                         </div>
                         <div class="space-y-2">
                           <label k-label>Year</label>
-                          <k-select placeholder="YYYY">
-                            <k-select-content>
-                              <k-select-item value="2024">2024</k-select-item>
-                            </k-select-content>
-                          </k-select>
+                          <k-date-picker placeholder="YYYY" type="year" />
                         </div>
                       </div>
                     </k-card-content>
@@ -397,8 +391,8 @@ export class HomeDemoSheetComponent {}
                   </div>
 
                   <div class="flex items-center gap-2">
-                    <button k-button>Submit</button>
-                    <button k-button variant="outline">Cancel</button>
+                    <button k-button (click)="submitPayment()" [loading]="paymentProcessing()">Submit</button>
+                    <button k-button variant="outline" (click)="cancelPayment()" [disabled]="paymentProcessing()">Cancel</button>
                   </div>
                 </div>
 
@@ -413,7 +407,7 @@ export class HomeDemoSheetComponent {}
                     </div>
                     <h3 class="font-semibold mb-2">No Team Members</h3>
                     <p class="text-sm text-muted-foreground mb-4">Invite your team to collaborate on this project.</p>
-                    <button k-button variant="outline" size="sm" class="mx-auto rounded-full px-4"><svg lucidePlus class="h-4 w-4 mr-2"></svg> Invite Members</button>
+                    <button k-button variant="outline" size="sm" class="mx-auto rounded-full px-4" (click)="inviteMembers()"><svg lucidePlus class="h-4 w-4 mr-2"></svg> Invite Members</button>
                   </k-card>
 
                   <!-- Syncing Pills -->
@@ -436,15 +430,15 @@ export class HomeDemoSheetComponent {}
 
                   <!-- Search Inputs -->
                   <div class="relative">
-                    <svg lucideSearch class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
+                    <svg lucideSearch class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"></svg>
                     <input k-input class="pl-9 pr-20" placeholder="Search..." />
-                    <span class="absolute right-3 top-2.5 text-xs text-muted-foreground">12 results</span>
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">12 results</span>
                   </div>
 
                   <div class="relative">
-                    <span class="absolute left-3 top-2.5 text-sm text-muted-foreground">https://</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">https://</span>
                     <input k-input class="pl-16 pr-9" placeholder="example.com" />
-                    <svg lucideInfo class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
+                    <svg lucideInfo class="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"></svg>
                   </div>
 
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20">
@@ -454,7 +448,7 @@ export class HomeDemoSheetComponent {}
                         <button k-button variant="secondary" size="icon-sm" class="rounded-full h-7 w-7"><svg lucidePlus class="h-3 w-3"></svg></button>
                         <div class="flex items-center gap-2">
                           <span class="text-xs text-muted-foreground">52% used</span>
-                          <button k-button size="icon-sm" class="rounded-full h-7 w-7"><svg lucideArrowUp class="h-3 w-3"></svg></button>
+                          <button k-button size="icon-sm" class="rounded-full h-7 w-7" (click)="sendMessage()"><svg lucideArrowUp class="h-3 w-3"></svg></button>
                         </div>
                       </div>
                     </k-card-content>
@@ -462,16 +456,16 @@ export class HomeDemoSheetComponent {}
 
                   <div class="relative">
                     <input k-input value="@kobui" class="pr-9 font-medium" readonly />
-                    <svg lucideCheckCircle2 class="absolute right-3 top-2.5 h-4 w-4 text-primary"></svg>
+                    <svg lucideCheckCircle2 class="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary"></svg>
                   </div>
                 </div>
 
                 <!-- COLUMN 3 -->
                 <div class="space-y-6 flex flex-col">
                   <div class="relative">
-                    <svg lucideInfo class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
+                    <svg lucideInfo class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"></svg>
                     <input k-input class="pl-9 pr-9" value="https://" readonly />
-                    <svg lucideStar class="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
+                    <svg lucideStar class="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"></svg>
                   </div>
 
                   <!-- Two factor -->
@@ -481,7 +475,7 @@ export class HomeDemoSheetComponent {}
                         <h4 class="text-sm font-medium leading-none">Two-factor authentication</h4>
                         <p class="text-[13px] text-muted-foreground">Verify via email or phone number.</p>
                       </div>
-                      <button k-button variant="secondary" size="sm">Enable</button>
+                      <button k-button [variant]="twoFactorEnabled() ? 'default' : 'secondary'" size="sm" (click)="enable2fa()">{{ twoFactorEnabled() ? 'Disable' : 'Enable' }}</button>
                     </k-card-content>
                   </k-card>
 
@@ -531,9 +525,9 @@ export class HomeDemoSheetComponent {}
                       <p class="text-[13px] text-muted-foreground">You can add more later.</p>
                     </div>
                     <div class="flex items-center border border-border rounded-md">
-                      <span class="px-3 text-sm font-medium border-r border-border">8</span>
-                      <button class="h-8 w-8 flex items-center justify-center hover:bg-accent border-r border-border"><svg lucideMinus class="h-3 w-3"></svg></button>
-                      <button class="h-8 w-8 flex items-center justify-center hover:bg-accent"><svg lucidePlus class="h-3 w-3"></svg></button>
+                      <span class="px-3 text-sm font-medium border-r border-border">{{ gpus() }}</span>
+                      <button class="h-8 w-8 flex items-center justify-center hover:bg-accent border-r border-border" (click)="updateGpus(-1)"><svg lucideMinus class="h-3 w-3"></svg></button>
+                      <button class="h-8 w-8 flex items-center justify-center hover:bg-accent" (click)="updateGpus(1)"><svg lucidePlus class="h-3 w-3"></svg></button>
                     </div>
                   </div>
 
@@ -576,7 +570,7 @@ export class HomeDemoSheetComponent {}
 
                   <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20 py-1">
                     <k-card-content class="p-3">
-                      <k-checkbox [checked]="true">
+                      <k-checkbox [checked]="termsAgreed()" (checkedChange)="agreeToTerms($event)">
                         <span class="font-medium text-sm">I agree to the terms and conditions</span>
                       </k-checkbox>
                     </k-card-content>
@@ -606,10 +600,12 @@ export class HomeDemoSheetComponent {}
                     </k-card-header>
                     <k-card-content>
                       <div class="flex flex-wrap gap-2">
-                        <button k-button variant="secondary" size="sm" class="rounded-full h-8"><svg lucideCheckCircle2 class="mr-1.5 h-4 w-4 text-foreground"></svg> Social Media</button>
-                        <button k-button variant="outline" size="sm" class="rounded-full h-8 text-muted-foreground border-border/50">Search Engine</button>
-                        <button k-button variant="outline" size="sm" class="rounded-full h-8 text-muted-foreground border-border/50">Referral</button>
-                        <button k-button variant="outline" size="sm" class="rounded-full h-8 text-muted-foreground border-border/50">Other</button>
+                        @for (src of ['Social Media', 'Search Engine', 'Referral', 'Other']; track src) {
+                          <button k-button [variant]="selectedSource() === src ? 'secondary' : 'outline'" size="sm" class="rounded-full h-8 transition-all" [class.text-muted-foreground]="selectedSource() !== src" [class.border-border/50]="selectedSource() !== src" (click)="setSource(src)">
+                            @if (selectedSource() === src) { <svg lucideCheckCircle2 class="mr-1.5 h-4 w-4 text-foreground"></svg> }
+                            {{ src }}
+                          </button>
+                        }
                       </div>
                     </k-card-content>
                   </k-card>
@@ -618,7 +614,7 @@ export class HomeDemoSheetComponent {}
                     <k-spinner class="mx-auto mb-4 text-muted-foreground" />
                     <h3 class="font-semibold text-sm mb-2">Processing your request</h3>
                     <p class="text-[13px] text-muted-foreground mb-4">Please wait while we process your request. Do not refresh the page.</p>
-                    <button k-button variant="outline" size="sm" class="mx-auto rounded-full px-4">Cancel</button>
+                    <button k-button variant="outline" size="sm" class="mx-auto rounded-full px-4" (click)="cancelProcessing()">Cancel</button>
                   </k-card>
 
                 </div>
@@ -707,7 +703,7 @@ export class HomeDemoSheetComponent {}
                       </div>
                       <div class="flex items-center gap-4">
                         <div class="relative w-64 hidden sm:block">
-                          <svg lucideSearch class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground"></svg>
+                          <svg lucideSearch class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"></svg>
                           <input k-input class="pl-9 h-9 bg-muted/50 border-transparent focus-visible:border-border" placeholder="Search anything..." />
                           <div class="absolute right-2 top-2 text-[10px] bg-background border border-border px-1.5 py-0.5 rounded text-muted-foreground font-mono">⌘ K</div>
                         </div>
@@ -1201,8 +1197,15 @@ export class HomePageComponent {
   private readonly toast = inject(KToastService);
   private readonly dialog = inject(KDialogService);
   private readonly sheet = inject(KSheetService);
+  private readonly alertDialog = inject(KAlertDialogService);
 
   readonly activeShowcaseTab = signal<string>('examples');
+  
+  readonly gpus = signal<number>(8);
+  readonly selectedSource = signal<string>('Social Media');
+  readonly termsAgreed = signal<boolean>(true);
+  readonly twoFactorEnabled = signal<boolean>(false);
+  readonly paymentProcessing = signal<boolean>(false);
 
   readonly contributors = [
     { name: 'bntlyr', avatar: 'https://github.com/bntlyr.png' },
@@ -1285,5 +1288,97 @@ export class HomePageComponent {
 
   openSponsorDialog(): void {
     this.dialog.open(SponsorDialogComponent);
+  }
+
+  submitPayment(): void {
+    this.alertDialog.open({
+      title: 'Confirm Payment',
+      description: 'Are you sure you want to process this payment?',
+      confirmLabel: 'Pay Now',
+      cancelLabel: 'Cancel'
+    }).subscribe(confirmed => {
+      if (confirmed) {
+        this.paymentProcessing.set(true);
+        setTimeout(() => {
+          this.paymentProcessing.set(false);
+          this.toast.show({
+            title: 'Payment Successful',
+            description: 'Your transaction was completed successfully.',
+            variant: 'success'
+          });
+        }, 1500);
+      }
+    });
+  }
+
+  cancelPayment(): void {
+    this.alertDialog.open({
+      title: 'Cancel Transaction',
+      description: 'Are you sure you want to cancel? All entered data will be lost.',
+      confirmLabel: 'Yes, cancel',
+      cancelLabel: 'No, go back',
+      intent: 'destructive'
+    }).subscribe(confirmed => {
+      if (confirmed) {
+        this.toast.show({
+          title: 'Payment Cancelled',
+          description: 'Your transaction has been aborted.',
+          variant: 'warning'
+        });
+      }
+    });
+  }
+
+  inviteMembers(): void {
+    this.sheet.open(HomeDemoSheetComponent, { side: 'right' });
+  }
+
+  enable2fa(): void {
+    this.twoFactorEnabled.set(!this.twoFactorEnabled());
+    const action = this.twoFactorEnabled() ? 'enabled' : 'disabled';
+    this.toast.show({
+      title: `2FA ${action}`,
+      description: `Two-factor authentication is now ${action}.`,
+      variant: 'default'
+    });
+  }
+
+  updateGpus(change: number): void {
+    this.gpus.update(v => Math.max(1, v + change));
+  }
+
+  setSource(source: string): void {
+    this.selectedSource.set(source);
+    this.toast.show({
+      title: 'Source Updated',
+      description: `You selected: ${source}`
+    });
+  }
+
+  agreeToTerms(checked: boolean): void {
+    this.termsAgreed.set(checked);
+    if (checked) {
+      this.toast.show({
+        title: 'Terms Agreed',
+        description: 'Thank you for agreeing to the terms and conditions.',
+        variant: 'success'
+      });
+    }
+  }
+
+  sendMessage(): void {
+    this.toast.show({
+      title: 'Message Sent',
+      description: 'Your message has been delivered.',
+      variant: 'success'
+    });
+  }
+
+  cancelProcessing(): void {
+    this.toast.show({
+      title: 'Processing Cancelled',
+      description: 'Your request has been cancelled.',
+      variant: 'destructive'
+    });
   }
 }
