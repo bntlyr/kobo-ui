@@ -13,18 +13,10 @@
 
 ## Installation
 
-Kobo UI is distributed as a standard NPM package. To add it to your Angular project, run:
+Kobo UI is distributed as a standard NPM package. To add it and its required peer dependencies to your Angular project, run:
 
 ```bash
-npm install kobo-ui
-```
-
-### Peer Dependencies
-
-Kobo UI relies on a few key peer dependencies:
-
-```bash
-npm install @angular/cdk @lucide/angular tailwind-merge clsx class-variance-authority
+npm install kobo-ui @angular/cdk @lucide/angular tailwind-merge clsx class-variance-authority
 ```
 
 ## Setup & Theming

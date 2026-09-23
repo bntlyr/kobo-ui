@@ -7,7 +7,7 @@ import { LucideAlertTriangle } from '@lucide/angular';
 const CLI_INIT = `npx kobo-ui init`;
 const CLI_ADD = `npx kobo-ui add button`;
 
-const INSTALL_CODE = `npm install @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular`;
+const INSTALL_CODE = `npm install kobo-ui @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular`;
 
 const STYLES_CODE = `/* src/styles.css */
 @import "tailwindcss";
@@ -118,7 +118,7 @@ export class MyComponent {}`;
 
         <!-- Step 1 -->
         <div class="space-y-3">
-          <h3 class="text-lg font-semibold">1. Install peer dependencies</h3>
+          <h3 class="text-lg font-semibold">1. Install package and peer dependencies</h3>
           <app-code-block [code]="installCode" language="bash" />
         </div>
 

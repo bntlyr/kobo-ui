@@ -70,7 +70,7 @@ import { KCommandSearchDialog } from '../shared/command-search-dialog.component'
         </button>
 
         <!-- GitHub -->
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer"
+        <a href="https://github.com/bntlyr/kobo-ui" target="_blank" rel="noopener noreferrer"
            aria-label="View on GitHub"
            class="inline-flex items-center justify-center w-9 h-9 rounded-md
                   border border-border text-muted-foreground
