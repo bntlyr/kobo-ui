@@ -53,8 +53,8 @@ export class HomeDemoSheetComponent {}
 @Component({
   selector: 'app-home-page',
   imports: [
-    RouterLink, 
-    KButtonDirective, 
+    RouterLink,
+    KButtonDirective,
     KCard, KCardHeader, KCardTitle, KCardDescription, KCardContent, KCardFooter,
     KInputDirective,
     KLabelDirective,
@@ -74,7 +74,7 @@ export class HomeDemoSheetComponent {}
 
       <!-- Main Content -->
       <main class="flex-1 flex flex-col items-center px-6">
-        
+
         <!-- Hero Section -->
         <section class="w-full max-w-5xl pt-32 pb-24 text-center space-y-8 relative">
           <!-- Glow -->
@@ -84,17 +84,17 @@ export class HomeDemoSheetComponent {}
           <div class="relative z-10 flex flex-col items-center space-y-6">
             <a routerLink="/introduction" class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium rounded-full bg-muted/50 border border-border hover:bg-muted transition-colors no-underline">
               <span class="flex h-2 w-2 rounded-full bg-primary"></span>
-              Kobo UI v0.1.0 is here
+              Kobo UI v1.0.5 is here
             </a>
-            
+
             <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
               Own your components. <br /> Design without compromise.
             </h1>
-            
+
             <p class="max-w-2xl text-lg sm:text-xl text-muted-foreground leading-relaxed">
               Escape the rigid constraints of traditional Angular libraries. Kobo UI provides unstyled, accessible primitives powered by Signals and modern CSS tokens. Copy the code. Own the behavior. Ship faster.
             </p>
-            
+
             <div class="flex flex-wrap justify-center gap-4 pt-4">
               <a routerLink="/introduction" k-button size="lg">Get Started</a>
               <a routerLink="/button" k-button variant="outline" size="lg">View Components</a>
@@ -105,7 +105,7 @@ export class HomeDemoSheetComponent {}
         <!-- Component Showcase Grid -->
         <section class="w-full max-w-6xl py-20 border-t border-border/40">
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-            
+
             <!-- Demo 1: Payment Method (Card) -->
             <k-card class="col-span-1 md:col-span-2 lg:col-span-1 shadow-lg shadow-black/5 dark:shadow-black/20">
               <k-card-header>
@@ -149,7 +149,7 @@ export class HomeDemoSheetComponent {}
                   <k-switch [checked]="true" />
                 </k-card-content>
               </k-card>
-              
+
               <k-card class="shadow-lg shadow-black/5 dark:shadow-black/20">
                 <k-card-header>
                   <k-card-title>Notifications</k-card-title>
@@ -220,7 +220,7 @@ export class HomeDemoSheetComponent {}
                 <k-card-description>A comprehensive view of your platform's metrics.</k-card-description>
               </k-card-header>
               <k-card-content class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                
+
                 <!-- Chart 1: Bar -->
                 <div class="space-y-2 border border-border/50 rounded-xl p-3 bg-accent/10">
                   <h4 class="text-sm font-semibold">Visitors</h4>

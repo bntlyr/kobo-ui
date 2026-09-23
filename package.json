@@ -77,18 +77,27 @@
     }
   },
   "devDependencies": {
+    "@angular/animations": "^21.2.23",
     "@angular/build": "^21.1.1",
+    "@angular/cdk": "^21.2.14",
     "@angular/cli": "^21.1.1",
+    "@angular/common": "^21.2.23",
     "@angular/compiler-cli": "^21.1.0",
+    "@angular/core": "^21.2.23",
+    "@angular/forms": "^21.2.23",
+    "@angular/platform-browser": "^21.2.23",
+    "@angular/router": "^21.2.23",
     "@tailwindcss/postcss": "^4.1.12",
     "highlight.js": "^11.12.0",
     "jsdom": "^27.1.0",
     "ng-packagr": "^21.2.7",
     "postcss": "^8.5.3",
+    "rxjs": "~7.8.0",
     "tailwindcss": "^4.1.12",
     "tsx": "^4.23.15",
     "typescript": "~5.9.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "zone.js": "^0.15.1"
   },
   "allowScripts": {
     "@parcel/watcher@2.6.0": true,
