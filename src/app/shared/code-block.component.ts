@@ -5,6 +5,7 @@ import {
   ElementRef,
   OnChanges,
   ViewChild,
+  ViewEncapsulation,
   computed,
   inject,
   input,
@@ -15,16 +16,20 @@ import typescript from 'highlight.js/lib/languages/typescript';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import json from 'highlight.js/lib/languages/json';
+import css from 'highlight.js/lib/languages/css';
 
 // Register languages
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('html', xml);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('json', json);
+hljs.registerLanguage('css', css);
 
 @Component({
   selector: 'app-code-block',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div class="relative group rounded-lg overflow-hidden border border-border bg-[hsl(220_13%_9%)]">
       <!-- Language badge -->
