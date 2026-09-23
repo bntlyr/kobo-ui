@@ -153,7 +153,7 @@ export class HomeDemoSheetComponent {}
               <!-- Left Column: Content -->
               <div class="flex flex-col items-start text-left space-y-8">
                 <a routerLink="/introduction" class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full bg-primary/5 text-primary border border-primary/10 hover:bg-primary/10 transition-colors no-underline">
-                  <svg lucideStar class="h-4 w-4"></svg> Kobo UI v1.0.9 is here
+                  <svg lucideStar class="h-4 w-4"></svg> Kobo UI v1.0.10 is here
                 </a>
 
                 <h1 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-foreground leading-[1.15]">
