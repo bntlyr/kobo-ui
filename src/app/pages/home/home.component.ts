@@ -1203,7 +1203,9 @@ export class HomePageComponent {
   readonly activeShowcaseTab = signal<string>('examples');
 
   readonly contributors = [
-    { name: 'bntlyr', avatar: 'https://github.com/bntlyr.png' }
+    { name: 'bntlyr', avatar: 'https://github.com/bntlyr.png' },
+    { name: 'IrishJohnDeRoxas', avatar: 'https://github.com/IrishJohnDeRoxas.png' },
+    { name: 'rvnztolentino', avatar: 'https://github.com/rvnztolentino.png' }
   ];
 
   readonly chartConfig: ChartConfig = {
