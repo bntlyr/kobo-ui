@@ -22,7 +22,6 @@ import {
   imports: [
     LucideLayoutDashboard, LucideBarChart3, LucideUsers, LucideSettings,
     LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText,
-    KButtonDirective,
     KTabs, KTabList, KTabTrigger, KTabContent,
     KSidebarProvider, KSidebar, KSidebarTrigger, KSidebarHeader, KSidebarContent,
     KSidebarMenu, KSidebarMenuItem, KSidebarMenuButton,
