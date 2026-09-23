@@ -70,8 +70,8 @@ import { DecimalPipe } from '@angular/common';
             <span class="text-xs">Search...</span>
           </div>
           <div class="flex items-center gap-1">
-            <kbd class="text-[10px] bg-muted/80 px-1.5 py-0.5 rounded font-mono border border-border/50 shadow-sm">&#8984;</kbd>
-            <kbd class="text-[10px] bg-muted/80 px-1.5 py-0.5 rounded font-mono border border-border/50 shadow-sm">K</kbd>
+            <kbd class="text-[12px] bg-muted/80 px-1.5 py-0.5 rounded font-mono border border-border/50 shadow-sm">&#8984;</kbd>
+            <kbd class="text-[12px] bg-muted/80 px-1.5 py-0.5 rounded font-mono border border-border/50 shadow-sm">K</kbd>
           </div>
         </button>
 
