@@ -387,9 +387,14 @@ ${themesImport}
         ...(userPkg.devDependencies || {}),
       };
 
+      const angularCoreVersion = installed['@angular/core'] || '';
       for (const dep of requiredDeps) {
         if (!installed[dep]) {
-          missingDeps.push(dep);
+          if (dep === '@angular/cdk' && angularCoreVersion) {
+            missingDeps.push(`${dep}@${angularCoreVersion}`);
+          } else {
+            missingDeps.push(dep);
+          }
         }
       }
     } catch {
@@ -510,9 +515,14 @@ function handleAdd() {
           ...(userPkg.devDependencies || {}),
         };
 
+        const angularCoreVersion = installed['@angular/core'] || '';
         for (const dep of requiredDeps) {
           if (!installed[dep]) {
-            missingDeps.push(dep);
+            if (dep === '@angular/cdk' && angularCoreVersion) {
+              missingDeps.push(`${dep}@${angularCoreVersion}`);
+            } else {
+              missingDeps.push(dep);
+            }
           }
         }
       } catch {

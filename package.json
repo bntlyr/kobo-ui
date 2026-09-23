@@ -1,6 +1,6 @@
 {
   "name": "kobo-ui",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "A beautifully crafted Angular component library with Tailwind CSS v4 and CDK.",
   "author": "Kobo UI Team",
   "license": "MIT",

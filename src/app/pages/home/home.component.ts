@@ -84,7 +84,7 @@ export class HomeDemoSheetComponent {}
           <div class="relative z-10 flex flex-col items-center space-y-6">
             <a routerLink="/introduction" class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium rounded-full bg-muted/50 border border-border hover:bg-muted transition-colors no-underline">
               <span class="flex h-2 w-2 rounded-full bg-primary"></span>
-              Kobo UI v1.0.5 is here
+              Kobo UI v1.0.8 is here
             </a>
 
             <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
