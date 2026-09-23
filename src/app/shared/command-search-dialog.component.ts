@@ -57,6 +57,7 @@ const ALL_ITEMS: SearchItem[] = [
   { label: 'Dropdown', route: '/dropdown', group: 'Components' },
   { label: 'Empty', route: '/empty', group: 'Components' },
   { label: 'Form Field', route: '/form-field', group: 'Components' },
+  { label: 'Full Calendar', route: '/full-calendar', group: 'Components' },
   { label: 'Hover Card', route: '/hover-card', group: 'Components' },
   { label: 'Input', route: '/input', group: 'Components' },
   { label: 'Input Group', route: '/input-group', group: 'Components' },

@@ -20,8 +20,10 @@ import { KFullCalendar } from '../../components/ui/full-calendar';
         </k-tab-list>
         
         <k-tab-content value="preview" class="mt-4">
-          <div class="rounded-md border p-4 bg-muted/20">
-            <k-full-calendar class="w-full h-[650px] shadow-sm rounded-xl overflow-hidden"></k-full-calendar>
+          <div class="rounded-xl border border-border/50 bg-muted/10 flex items-center justify-center min-h-[600px] p-4 sm:p-8">
+            <div class="w-full max-w-5xl h-[500px] shadow-2xl rounded-xl overflow-hidden border border-border bg-background flex flex-col">
+              <k-full-calendar></k-full-calendar>
+            </div>
           </div>
         </k-tab-content>
         

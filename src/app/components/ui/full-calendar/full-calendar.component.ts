@@ -10,50 +10,12 @@ import { cn } from '../../../core/utils/cn';
 @Component({
   selector: 'k-full-calendar',
   imports: [
-    KCalendar, KCheckbox, KButtonDirective, KButtonGroup, KInputDirective,
+    KButtonDirective, KButtonGroup, KInputDirective,
     LucideChevronLeft, LucideChevronRight, LucideSearch
   ],
   template: `
                 <div class="absolute top-0 left-0 flex w-[133.33%] h-[133.33%] origin-top-left scale-75 bg-background">
                   
-                  <!-- Left Sidebar (Calendars List) -->
-                  <div class="w-64 border-r border-border bg-muted/30 flex flex-col h-full shrink-0">
-                    <div class="h-14 flex items-center px-4 border-b border-border shrink-0">
-                      <span class="font-semibold">Calendars</span>
-                    </div>
-                    <div class="p-4 flex-1 overflow-y-auto">
-                      <k-calendar class="mb-6 scale-90 origin-top-left -ml-2" />
-                      
-                      <div class="space-y-4 mt-[-20px]">
-                        <div>
-                          <h4 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">iCloud</h4>
-                          <div class="space-y-1">
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="true" class="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500" />
-                              <span class="text-sm">Personal</span>
-                            </label>
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="true" class="data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500" />
-                              <span class="text-sm">Work</span>
-                            </label>
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="true" class="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500" />
-                              <span class="text-sm">Family</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div>
-                          <h4 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Other</h4>
-                          <div class="space-y-1">
-                            <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
-                              <k-checkbox [checked]="false" class="data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500" />
-                              <span class="text-sm">Holidays</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
                   <!-- Main Calendar Area -->
                   <div class="flex-1 flex flex-col h-full overflow-hidden bg-background">
@@ -167,5 +129,5 @@ import { cn } from '../../../core/utils/cn';
 export class KFullCalendar {
   readonly class = input<string>('');
   
-  protected readonly classes = computed(() => cn('block', this.class()));
+  protected readonly classes = computed(() => cn('block relative overflow-hidden w-full h-full', this.class()));
 }

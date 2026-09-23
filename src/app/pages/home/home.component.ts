@@ -1123,8 +1123,10 @@ export class HomeDemoSheetComponent {}
             <!-- Calendar Tab -->
             <!-- Calendar Tab -->
             <k-tab-content value="calendar" class="mt-0">
-              <div class="rounded-xl border border-border bg-background shadow-lg overflow-hidden relative h-[650px] w-full text-left flex">
-                <k-full-calendar />
+              <div class="rounded-xl border border-border/50 bg-muted/10 overflow-hidden relative h-[750px] w-full flex items-center justify-center p-4 sm:p-8">
+                <div class="w-full max-w-5xl h-[650px] bg-background border border-border shadow-2xl rounded-xl overflow-hidden flex flex-col text-left">
+                  <k-full-calendar />
+                </div>
               </div>
             </k-tab-content>
 
