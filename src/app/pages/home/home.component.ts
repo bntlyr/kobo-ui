@@ -9,6 +9,7 @@ import { KCheckbox } from '../../components/ui/checkbox/checkbox.component';
 import { KSwitch } from '../../components/ui/switch/switch.component';
 import { KChartContainer, KBarChart, KLineChart, KAreaChart, type ChartConfig, type ChartDataPoint } from '../../components/ui/chart/chart.component';
 import { NavHeaderComponent } from '../../layout/nav-header.component';
+import { ThemeService } from '../../core/services/theme.service';
 import { KToaster, KToastService } from '../../components/ui/toast/toast.service';
 import { KDialogService, KDialog, KDialogHeader, KDialogTitle, KDialogDescription, KDialogContent, KDialogFooter, KDialogClose } from '../../components/ui/dialog';
 import { KSheetService, KSheet, KSheetHeader, KSheetTitle, KSheetDescription, KSheetContent, KSheetFooter, K_SHEET_CONFIG } from '../../components/ui/sheet';
@@ -223,7 +224,7 @@ export class HomeDemoSheetComponent {}
                 <div class="absolute top-28 right-0 z-10 animate-in fade-in zoom-in duration-1000 delay-300">
                   <div class="bg-background border border-border/50 shadow-xl rounded-2xl p-5 flex flex-col items-center gap-3 rotate-[6deg]">
                     <div class="text-[13px] font-medium text-muted-foreground">Switch</div>
-                    <k-switch [checked]="true"></k-switch>
+                    <k-switch [checked]="themeService.isDark()" (checkedChange)="themeService.setDark($event)"></k-switch>
                   </div>
                 </div>
 
@@ -238,8 +239,19 @@ export class HomeDemoSheetComponent {}
                   </div>
                 </div>
 
+                <!-- Floating Slider (Middle) -->
+                <div class="absolute top-[120px] left-[250px] z-30 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-600">
+                  <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-56 rotate-[4deg]">
+                    <div class="flex justify-between items-center mb-4">
+                      <div class="text-[13px] font-medium text-muted-foreground">Volume</div>
+                      <div class="text-[11px] text-muted-foreground font-mono">75%</div>
+                    </div>
+                    <k-slider [value]="75"></k-slider>
+                  </div>
+                </div>
+
                 <!-- Floating Checkbox -->
-                <div class="absolute top-64 right-6 z-20 animate-in fade-in slide-in-from-right-8 duration-1000 delay-700">
+                <div class="absolute top-52 right-6 z-20 animate-in fade-in slide-in-from-right-8 duration-1000 delay-700">
                   <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-48 -rotate-[3deg]">
                     <div class="text-[13px] font-medium text-muted-foreground mb-3">Checkbox</div>
                     <k-checkbox [checked]="true">
@@ -267,17 +279,7 @@ export class HomeDemoSheetComponent {}
                   </div>
                 </div>
 
-                <!-- Floating Select -->
-                <div class="absolute bottom-32 left-44 z-20 animate-in fade-in zoom-in duration-1000 delay-1000">
-                  <div class="bg-background border border-border/50 shadow-2xl rounded-2xl p-5 w-56 rotate-[4deg]">
-                    <div class="text-[13px] font-medium text-muted-foreground mb-2">Select</div>
-                    <k-select placeholder="Choose an option...">
-                      <k-select-content>
-                        <k-select-item value="1">Option 1</k-select-item>
-                      </k-select-content>
-                    </k-select>
-                  </div>
-                </div>
+
 
                 <!-- Floating Date Picker -->
                 <div class="absolute bottom-24 right-0 z-10 animate-in fade-in slide-in-from-right-12 duration-1000 delay-700">
@@ -1193,6 +1195,7 @@ export class HomeDemoSheetComponent {}
   `,
 })
 export class HomePageComponent {
+  readonly themeService = inject(ThemeService);
   private readonly toast = inject(KToastService);
   private readonly dialog = inject(KDialogService);
   private readonly sheet = inject(KSheetService);
