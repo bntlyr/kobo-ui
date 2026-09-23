@@ -54,18 +54,23 @@ import { KCommandSearchDialog } from '../shared/command-search-dialog.component'
         <div class="flex-1"></div>
 
         <!-- Search trigger -->
-        <button class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md
+        <button class="hidden md:flex items-center justify-between w-48 lg:w-64 px-3 py-1.5 rounded-md
                        border border-border text-muted-foreground text-sm
                        hover:bg-accent hover:text-foreground transition-colors
                        bg-transparent cursor-pointer"
                 aria-label="Search documentation"
                 (click)="openSearch()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-          </svg>
-          <span class="text-xs">Search...</span>
-          <kbd class="ml-4 text-xs bg-muted px-1.5 py-0.5 rounded font-mono">&#8984;K</kbd>
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <span class="text-xs">Search...</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <kbd class="text-[10px] bg-muted/80 px-1.5 py-0.5 rounded font-mono border border-border/50 shadow-sm">&#8984;</kbd>
+            <kbd class="text-[10px] bg-muted/80 px-1.5 py-0.5 rounded font-mono border border-border/50 shadow-sm">K</kbd>
+          </div>
         </button>
 
         <!-- GitHub -->
