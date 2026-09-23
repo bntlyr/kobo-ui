@@ -26,6 +26,12 @@ export const routes: Routes = [
           import('./pages/installation/installation.component').then(m => m.InstallationPageComponent),
         title: 'Installation — Kobo UI',
       },
+      {
+        path: 'theming',
+        loadComponent: () =>
+          import('./pages/theming/theming.component').then(m => m.ThemingPageComponent),
+        title: 'Theming — Kobo UI',
+      },
 
       // ---- Individual Component Routes ----
       {

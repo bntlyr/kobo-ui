@@ -123,7 +123,7 @@ export class HomeDemoSheetComponent {}
     KScrollArea,
     LucideLayoutDashboard, LucideCalendarDays, LucidePlus, LucideSearch, LucideBell, LucideUser, LucideActivity,
     LucideBarChart3, LucideUsers, LucideShoppingCart, LucidePackage, LucideMegaphone, LucideFileText, LucideSettings, LucideChevronDown, LucideArrowUpRight, LucideLifeBuoy, LucideBox
-  , KButtonGroup, KDatePicker, KSpinner, KSlider, KRadioGroup, KRadioItem, KSelect, KSelectContent, KSelectItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar],
+  , KButtonGroup, KDatePicker, KSpinner, KSlider, KRadioGroup, KRadioItem, KTextareaDirective, LucideRefreshCw, LucideArrowUp, LucideCheckCircle2, LucideStar, LucideMinus, LucideAtSign, LucidePaperclip, LucideGlobe, LucideMoreHorizontal, LucideArrowRight, LucideBot, LucideInfo, LucideLayers, LucideCode, LucideZap, LucidePalette, LucideCheck, LucideX, LucideLock, LucideCalendar],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen bg-background text-foreground flex flex-col pt-14 overflow-x-hidden">

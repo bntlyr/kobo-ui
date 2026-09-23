@@ -57,6 +57,7 @@ export class SidebarComponent {
       items: [
         { label: 'Introduction', route: '/introduction' },
         { label: 'Installation',  route: '/installation'  },
+        { label: 'Theming',       route: '/theming'       },
       ],
     },
     {
