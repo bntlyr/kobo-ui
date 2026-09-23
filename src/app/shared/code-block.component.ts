@@ -62,18 +62,16 @@ hljs.registerLanguage('json', json);
       </button>
 
       <!-- Code -->
+      @if (filename()) {
+        <div class="absolute top-0 left-0 right-0 px-4 py-2 text-xs font-mono text-muted-foreground/70 border-b border-border/50 bg-white/5">
+          {{ filename() }}
+        </div>
+      }
       <pre
         #preEl
         class="overflow-x-auto p-4 text-sm font-mono leading-relaxed no-scrollbar"
         [class.pt-8]="showFilename()"
-      >
-        @if (filename()) {
-          <div class="absolute top-0 left-0 right-0 px-4 py-2 text-xs font-mono text-muted-foreground/70 border-b border-border/50 bg-white/5">
-            {{ filename() }}
-          </div>
-        }
-        <code #codeEl class="hljs" [class]="'language-' + language()"></code>
-      </pre>
+      ><code #codeEl class="hljs" [class]="'language-' + language()"></code></pre>
     </div>
   `,
   styles: [`

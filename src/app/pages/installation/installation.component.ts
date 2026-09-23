@@ -4,8 +4,28 @@ import { KButtonDirective } from '../../components/ui/button/button.directive';
 import { CodeBlockComponent } from '../../shared/code-block.component';
 import { LucideAlertTriangle } from '@lucide/angular';
 
-const CLI_INIT = `npx kobo-ui init`;
-const CLI_ADD = `npx kobo-ui add button`;
+const CLI_CREATE = `ng new my-app
+cd my-app`;
+const CLI_INSTALL = `npm i kobo-ui`;
+const CLI_INIT = `npx kobo init`;
+const CLI_ADD = `# Add specific components
+npx kobo add button
+npx kobo add dialog card toast
+
+# Add all components
+npx kobo add --all
+
+# List all 65 available components
+npx kobo list`;
+
+const CLI_SKILLS = `# Generate AGENTS.md in your project root
+npx kobo skills
+
+# Or for Cursor .cursorrules
+npx kobo skills --cursor
+
+# Or for .agents/AGENTS.md
+npx kobo skills --agents`;
 
 const INSTALL_CODE = `npm install kobo-ui @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular`;
 
@@ -79,6 +99,32 @@ export class MyComponent {}`;
           <div class="flex items-center gap-3">
             <span class="flex items-center justify-center w-7 h-7 rounded-full bg-primary
                          text-primary-foreground text-sm font-bold shrink-0">1</span>
+            <h3 class="text-xl font-semibold">Create an Angular project</h3>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Start by creating a new Angular project if you don't have one set up already.
+          </p>
+          <app-code-block [code]="cliCreate" language="bash" />
+        </div>
+
+        <!-- Step 2 -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-primary
+                         text-primary-foreground text-sm font-bold shrink-0">2</span>
+            <h3 class="text-xl font-semibold">Install Kobo UI</h3>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Install the base library package into your project.
+          </p>
+          <app-code-block [code]="cliInstall" language="bash" />
+        </div>
+
+        <!-- Step 3 -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-primary
+                         text-primary-foreground text-sm font-bold shrink-0">3</span>
             <h3 class="text-xl font-semibold">Initialize Kobo UI</h3>
           </div>
           <p class="text-sm text-muted-foreground">
@@ -87,27 +133,40 @@ export class MyComponent {}`;
           <app-code-block [code]="cliInit" language="bash" />
         </div>
 
-        <!-- Step 2 -->
+        <!-- Step 4 -->
         <div class="space-y-3">
           <div class="flex items-center gap-3">
             <span class="flex items-center justify-center w-7 h-7 rounded-full bg-primary
-                         text-primary-foreground text-sm font-bold shrink-0">2</span>
-            <h3 class="text-xl font-semibold">Add a component</h3>
+                         text-primary-foreground text-sm font-bold shrink-0">4</span>
+            <h3 class="text-xl font-semibold">CLI Usage & Adding Components</h3>
           </div>
           <p class="text-sm text-muted-foreground">
-            Use the CLI to add components to your project. The source code will be written directly into your workspace.
+            You can also add individual component source files directly into your project (copy-and-own):
           </p>
           <app-code-block [code]="cliAdd" language="bash" />
         </div>
 
-        <!-- Step 3 -->
+        <!-- Step 5 -->
         <div class="space-y-3">
           <div class="flex items-center gap-3">
             <span class="flex items-center justify-center w-7 h-7 rounded-full bg-primary
-                         text-primary-foreground text-sm font-bold shrink-0">3</span>
+                         text-primary-foreground text-sm font-bold shrink-0">5</span>
             <h3 class="text-xl font-semibold">Use the component</h3>
           </div>
           <app-code-block [code]="usageCode" language="typescript" />
+        </div>
+
+        <!-- Step 6 -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-primary
+                         text-primary-foreground text-sm font-bold shrink-0">6</span>
+            <h3 class="text-xl font-semibold">AI Agent Guidelines (AGENTS.md)</h3>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Equip your AI coding assistants (Antigravity, Cursor, Claude Code, Copilot, Windsurf) with complete knowledge of Kobo UI components, signal APIs, and Tailwind tokens:
+          </p>
+          <app-code-block [code]="cliSkills" language="bash" />
         </div>
       </div>
 
@@ -155,8 +214,11 @@ export class MyComponent {}`;
   `,
 })
 export class InstallationPageComponent {
+  readonly cliCreate   = CLI_CREATE;
+  readonly cliInstall  = CLI_INSTALL;
   readonly cliInit     = CLI_INIT;
   readonly cliAdd      = CLI_ADD;
+  readonly cliSkills   = CLI_SKILLS;
   readonly installCode = INSTALL_CODE;
   readonly stylesCode  = STYLES_CODE;
   readonly tokensCode  = TOKENS_CODE;
