@@ -455,6 +455,10 @@ function handleAdd() {
   let componentsToAdd = componentArgs;
   if (isAll) {
     componentsToAdd = getAllRegistryNames();
+  } else if (componentsToAdd.includes('template-starter')) {
+    componentsToAdd = componentsToAdd.filter(c => c !== 'template-starter');
+    if (!componentsToAdd.includes('app-sidebar')) componentsToAdd.push('app-sidebar');
+    if (!componentsToAdd.includes('app-header')) componentsToAdd.push('app-header');
   }
 
   if (componentsToAdd.length === 0) {
@@ -465,7 +469,7 @@ function handleAdd() {
   }
 
   const cwd = process.cwd();
-  
+
   // Ensure src/app/core/utils/cn.ts exists
   const cnPath = path.resolve(cwd, 'src/app/core/utils/cn.ts');
   if (!fs.existsSync(cnPath)) {
@@ -566,96 +570,155 @@ function handleAdd() {
     // Automatic injection logic for layout components
     const hasSidebar = componentsToAdd.includes('app-sidebar');
     const hasHeader = componentsToAdd.includes('app-header');
-    
+
     if (hasSidebar || hasHeader) {
-      const appCompPath = path.resolve(cwd, 'src/app/app.component.ts');
-      if (fs.existsSync(appCompPath)) {
+      // 1. Detect root component
+      let appCompPath = null;
+      if (fs.existsSync(path.resolve(cwd, 'src/app/app.ts'))) {
+        appCompPath = path.resolve(cwd, 'src/app/app.ts');
+      } else if (fs.existsSync(path.resolve(cwd, 'src/app/app.component.ts'))) {
+        appCompPath = path.resolve(cwd, 'src/app/app.component.ts');
+      }
+
+      if (appCompPath) {
         let appCompContent = fs.readFileSync(appCompPath, 'utf-8');
-        let modified = false;
-        
-        // Setup imports
-        let newImports = [];
-        if (hasSidebar && !appCompContent.includes('AppSidebarComponent')) {
-          const importSidebar = `import { AppSidebarComponent } from './components/ui/app-sidebar';\nimport { KSidebarProvider } from './components/ui/sidebar';\n`;
-          appCompContent = importSidebar + appCompContent;
-          newImports.push('AppSidebarComponent', 'KSidebarProvider');
+
+        // 2. Determine shell template based on what's installed
+        // We will generate a smart shell component
+        let shellImports = ["RouterOutlet"];
+        let shellDeclarations = [];
+        let shellTemplate = "";
+
+        if (hasSidebar) {
+          shellImports.push("AppSidebarComponent", "KSidebarProvider");
+          shellDeclarations.push("import { AppSidebarComponent } from '../components/ui/app-sidebar/app-sidebar.component';");
+          shellDeclarations.push("import { KSidebarProvider } from '../components/ui/sidebar';");
         }
-        
-        if (hasHeader && !appCompContent.includes('AppHeaderComponent')) {
-          const importHeader = `import { AppHeaderComponent } from './components/ui/app-header';\n`;
-          appCompContent = importHeader + appCompContent;
-          newImports.push('AppHeaderComponent');
+        if (hasHeader) {
+          shellImports.push("AppHeaderComponent");
+          shellDeclarations.push("import { AppHeaderComponent } from '../components/ui/app-header/app-header.component';");
         }
 
-        if (newImports.length > 0) {
+        const sidebarOnly = `<k-sidebar-provider class="min-h-screen bg-background text-foreground flex w-full">\n      <app-sidebar />\n      <main class="flex-1 w-full relative p-2">\n        <router-outlet />\n      </main>\n    </k-sidebar-provider>`;
+        const headerOnly = `<div class="min-h-screen flex flex-col bg-background text-foreground pt-14">\n      <div class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">\n        <app-header />\n      </div>\n      <main class="flex-1 w-full relative p-2">\n        <router-outlet />\n      </main>\n    </div>`;
+        const both = `<div class="min-h-screen flex flex-col bg-background text-foreground pt-14">\n      <div class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">\n        <app-header />\n      </div>\n      <k-sidebar-provider class="flex-1 flex w-full">\n        <app-sidebar class="top-14 h-[calc(100vh-3.5rem)]" />\n        <main class="flex-1 w-full relative p-2">\n          <router-outlet />\n        </main>\n      </k-sidebar-provider>\n    </div>`;
+
+        if (hasSidebar && hasHeader) {
+          shellTemplate = both;
+        } else if (hasSidebar) {
+          shellTemplate = sidebarOnly;
+        } else {
+          shellTemplate = headerOnly;
+        }
+
+        // Check if shell already exists to upgrade it gracefully
+        const shellPath = path.resolve(cwd, 'src/app/layout/shell.component.ts');
+        let writeShell = true;
+
+        if (fs.existsSync(shellPath)) {
+          const existingShell = fs.readFileSync(shellPath, 'utf-8');
+          const hasExistingSidebar = existingShell.includes('<app-sidebar');
+          const hasExistingHeader = existingShell.includes('<app-header');
+
+          if (hasExistingSidebar && hasHeader && !hasExistingHeader) {
+            // upgrading to both
+            shellTemplate = both;
+            if (!shellImports.includes("AppSidebarComponent")) {
+              shellImports.push("AppSidebarComponent", "KSidebarProvider");
+              shellDeclarations.push("import { AppSidebarComponent } from '../components/ui/app-sidebar/app-sidebar.component';");
+              shellDeclarations.push("import { KSidebarProvider } from '../components/ui/sidebar';");
+            }
+          } else if (hasExistingHeader && hasSidebar && !hasExistingSidebar) {
+            // upgrading to both
+            shellTemplate = both;
+            if (!shellImports.includes("AppHeaderComponent")) {
+              shellImports.push("AppHeaderComponent");
+              shellDeclarations.push("import { AppHeaderComponent } from '../components/ui/app-header/app-header.component';");
+            }
+          } else if ((hasExistingSidebar && hasSidebar) || (hasExistingHeader && hasHeader)) {
+            // No upgrade needed
+            writeShell = false;
+          }
+        }
+
+        if (writeShell) {
+          const shellDir = path.dirname(shellPath);
+          if (!fs.existsSync(shellDir)) fs.mkdirSync(shellDir, { recursive: true });
+
+          const shellComponentCode = `import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+${shellDeclarations.join('\n')}
+
+@Component({
+  selector: 'app-shell',
+  standalone: true,
+  imports: [${shellImports.join(', ')}],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: \`
+    ${shellTemplate}
+  \`
+})
+export class ShellComponent {}
+`;
+          fs.writeFileSync(shellPath, shellComponentCode, 'utf-8');
+          console.log(`\x1b[32m✔\x1b[0m Generated layout wrapper at \x1b[36msrc/app/layout/shell.component.ts\x1b[0m`);
+        }
+
+        // 3. Update Root Component to use ShellComponent
+        let modified = false;
+        if (!appCompContent.includes('ShellComponent')) {
+          const importShell = `import { ShellComponent } from './layout/shell.component';\n`;
+          appCompContent = importShell + appCompContent;
+
           appCompContent = appCompContent.replace(/imports:\s*\[([\s\S]*?)\]/, (match, p1) => {
-            const extra = p1.trim() ? p1 + ', ' + newImports.join(', ') : newImports.join(', ');
+            const extra = p1.trim() ? p1 + ', ShellComponent' : 'ShellComponent';
             return `imports: [${extra}]`;
           });
           modified = true;
         }
 
-        // Setup Template
+        // 4. Overwrite Root Template
         let hasExternalTemplate = false;
-        const appCompHtmlPath = path.resolve(cwd, 'src/app/app.component.html');
+        const possibleHtmlPaths = [
+          path.resolve(cwd, 'src/app/app.component.html'),
+          path.resolve(cwd, 'src/app/app.html')
+        ];
+
+        let targetHtmlPath = null;
         let templateContent = appCompContent;
 
-        if (appCompContent.includes("templateUrl: './app.component.html'")) {
+        const templateUrlMatch = appCompContent.match(/templateUrl:\s*['"](.*?)['"]/);
+        if (templateUrlMatch) {
           hasExternalTemplate = true;
-          if (fs.existsSync(appCompHtmlPath)) {
-            templateContent = fs.readFileSync(appCompHtmlPath, 'utf-8');
-          }
-        }
-
-        const hasSidebarTag = templateContent.includes('<app-sidebar');
-        const hasHeaderTag = templateContent.includes('<app-header');
-        
-        let templateModified = false;
-
-        if (templateContent.includes('<router-outlet')) {
-          const sidebarOnly = `<k-sidebar-provider>\n  <app-sidebar />\n  <main class="flex-1 w-full relative">\n    <router-outlet />\n  </main>\n</k-sidebar-provider>`;
-          const headerOnly = `<div class="flex flex-col min-h-screen">\n  <app-header />\n  <main class="flex-1 w-full relative p-4">\n    <router-outlet />\n  </main>\n</div>`;
-          const both = `<k-sidebar-provider>\n  <app-sidebar />\n  <div class="flex-1 flex flex-col min-h-screen">\n    <app-header />\n    <main class="flex-1 w-full relative p-4">\n      <router-outlet />\n    </main>\n  </div>\n</k-sidebar-provider>`;
-
-          if (hasSidebar && hasHeader && !hasSidebarTag && !hasHeaderTag) {
-            templateContent = templateContent.replace(/<\/?router-outlet\s*\/?>/g, both);
-            templateModified = true;
-          } else if (hasSidebar && !hasSidebarTag) {
-            if (hasHeaderTag) {
-              templateContent = templateContent.replace(/<div class="flex flex-col min-h-screen">/, '<k-sidebar-provider>\n  <app-sidebar />\n  <div class="flex-1 flex flex-col min-h-screen">');
-              templateContent = templateContent.replace(/<\/div>\s*(`|$)/g, '</div>\n</k-sidebar-provider>$1');
-            } else {
-              templateContent = templateContent.replace(/<\/?router-outlet\s*\/?>/g, sidebarOnly);
-            }
-            templateModified = true;
-          } else if (hasHeader && !hasHeaderTag) {
-            if (hasSidebarTag) {
-              templateContent = templateContent.replace(/<main[^>]*>/, '<div class="flex-1 flex flex-col min-h-screen">\n    <app-header />\n    <main class="flex-1 w-full relative p-4">');
-              templateContent = templateContent.replace(/<\/main>/, '</main>\n  </div>');
-            } else {
-              templateContent = templateContent.replace(/<\/?router-outlet\s*\/?>/g, headerOnly);
-            }
-            templateModified = true;
-          }
-        }
-
-        if (templateModified) {
-          if (hasExternalTemplate) {
-            fs.writeFileSync(appCompHtmlPath, templateContent, 'utf-8');
-            console.log(`\x1b[32m✔\x1b[0m Automatically injected layout DOM into \x1b[36msrc/app/app.component.html\x1b[0m`);
+          const relativeHtmlPath = templateUrlMatch[1];
+          const resolvedPath = path.resolve(path.dirname(appCompPath), relativeHtmlPath);
+          if (fs.existsSync(resolvedPath)) {
+            targetHtmlPath = resolvedPath;
+            templateContent = fs.readFileSync(targetHtmlPath, 'utf-8');
           } else {
-            appCompContent = templateContent;
+            for (const p of possibleHtmlPaths) {
+              if (fs.existsSync(p)) {
+                targetHtmlPath = p;
+                templateContent = fs.readFileSync(p, 'utf-8');
+                break;
+              }
+            }
+          }
+        }
+
+        if (!templateContent.includes('<app-shell')) {
+          if (hasExternalTemplate && targetHtmlPath) {
+            fs.writeFileSync(targetHtmlPath, '<app-shell />', 'utf-8');
+            console.log(`\x1b[32m✔\x1b[0m Replaced boilerplate with <app-shell /> in \x1b[36m${path.relative(cwd, targetHtmlPath)}\x1b[0m`);
+          } else {
+            appCompContent = appCompContent.replace(/template:\s*`[\s\S]*?`/g, "template: `<app-shell />`");
             modified = true;
           }
         }
 
         if (modified) {
           fs.writeFileSync(appCompPath, appCompContent, 'utf-8');
-          if (!hasExternalTemplate && templateModified) {
-            console.log(`\x1b[32m✔\x1b[0m Automatically injected layout components into \x1b[36msrc/app/app.component.ts\x1b[0m`);
-          } else {
-            console.log(`\x1b[32m✔\x1b[0m Automatically injected layout imports into \x1b[36msrc/app/app.component.ts\x1b[0m`);
-          }
+          console.log(`\x1b[32m✔\x1b[0m Injected ShellComponent into \x1b[36m${path.relative(cwd, appCompPath)}\x1b[0m`);
         }
       }
     }
@@ -667,7 +730,29 @@ function handleAdd() {
         let routesContent = fs.readFileSync(routesPath, 'utf-8');
         // if routes is empty: \`export const routes: Routes = [];\`
         if (/export const routes:\s*Routes\s*=\s*\[\s*\];/.test(routesContent)) {
-          const dashboardRouteCode = `import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-dashboard',\n  standalone: true,\n  template: \\\`\n    <div class="p-6">\n      <h1 class="text-3xl font-bold tracking-tight mb-2">Dashboard</h1>\n      <p class="text-muted-foreground">Welcome to your new Kobo UI application.</p>\n    </div>\n  \\\`\n})\nexport class DashboardComponent {}\n\nexport const routes: Routes = [\n  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },\n  { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } }\n];`;
+          // 1. Create the dashboard component in src/app/pages/dashboard
+          const dashboardDir = path.resolve(cwd, 'src/app/pages/dashboard');
+          if (!fs.existsSync(dashboardDir)) {
+            fs.mkdirSync(dashboardDir, { recursive: true });
+          }
+          const dashboardCode = `import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  template: \`
+    <div class="p-6">
+      <h1 class="text-3xl font-bold tracking-tight mb-2">Dashboard</h1>
+      <p class="text-muted-foreground">Welcome to your new Kobo UI application.</p>
+    </div>
+  \`
+})
+export class DashboardComponent {}
+`;
+          fs.writeFileSync(path.resolve(dashboardDir, 'dashboard.component.ts'), dashboardCode, 'utf-8');
+
+          // 2. Update app.routes.ts cleanly
+          const dashboardRouteCode = `export const routes: Routes = [\n  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },\n  { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(c => c.DashboardComponent), data: { title: 'Dashboard' } }\n];`;
           routesContent = routesContent.replace(/export const routes:\s*Routes\s*=\s*\[\s*\];/, dashboardRouteCode);
           fs.writeFileSync(routesPath, routesContent, 'utf-8');
           console.log(`\x1b[32m✔\x1b[0m Scaffolded a default Dashboard route in \x1b[36msrc/app/app.routes.ts\x1b[0m`);
@@ -688,7 +773,7 @@ function handleSkills() {
   const isAgents = args.includes('--agents');
   const isCursor = args.includes('--cursor');
   const isSkill = args.includes('--skill');
-  
+
   let customDest = null;
   const destIndex = args.findIndex(a => a === '--dest' || a === '-d' || a === '--output' || a === '-o');
   if (destIndex !== -1 && args[destIndex + 1]) {
@@ -781,7 +866,7 @@ function handleTheme() {
   }
 
   const cwd = process.cwd();
-  
+
   if (mode === 'dark' || mode === 'light') {
     const indexPath = path.resolve(cwd, 'src/index.html');
     if (fs.existsSync(indexPath)) {
@@ -811,7 +896,7 @@ function handleTheme() {
   } else if (mode === 'both') {
     const servicePath = path.resolve(cwd, 'src/app/core/services/theme.service.ts');
     fs.mkdirSync(path.dirname(servicePath), { recursive: true });
-    
+
     const serviceContent = `import { Injectable, signal, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -849,13 +934,13 @@ export class ThemeService {
     if (prevTheme !== 'zinc') {
       this.doc.documentElement.classList.remove(\`theme-\${prevTheme}\`);
     }
-    
+
     this.colorTheme.set(theme);
-    
+
     if (theme !== 'zinc') {
       this.doc.documentElement.classList.add(\`theme-\${theme}\`);
     }
-    
+
     localStorage.setItem('kobo-color-theme', theme);
   }
 
@@ -885,7 +970,7 @@ export class ThemeService {
 function handleColorTheme() {
   const theme = args[2];
   const validThemes = ['zinc', 'slate', 'neutral', 'red', 'rose', 'orange', 'green', 'blue', 'yellow', 'violet'];
-  
+
   if (!validThemes.includes(theme)) {
     console.error('\x1b[31mError:\x1b[0m Please specify a valid color theme: ' + validThemes.join(', '));
     process.exit(1);

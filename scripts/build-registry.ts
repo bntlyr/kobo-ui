@@ -95,7 +95,7 @@ const COMPONENT_META: Record<string, Partial<RegistryItem>> = {
     description: 'A pre-configured, ready-to-use header component for application shells.',
     type: 'component',
     selector: 'app-header',
-    dependencies: ['@angular/router'],
+    dependencies: ['@angular/router', 'select'],
     tags: ['navigation', 'layout', 'ready-to-use'],
   },
 };

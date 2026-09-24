@@ -56,6 +56,7 @@ You can also add individual component source files directly into your project (c
 
 ```bash
 # Scaffold application shell layout components
+npx kobo set template-starter  # Generates both header and sidebar in a combined layout
 npx kobo set app-sidebar
 npx kobo set app-header
 

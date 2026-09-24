@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { KSelect, KSelectItem } from '../select';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule, KSelect, KSelectItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div class="container flex h-14 max-w-screen-2xl items-center px-4 md:px-8">
+      <div class="flex h-14 w-full items-center px-2">
         
         <!-- Branding / Logo -->
         <a routerLink="/" class="mr-6 flex items-center gap-2.5 font-semibold text-foreground hover:opacity-80 transition-opacity no-underline shrink-0">
@@ -44,26 +46,20 @@ import { RouterLink } from '@angular/router';
           
           <!-- Theme & Color Toggles -->
           <div class="flex items-center gap-1">
-            <!-- Native Color Switcher -->
+            <!-- Native Color Switcher -> Now KSelect -->
             <div class="relative inline-flex items-center">
-              <select class="h-8 w-28 appearance-none rounded-md border border-border bg-transparent px-3 text-xs text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground cursor-pointer focus:ring-1 focus:ring-ring"
-                      [value]="colorTheme()"
-                      (change)="setColorTheme($event)">
-                <option value="zinc">Zinc</option>
-                <option value="slate">Slate</option>
-                <option value="neutral">Neutral</option>
-                <option value="red">Red</option>
-                <option value="rose">Rose</option>
-                <option value="orange">Orange</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="yellow">Yellow</option>
-                <option value="violet">Violet</option>
-              </select>
-              <!-- Chevron -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute right-2 pointer-events-none text-muted-foreground">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
+              <k-select [ngModel]="colorTheme()" (ngModelChange)="setColorTheme($event)" class="w-28 h-8 text-xs">
+                  <k-select-item value="zinc" label="Zinc">Zinc</k-select-item>
+                  <k-select-item value="slate" label="Slate">Slate</k-select-item>
+                  <k-select-item value="neutral" label="Neutral">Neutral</k-select-item>
+                  <k-select-item value="red" label="Red">Red</k-select-item>
+                  <k-select-item value="rose" label="Rose">Rose</k-select-item>
+                  <k-select-item value="orange" label="Orange">Orange</k-select-item>
+                  <k-select-item value="green" label="Green">Green</k-select-item>
+                  <k-select-item value="blue" label="Blue">Blue</k-select-item>
+                  <k-select-item value="yellow" label="Yellow">Yellow</k-select-item>
+                  <k-select-item value="violet" label="Violet">Violet</k-select-item>
+              </k-select>
             </div>
 
             <!-- Dark Mode Toggle -->
@@ -97,6 +93,7 @@ import { RouterLink } from '@angular/router';
 })
 export class AppHeaderComponent {
   private readonly doc = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
   
   readonly isDark = signal<boolean>(false);
   readonly colorTheme = signal<string>('zinc');
@@ -113,12 +110,12 @@ export class AppHeaderComponent {
     } else {
       this.doc.documentElement.classList.remove('dark');
     }
-    localStorage.setItem('kobo-theme-mode', dark ? 'dark' : 'light');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('kobo-theme-mode', dark ? 'dark' : 'light');
+    }
   }
 
-  setColorTheme(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const theme = select.value;
+  setColorTheme(theme: string): void {
     
     const prevTheme = this.colorTheme();
     if (prevTheme !== 'zinc') {
@@ -131,10 +128,14 @@ export class AppHeaderComponent {
       this.doc.documentElement.classList.add(`theme-${theme}`);
     }
     
-    localStorage.setItem('kobo-color-theme', theme);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('kobo-color-theme', theme);
+    }
   }
 
   private initializeTheme(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     // 1. Initialize Dark/Light mode
     const storedMode = localStorage.getItem('kobo-theme-mode');
     if (storedMode) {

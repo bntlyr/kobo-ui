@@ -45,7 +45,7 @@ export class KSidebar {
   readonly provider = inject(K_SIDEBAR);
 
   protected readonly classes = computed(() => cn(
-    'group sticky top-0 z-10 hidden h-svh w-[length:var(--sidebar-width)] shrink-0 transition-[width] duration-300 ease-in-out md:flex flex-col overflow-hidden',
+    'group sticky top-0 z-10 hidden h-svh w-[length:var(--sidebar-width)] shrink-0 transition-[width] duration-300 ease-in-out md:flex flex-col overflow-hidden border-r border-sidebar-border',
     'data-[state=collapsed]:w-[length:var(--sidebar-width-icon)] group-data-[hidden=true]:hidden',
     this.class()
   ));
@@ -126,7 +126,7 @@ export class KSidebarContent {
 })
 export class KSidebarGroup {
   readonly class = input<string>('');
-  protected readonly classes = computed(() => cn('relative flex w-full min-w-0 flex-col p-2 group-data-[collapsible=icon]:p-1', this.class()));
+  protected readonly classes = computed(() => cn('relative flex w-full min-w-0 flex-col p-2', this.class()));
 }
 
 @Component({
