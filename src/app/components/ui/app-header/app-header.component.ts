@@ -10,7 +10,7 @@ import { KSelect, KSelectItem } from '../select';
   imports: [RouterLink, FormsModule, KSelect, KSelectItem],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header class="sticky top-0 z-50 w-full border-b border-sidebar-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div class="flex h-14 w-full items-center px-2">
         
         <!-- Branding / Logo -->

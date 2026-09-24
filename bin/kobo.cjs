@@ -600,8 +600,8 @@ function handleAdd() {
         }
 
         const sidebarOnly = `<k-sidebar-provider class="min-h-screen bg-background text-foreground flex w-full">\n      <app-sidebar />\n      <main class="flex-1 w-full relative p-2">\n        <router-outlet />\n      </main>\n    </k-sidebar-provider>`;
-        const headerOnly = `<div class="min-h-screen flex flex-col bg-background text-foreground pt-14">\n      <div class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">\n        <app-header />\n      </div>\n      <main class="flex-1 w-full relative p-2">\n        <router-outlet />\n      </main>\n    </div>`;
-        const both = `<div class="min-h-screen flex flex-col bg-background text-foreground pt-14">\n      <div class="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">\n        <app-header />\n      </div>\n      <k-sidebar-provider class="flex-1 flex w-full">\n        <app-sidebar class="top-14 h-[calc(100vh-3.5rem)]" />\n        <main class="flex-1 w-full relative p-2">\n          <router-outlet />\n        </main>\n      </k-sidebar-provider>\n    </div>`;
+        const headerOnly = `<div class="min-h-screen flex flex-col bg-background text-foreground pt-14">\n      <div class="fixed top-0 left-0 right-0 z-50 border-b border-sidebar-border bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">\n        <app-header />\n      </div>\n      <main class="flex-1 w-full relative p-2">\n        <router-outlet />\n      </main>\n    </div>`;
+        const both = `<div class="min-h-screen flex flex-col bg-background text-foreground pt-14">\n      <div class="fixed top-0 left-0 right-0 z-50 border-b border-sidebar-border bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">\n        <app-header />\n      </div>\n      <k-sidebar-provider class="flex-1 flex w-full">\n        <app-sidebar class="top-14 h-[calc(100vh-3.5rem)]" />\n        <main class="flex-1 w-full relative p-2">\n          <router-outlet />\n        </main>\n      </k-sidebar-provider>\n    </div>`;
 
         if (hasSidebar && hasHeader) {
           shellTemplate = both;
@@ -752,7 +752,7 @@ export class DashboardComponent {}
           fs.writeFileSync(path.resolve(dashboardDir, 'dashboard.component.ts'), dashboardCode, 'utf-8');
 
           // 2. Update app.routes.ts cleanly
-          const dashboardRouteCode = `export const routes: Routes = [\n  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },\n  { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(c => c.DashboardComponent), data: { title: 'Dashboard' } }\n];`;
+          const dashboardRouteCode = `import { LucideLayoutDashboard } from '@lucide/angular';\n\nexport const routes: Routes = [\n  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },\n  { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(c => c.DashboardComponent), data: { title: 'Dashboard', icon: LucideLayoutDashboard } }\n];`;
           routesContent = routesContent.replace(/export const routes:\s*Routes\s*=\s*\[\s*\];/, dashboardRouteCode);
           fs.writeFileSync(routesPath, routesContent, 'utf-8');
           console.log(`\x1b[32m✔\x1b[0m Scaffolded a default Dashboard route in \x1b[36msrc/app/app.routes.ts\x1b[0m`);
