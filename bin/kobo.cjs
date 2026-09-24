@@ -596,39 +596,81 @@ function handleAdd() {
         }
 
         // Setup Template
-        const hasSidebarTag = appCompContent.includes('<app-sidebar');
-        const hasHeaderTag = appCompContent.includes('<app-header');
+        let hasExternalTemplate = false;
+        const appCompHtmlPath = path.resolve(cwd, 'src/app/app.component.html');
+        let templateContent = appCompContent;
+
+        if (appCompContent.includes("templateUrl: './app.component.html'")) {
+          hasExternalTemplate = true;
+          if (fs.existsSync(appCompHtmlPath)) {
+            templateContent = fs.readFileSync(appCompHtmlPath, 'utf-8');
+          }
+        }
+
+        const hasSidebarTag = templateContent.includes('<app-sidebar');
+        const hasHeaderTag = templateContent.includes('<app-header');
         
-        if (appCompContent.includes('<router-outlet')) {
-          const sidebarOnly = `<k-sidebar-provider>\n      <app-sidebar />\n      <main class="flex-1 w-full relative">\n        <router-outlet />\n      </main>\n    </k-sidebar-provider>`;
-          const headerOnly = `<div class="flex flex-col min-h-screen">\n      <app-header />\n      <main class="flex-1 w-full relative p-4">\n        <router-outlet />\n      </main>\n    </div>`;
-          const both = `<k-sidebar-provider>\n      <app-sidebar />\n      <div class="flex-1 flex flex-col min-h-screen">\n        <app-header />\n        <main class="flex-1 w-full relative p-4">\n          <router-outlet />\n        </main>\n      </div>\n    </k-sidebar-provider>`;
+        let templateModified = false;
+
+        if (templateContent.includes('<router-outlet')) {
+          const sidebarOnly = `<k-sidebar-provider>\n  <app-sidebar />\n  <main class="flex-1 w-full relative">\n    <router-outlet />\n  </main>\n</k-sidebar-provider>`;
+          const headerOnly = `<div class="flex flex-col min-h-screen">\n  <app-header />\n  <main class="flex-1 w-full relative p-4">\n    <router-outlet />\n  </main>\n</div>`;
+          const both = `<k-sidebar-provider>\n  <app-sidebar />\n  <div class="flex-1 flex flex-col min-h-screen">\n    <app-header />\n    <main class="flex-1 w-full relative p-4">\n      <router-outlet />\n    </main>\n  </div>\n</k-sidebar-provider>`;
 
           if (hasSidebar && hasHeader && !hasSidebarTag && !hasHeaderTag) {
-            appCompContent = appCompContent.replace(/<\/?router-outlet\s*\/?>/g, both);
-            modified = true;
+            templateContent = templateContent.replace(/<\/?router-outlet\s*\/?>/g, both);
+            templateModified = true;
           } else if (hasSidebar && !hasSidebarTag) {
             if (hasHeaderTag) {
-              appCompContent = appCompContent.replace(/<div class="flex flex-col min-h-screen">/, '<k-sidebar-provider>\n      <app-sidebar />\n      <div class="flex-1 flex flex-col min-h-screen">');
-              appCompContent = appCompContent.replace(/<\/div>\s*`/g, '</div>\n    </k-sidebar-provider>`');
+              templateContent = templateContent.replace(/<div class="flex flex-col min-h-screen">/, '<k-sidebar-provider>\n  <app-sidebar />\n  <div class="flex-1 flex flex-col min-h-screen">');
+              templateContent = templateContent.replace(/<\/div>\s*(`|$)/g, '</div>\n</k-sidebar-provider>$1');
             } else {
-              appCompContent = appCompContent.replace(/<\/?router-outlet\s*\/?>/g, sidebarOnly);
+              templateContent = templateContent.replace(/<\/?router-outlet\s*\/?>/g, sidebarOnly);
             }
-            modified = true;
+            templateModified = true;
           } else if (hasHeader && !hasHeaderTag) {
             if (hasSidebarTag) {
-              appCompContent = appCompContent.replace(/<main[^>]*>/, '<div class="flex-1 flex flex-col min-h-screen">\n        <app-header />\n        <main class="flex-1 w-full relative p-4">');
-              appCompContent = appCompContent.replace(/<\/main>/, '</main>\n      </div>');
+              templateContent = templateContent.replace(/<main[^>]*>/, '<div class="flex-1 flex flex-col min-h-screen">\n    <app-header />\n    <main class="flex-1 w-full relative p-4">');
+              templateContent = templateContent.replace(/<\/main>/, '</main>\n  </div>');
             } else {
-              appCompContent = appCompContent.replace(/<\/?router-outlet\s*\/?>/g, headerOnly);
+              templateContent = templateContent.replace(/<\/?router-outlet\s*\/?>/g, headerOnly);
             }
+            templateModified = true;
+          }
+        }
+
+        if (templateModified) {
+          if (hasExternalTemplate) {
+            fs.writeFileSync(appCompHtmlPath, templateContent, 'utf-8');
+            console.log(`\x1b[32m✔\x1b[0m Automatically injected layout DOM into \x1b[36msrc/app/app.component.html\x1b[0m`);
+          } else {
+            appCompContent = templateContent;
             modified = true;
           }
         }
 
         if (modified) {
           fs.writeFileSync(appCompPath, appCompContent, 'utf-8');
-          console.log(`\x1b[32m✔\x1b[0m Automatically injected layout components into \x1b[36msrc/app/app.component.ts\x1b[0m`);
+          if (!hasExternalTemplate && templateModified) {
+            console.log(`\x1b[32m✔\x1b[0m Automatically injected layout components into \x1b[36msrc/app/app.component.ts\x1b[0m`);
+          } else {
+            console.log(`\x1b[32m✔\x1b[0m Automatically injected layout imports into \x1b[36msrc/app/app.component.ts\x1b[0m`);
+          }
+        }
+      }
+    }
+
+    // Setup generic routes for app-sidebar to read if empty
+    if (hasSidebar) {
+      const routesPath = path.resolve(cwd, 'src/app/app.routes.ts');
+      if (fs.existsSync(routesPath)) {
+        let routesContent = fs.readFileSync(routesPath, 'utf-8');
+        // if routes is empty: \`export const routes: Routes = [];\`
+        if (/export const routes:\s*Routes\s*=\s*\[\s*\];/.test(routesContent)) {
+          const dashboardRouteCode = `import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-dashboard',\n  standalone: true,\n  template: \\\`\n    <div class="p-6">\n      <h1 class="text-3xl font-bold tracking-tight mb-2">Dashboard</h1>\n      <p class="text-muted-foreground">Welcome to your new Kobo UI application.</p>\n    </div>\n  \\\`\n})\nexport class DashboardComponent {}\n\nexport const routes: Routes = [\n  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },\n  { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } }\n];`;
+          routesContent = routesContent.replace(/export const routes:\s*Routes\s*=\s*\[\s*\];/, dashboardRouteCode);
+          fs.writeFileSync(routesPath, routesContent, 'utf-8');
+          console.log(`\x1b[32m✔\x1b[0m Scaffolded a default Dashboard route in \x1b[36msrc/app/app.routes.ts\x1b[0m`);
         }
       }
     }
