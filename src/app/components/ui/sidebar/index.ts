@@ -16,3 +16,4 @@ export {
   KSidebarMenuSubItem,
   KSidebarMenuSubButton,
 } from './sidebar.component';
+export { AppSidebarComponent } from './app-sidebar.component';

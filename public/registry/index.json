@@ -1,6 +1,6 @@
 {
-  "version": "1.0.1",
-  "generated": "2026-09-22T14:17:28.966Z",
+  "version": "1.0.10",
+  "generated": "2026-09-24T00:55:02.369Z",
   "components": [
     {
       "name": "accordion",
@@ -169,6 +169,12 @@
     {
       "name": "form-field",
       "description": "form-field component",
+      "type": "component",
+      "tags": []
+    },
+    {
+      "name": "full-calendar",
+      "description": "full-calendar component",
       "type": "component",
       "tags": []
     },
