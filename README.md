@@ -16,7 +16,7 @@
 Kobo UI is distributed as a standard NPM package. To add it and its required peer dependencies to your Angular project, run:
 
 ```bash
-npm install kobo-ui @angular/cdk @lucide/angular tailwind-merge clsx class-variance-authority
+npm install kobo-ui @angular/cdk @angular/animations @lucide/angular tailwind-merge clsx class-variance-authority
 ```
 
 ## Setup & Theming
@@ -55,7 +55,21 @@ export class AppComponent {}
 You can also add individual component source files directly into your project (copy-and-own):
 
 ```bash
-# Add specific components
+# Scaffold application shell layout components
+npx kobo set app-sidebar
+npx kobo set app-header
+
+# Lock the application theme mode
+npx kobo set theme dark
+npx kobo set theme light
+
+# Programmatic theme mode toggling (scaffolds a ThemeService)
+npx kobo set theme both
+
+# Lock the primary color theme (e.g. rose, blue, zinc)
+npx kobo set color-theme rose
+
+# Add specific components to your project
 npx kobo add button
 npx kobo add dialog card toast
 
