@@ -6,7 +6,7 @@ import { LucideAlertTriangle } from '@lucide/angular';
 
 const CLI_CREATE = `ng new my-app
 cd my-app`;
-const CLI_INSTALL = `npm i kobo-ui`;
+const CLI_INSTALL = `npm i kobo-ui @angular/animations`;
 const CLI_INIT = `npx kobo init`;
 const CLI_ADD = `# Add specific components
 npx kobo add button
@@ -21,7 +21,7 @@ npx kobo list`;
 const CLI_SKILLS = `# Install Kobo UI AI agent skills (via skills.sh)
 npx skills add bntlyr/kobo-ui`;
 
-const INSTALL_CODE = `npm install kobo-ui @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular`;
+const INSTALL_CODE = `npm install kobo-ui @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular @angular/animations`;
 
 const STYLES_CODE = `/* src/styles.css */
 @import "tailwindcss";
