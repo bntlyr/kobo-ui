@@ -249,6 +249,9 @@ function printHelp() {
 
 \x1b[1mCOMMANDS:\x1b[0m
   \x1b[32mnpx kobo init\x1b[0m                 Automatically set up Tailwind v4, tokens, cn(), kobo.json, and AI skills
+  \x1b[32mnpx kobo set <layout>\x1b[0m         Set up layout components like app-sidebar or app-header
+  \x1b[32mnpx kobo set theme <mode>\x1b[0m       Set application theme mode: dark, light, or both
+  \x1b[32mnpx kobo set color-theme <c>\x1b[0m    Set base color theme: rose, blue, zinc, etc.
   \x1b[32mnpx kobo add <name...>\x1b[0m        Add component(s) directly to your project (e.g. button, dialog, card)
   \x1b[32mnpx kobo add --all\x1b[0m            Add all 65 components to your project
   \x1b[32mnpx kobo skills\x1b[0m               Generate AGENTS.md for AI coding assistants
@@ -560,6 +563,76 @@ function handleAdd() {
       console.log(`  npm install ${missingDeps.join(' ')}`);
     }
 
+    // Automatic injection logic for layout components
+    const hasSidebar = componentsToAdd.includes('app-sidebar');
+    const hasHeader = componentsToAdd.includes('app-header');
+    
+    if (hasSidebar || hasHeader) {
+      const appCompPath = path.resolve(cwd, 'src/app/app.component.ts');
+      if (fs.existsSync(appCompPath)) {
+        let appCompContent = fs.readFileSync(appCompPath, 'utf-8');
+        let modified = false;
+        
+        // Setup imports
+        let newImports = [];
+        if (hasSidebar && !appCompContent.includes('AppSidebarComponent')) {
+          const importSidebar = `import { AppSidebarComponent } from './components/ui/app-sidebar';\nimport { KSidebarProvider } from './components/ui/sidebar';\n`;
+          appCompContent = importSidebar + appCompContent;
+          newImports.push('AppSidebarComponent', 'KSidebarProvider');
+        }
+        
+        if (hasHeader && !appCompContent.includes('AppHeaderComponent')) {
+          const importHeader = `import { AppHeaderComponent } from './components/ui/app-header';\n`;
+          appCompContent = importHeader + appCompContent;
+          newImports.push('AppHeaderComponent');
+        }
+
+        if (newImports.length > 0) {
+          appCompContent = appCompContent.replace(/imports:\s*\[([\s\S]*?)\]/, (match, p1) => {
+            const extra = p1.trim() ? p1 + ', ' + newImports.join(', ') : newImports.join(', ');
+            return `imports: [${extra}]`;
+          });
+          modified = true;
+        }
+
+        // Setup Template
+        const hasSidebarTag = appCompContent.includes('<app-sidebar');
+        const hasHeaderTag = appCompContent.includes('<app-header');
+        
+        if (appCompContent.includes('<router-outlet')) {
+          const sidebarOnly = `<k-sidebar-provider>\n      <app-sidebar />\n      <main class="flex-1 w-full relative">\n        <router-outlet />\n      </main>\n    </k-sidebar-provider>`;
+          const headerOnly = `<div class="flex flex-col min-h-screen">\n      <app-header />\n      <main class="flex-1 w-full relative p-4">\n        <router-outlet />\n      </main>\n    </div>`;
+          const both = `<k-sidebar-provider>\n      <app-sidebar />\n      <div class="flex-1 flex flex-col min-h-screen">\n        <app-header />\n        <main class="flex-1 w-full relative p-4">\n          <router-outlet />\n        </main>\n      </div>\n    </k-sidebar-provider>`;
+
+          if (hasSidebar && hasHeader && !hasSidebarTag && !hasHeaderTag) {
+            appCompContent = appCompContent.replace(/<\/?router-outlet\s*\/?>/g, both);
+            modified = true;
+          } else if (hasSidebar && !hasSidebarTag) {
+            if (hasHeaderTag) {
+              appCompContent = appCompContent.replace(/<div class="flex flex-col min-h-screen">/, '<k-sidebar-provider>\n      <app-sidebar />\n      <div class="flex-1 flex flex-col min-h-screen">');
+              appCompContent = appCompContent.replace(/<\/div>\s*`/g, '</div>\n    </k-sidebar-provider>`');
+            } else {
+              appCompContent = appCompContent.replace(/<\/?router-outlet\s*\/?>/g, sidebarOnly);
+            }
+            modified = true;
+          } else if (hasHeader && !hasHeaderTag) {
+            if (hasSidebarTag) {
+              appCompContent = appCompContent.replace(/<main[^>]*>/, '<div class="flex-1 flex flex-col min-h-screen">\n        <app-header />\n        <main class="flex-1 w-full relative p-4">');
+              appCompContent = appCompContent.replace(/<\/main>/, '</main>\n      </div>');
+            } else {
+              appCompContent = appCompContent.replace(/<\/?router-outlet\s*\/?>/g, headerOnly);
+            }
+            modified = true;
+          }
+        }
+
+        if (modified) {
+          fs.writeFileSync(appCompPath, appCompContent, 'utf-8');
+          console.log(`\x1b[32m✔\x1b[0m Automatically injected layout components into \x1b[36msrc/app/app.component.ts\x1b[0m`);
+        }
+      }
+    }
+
     console.log(`
 \x1b[1mNext Steps:\x1b[0m
   1. Import components into your standalone Angular component.
@@ -658,9 +731,164 @@ function handleList() {
   }
 }
 
+function handleTheme() {
+  const mode = args[2];
+  if (!['dark', 'light', 'both'].includes(mode)) {
+    console.error('\x1b[31mError:\x1b[0m Please specify a valid mode: dark, light, or both.');
+    process.exit(1);
+  }
+
+  const cwd = process.cwd();
+  
+  if (mode === 'dark' || mode === 'light') {
+    const indexPath = path.resolve(cwd, 'src/index.html');
+    if (fs.existsSync(indexPath)) {
+      let content = fs.readFileSync(indexPath, 'utf-8');
+      content = content.replace(/<html([^>]*)>/i, (match, p1) => {
+        let classes = '';
+        const classMatch = p1.match(/class=["']([^"']*)["']/);
+        if (classMatch) {
+          classes = classMatch[1];
+          classes = classes.replace(/\bdark\b/g, '').trim();
+          if (mode === 'dark') classes += ' dark';
+          classes = classes.trim();
+          if (classes) {
+            return `<html${p1.replace(/class=["'][^"']*["']/, `class="${classes}"`)}>`;
+          } else {
+            return `<html${p1.replace(/\s*class=["'][^"']*["']/, '')}>`;
+          }
+        } else {
+          return mode === 'dark' ? `<html${p1} class="dark">` : `<html${p1}>`;
+        }
+      });
+      fs.writeFileSync(indexPath, content, 'utf-8');
+      console.log(`\x1b[32m✔\x1b[0m Application locked to ${mode} mode in src/index.html`);
+    } else {
+      console.error('\x1b[31mError:\x1b[0m Could not find src/index.html');
+    }
+  } else if (mode === 'both') {
+    const servicePath = path.resolve(cwd, 'src/app/core/services/theme.service.ts');
+    fs.mkdirSync(path.dirname(servicePath), { recursive: true });
+    
+    const serviceContent = `import { Injectable, signal, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
+export type ColorTheme = 'zinc' | 'slate' | 'neutral' | 'red' | 'rose' | 'orange' | 'green' | 'blue' | 'yellow' | 'violet';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ThemeService {
+  private readonly doc = inject(DOCUMENT);
+
+  readonly isDark = signal<boolean>(false);
+  readonly colorTheme = signal<ColorTheme>('zinc');
+
+  constructor() {
+    this.initializeTheme();
+  }
+
+  toggleDark(): void {
+    this.setDark(!this.isDark());
+  }
+
+  setDark(dark: boolean): void {
+    this.isDark.set(dark);
+    if (dark) {
+      this.doc.documentElement.classList.add('dark');
+    } else {
+      this.doc.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('kobo-theme-mode', dark ? 'dark' : 'light');
+  }
+
+  setColorTheme(theme: ColorTheme): void {
+    const prevTheme = this.colorTheme();
+    if (prevTheme !== 'zinc') {
+      this.doc.documentElement.classList.remove(\`theme-\${prevTheme}\`);
+    }
+    
+    this.colorTheme.set(theme);
+    
+    if (theme !== 'zinc') {
+      this.doc.documentElement.classList.add(\`theme-\${theme}\`);
+    }
+    
+    localStorage.setItem('kobo-color-theme', theme);
+  }
+
+  private initializeTheme(): void {
+    const storedMode = localStorage.getItem('kobo-theme-mode');
+    if (storedMode) {
+      this.setDark(storedMode === 'dark');
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.setDark(prefersDark);
+    }
+
+    const storedColorTheme = localStorage.getItem('kobo-color-theme') as ColorTheme | null;
+    if (storedColorTheme) {
+      this.setColorTheme(storedColorTheme);
+    } else {
+      this.setColorTheme('zinc');
+    }
+  }
+}
+`;
+    fs.writeFileSync(servicePath, serviceContent, 'utf-8');
+    console.log(`\x1b[32m✔\x1b[0m Generated ThemeService at src/app/core/services/theme.service.ts`);
+  }
+}
+
+function handleColorTheme() {
+  const theme = args[2];
+  const validThemes = ['zinc', 'slate', 'neutral', 'red', 'rose', 'orange', 'green', 'blue', 'yellow', 'violet'];
+  
+  if (!validThemes.includes(theme)) {
+    console.error('\x1b[31mError:\x1b[0m Please specify a valid color theme: ' + validThemes.join(', '));
+    process.exit(1);
+  }
+
+  const cwd = process.cwd();
+  const indexPath = path.resolve(cwd, 'src/index.html');
+  if (fs.existsSync(indexPath)) {
+    let content = fs.readFileSync(indexPath, 'utf-8');
+    content = content.replace(/<html([^>]*)>/i, (match, p1) => {
+      let classes = '';
+      const classMatch = p1.match(/class=["']([^"']*)["']/);
+      if (classMatch) {
+        classes = classMatch[1];
+        classes = classes.replace(/\btheme-[a-z]+\b/g, '').trim();
+        if (theme !== 'zinc') classes += ` theme-${theme}`;
+        classes = classes.trim();
+        if (classes) {
+          return `<html${p1.replace(/class=["'][^"']*["']/, `class="${classes}"`)}>`;
+        } else {
+          return `<html${p1.replace(/\s*class=["'][^"']*["']/, '')}>`;
+        }
+      } else {
+        return theme === 'zinc' ? match : `<html${p1} class="theme-${theme}">`;
+      }
+    });
+    fs.writeFileSync(indexPath, content, 'utf-8');
+    console.log(`\x1b[32m✔\x1b[0m Application color theme set to ${theme} in src/index.html`);
+  } else {
+    console.error('\x1b[31mError:\x1b[0m Could not find src/index.html');
+  }
+}
+
 switch (command) {
   case 'init':
     handleInit();
+    break;
+  case 'set':
+    if (args[1] === 'theme') {
+      handleTheme();
+    } else if (args[1] === 'color-theme') {
+      handleColorTheme();
+    } else {
+      handleAdd();
+    }
     break;
   case 'add':
     handleAdd();

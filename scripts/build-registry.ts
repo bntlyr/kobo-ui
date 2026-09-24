@@ -84,6 +84,20 @@ const COMPONENT_META: Record<string, Partial<RegistryItem>> = {
     dependencies: ['@angular/cdk', 'clsx', 'tailwind-merge'],
     tags: ['overlay', 'accessible', 'interactive'],
   },
+  'app-sidebar': {
+    description: 'A pre-configured, ready-to-use sidebar component that automatically maps router configurations to navigation items.',
+    type: 'component',
+    selector: 'app-sidebar',
+    dependencies: ['sidebar', '@lucide/angular'],
+    tags: ['navigation', 'layout', 'ready-to-use'],
+  },
+  'app-header': {
+    description: 'A pre-configured, ready-to-use header component for application shells.',
+    type: 'component',
+    selector: 'app-header',
+    dependencies: ['@angular/router'],
+    tags: ['navigation', 'layout', 'ready-to-use'],
+  },
 };
 
 // ---- Helpers ----

@@ -1,0 +1,28 @@
+{
+  "name": "app-sidebar",
+  "description": "A pre-configured, ready-to-use sidebar component that automatically maps router configurations to navigation items.",
+  "type": "component",
+  "selector": "app-sidebar",
+  "dependencies": [
+    "sidebar",
+    "@lucide/angular"
+  ],
+  "devDependencies": [],
+  "files": [
+    {
+      "path": "src/app/components/ui/app-sidebar/app-sidebar.component.ts",
+      "content": "import { ChangeDetectionStrategy, Component, computed, inject, ViewEncapsulation } from '@angular/core';\nimport { Router, RouterLink, RouterLinkActive } from '@angular/router';\nimport { NgComponentOutlet } from '@angular/common';\nimport { LucidePanelLeftClose } from '@lucide/angular';\nimport {\n  KSidebar,\n  KSidebarHeader,\n  KSidebarContent,\n  KSidebarFooter,\n  KSidebarMenu,\n  KSidebarMenuItem,\n  KSidebarMenuButton,\n  K_SIDEBAR\n} from '../sidebar';\n\n@Component({\n  selector: 'app-sidebar',\n  standalone: true,\n  imports: [\n    RouterLink,\n    RouterLinkActive,\n    NgComponentOutlet,\n    KSidebar,\n    KSidebarHeader,\n    KSidebarContent,\n    KSidebarFooter,\n    KSidebarMenu,\n    KSidebarMenuItem,\n    KSidebarMenuButton,\n  ],\n  template: `\n    <k-sidebar collapsible=\"icon\">\n      <k-sidebar-header>\n        <div class=\"flex items-center gap-2 p-2\">\n          <div class=\"size-8 bg-primary rounded-md flex items-center justify-center shrink-0\">\n            <span class=\"text-primary-foreground font-bold leading-none\">K</span>\n          </div>\n          <span class=\"text-base font-bold tracking-tight leading-none whitespace-nowrap group-data-[collapsible=icon]:hidden\">\n            Application\n          </span>\n        </div>\n      </k-sidebar-header>\n      \n      <k-sidebar-content>\n        <k-sidebar-menu>\n          @for (item of navItems(); track item.path) {\n            <k-sidebar-menu-item>\n              <button kSidebarMenuButton [routerLink]=\"'/' + item.path\" routerLinkActive=\"active\" #rla=\"routerLinkActive\" [isActive]=\"rla.isActive\">\n                @if (item.icon) {\n                  <ng-container *ngComponentOutlet=\"item.icon\"></ng-container>\n                }\n                <span>{{ item.title }}</span>\n              </button>\n            </k-sidebar-menu-item>\n          }\n        </k-sidebar-menu>\n      </k-sidebar-content>\n\n      <k-sidebar-footer>\n        <k-sidebar-menu>\n          <k-sidebar-menu-item>\n            <button kSidebarMenuButton (click)=\"provider.toggle()\">\n              <ng-container *ngComponentOutlet=\"CollapseIcon\"></ng-container>\n              <span>Collapse</span>\n            </button>\n          </k-sidebar-menu-item>\n        </k-sidebar-menu>\n      </k-sidebar-footer>\n    </k-sidebar>\n  `,\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class AppSidebarComponent {\n  private readonly router = inject(Router);\n  protected readonly provider = inject(K_SIDEBAR);\n  \n  protected readonly CollapseIcon = LucidePanelLeftClose;\n\n  protected readonly navItems = computed(() => {\n    return this.router.config\n      .filter(route => route.path && route.data && !route.data['hidden'])\n      .map(route => ({\n        path: route.path,\n        title: route.data?.['title'] || route.path,\n        icon: route.data?.['icon']\n      }));\n  });\n}\n",
+      "type": "component"
+    },
+    {
+      "path": "src/app/components/ui/app-sidebar/index.ts",
+      "content": "export * from './app-sidebar.component';\n",
+      "type": "util"
+    }
+  ],
+  "tags": [
+    "navigation",
+    "layout",
+    "ready-to-use"
+  ]
+}

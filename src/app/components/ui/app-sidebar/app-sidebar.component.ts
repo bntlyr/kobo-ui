@@ -11,7 +11,7 @@ import {
   KSidebarMenuItem,
   KSidebarMenuButton,
   K_SIDEBAR
-} from './sidebar.component';
+} from '../sidebar';
 
 @Component({
   selector: 'app-sidebar',

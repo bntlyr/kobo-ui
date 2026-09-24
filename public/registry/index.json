@@ -1,6 +1,6 @@
 {
-  "version": "1.0.10",
-  "generated": "2026-09-24T00:55:02.369Z",
+  "version": "1.0.11",
+  "generated": "2026-09-24T02:13:20.354Z",
   "components": [
     {
       "name": "accordion",
@@ -19,6 +19,26 @@
       "description": "alert-dialog component",
       "type": "component",
       "tags": []
+    },
+    {
+      "name": "app-header",
+      "description": "A pre-configured, ready-to-use header component for application shells.",
+      "type": "component",
+      "tags": [
+        "navigation",
+        "layout",
+        "ready-to-use"
+      ]
+    },
+    {
+      "name": "app-sidebar",
+      "description": "A pre-configured, ready-to-use sidebar component that automatically maps router configurations to navigation items.",
+      "type": "component",
+      "tags": [
+        "navigation",
+        "layout",
+        "ready-to-use"
+      ]
     },
     {
       "name": "aspect-ratio",

@@ -46,23 +46,14 @@ export class ThemeService {
   }
 
   private initializeTheme(): void {
-    // 1. Initialize Dark/Light mode
     const storedMode = localStorage.getItem('kobo-theme-mode');
     if (storedMode) {
       this.setDark(storedMode === 'dark');
     } else {
-      // Check legacy key
-      const legacyMode = localStorage.getItem('kobo-theme');
-      if (legacyMode) {
-        this.setDark(legacyMode === 'dark');
-        localStorage.removeItem('kobo-theme');
-      } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        this.setDark(prefersDark);
-      }
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.setDark(prefersDark);
     }
 
-    // 2. Initialize Color Theme
     const storedColorTheme = localStorage.getItem('kobo-color-theme') as ColorTheme | null;
     if (storedColorTheme) {
       this.setColorTheme(storedColorTheme);

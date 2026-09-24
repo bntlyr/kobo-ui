@@ -83,6 +83,15 @@ import { KToaster } from 'kobo-ui';
 export class AppComponent {}
 ```
 
+### 2.5 CLI Commands (Scaffolding & Layout)
+You can use the Kobo UI CLI to automatically scaffold application shells and configure themes:
+- `npx kobo set app-sidebar` — Injects the `<k-sidebar-provider>` and `<app-sidebar />` into `app.component.ts`.
+- `npx kobo set app-header` — Injects the `<app-header />` into `app.component.ts` (includes built-in theme toggle if used).
+- `npx kobo set theme dark` — Locks the application to dark mode in `src/index.html`.
+- `npx kobo set theme light` — Locks the application to light mode in `src/index.html`.
+- `npx kobo set theme both` — Scaffolds a full `ThemeService` at `src/app/core/services/theme.service.ts` allowing programmatic light/dark/color theme toggling.
+- `npx kobo set color-theme <name>` — Updates `src/index.html` to permanently set the application's base color (e.g. `npx kobo set color-theme rose`).
+
 ---
 
 ## 3. Core Coding Rules for AI Agents
