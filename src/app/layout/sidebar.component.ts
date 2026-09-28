@@ -58,6 +58,7 @@ export class SidebarComponent {
       items: [
         { label: 'Introduction', route: '/introduction' },
         { label: 'Installation',  route: '/installation'  },
+        { label: 'Template Starter', route: '/template-starter', badge: 'New' },
         { label: 'Theming',       route: '/theming'       },
       ],
     },

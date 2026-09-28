@@ -51,6 +51,12 @@ import { ThemeColorSwitcherComponent } from '../../shared/theme-color-switcher.c
           <p class="text-sm font-medium mb-4">Try changing the theme right now:</p>
           <app-theme-color-switcher />
         </div>
+
+        <h3 class="text-xl font-semibold mt-8 mb-3">Setting Themes via CLI</h3>
+        <p class="text-muted-foreground mb-4">
+          You can automatically configure your app's base colors and light/dark mode functionality using the Kobo CLI:
+        </p>
+        <app-code-block language="bash" [code]="cliThemesCode" />
       </div>
 
       <div class="space-y-4">
@@ -137,4 +143,14 @@ export class ThemingPageComponent {
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }`;
+
+  readonly cliThemesCode = `# Lock the application theme mode (dark or light)
+npx kobo set theme dark
+npx kobo set theme light
+
+# Programmatic theme mode toggling (scaffolds a full ThemeService)
+npx kobo set theme both
+
+# Lock the primary color theme (e.g. rose, blue, zinc, orange, slate)
+npx kobo set color-theme rose`;
 }
