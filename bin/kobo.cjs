@@ -62,20 +62,6 @@ const TAILWIND_THEME_CONFIG = `
 }
 `;
 
-const KOBO_JSON_TEMPLATE = `{
-  "$schema": "https://kobo-ui.dev/schema.json",
-  "style": "default",
-  "tailwind": {
-    "css": "src/styles.css",
-    "baseColor": "zinc"
-  },
-  "aliases": {
-    "components": "src/app/components/ui",
-    "utils": "src/app/core/utils",
-    "styles": "src/styles"
-  }
-}
-`;
 
 const args = process.argv.slice(2);
 const command = args[0] || 'help';
@@ -217,30 +203,52 @@ function detectPackageManager(cwd) {
 }
 
 function findOrCreateStylesFile(cwd) {
-  const candidates = [
-    'src/styles.css',
-    'src/styles.scss',
-    'src/app/app.css',
-    'src/app/app.scss',
-    'src/styles/styles.css',
-    'styles.css',
-  ];
-
-  for (const c of candidates) {
-    const full = path.join(cwd, c);
-    if (fs.existsSync(full)) {
-      return full;
-    }
-  }
-
-  // Create default src/styles.css
   const defaultPath = path.join(cwd, 'src/styles.css');
   const dir = path.dirname(defaultPath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
-  fs.writeFileSync(defaultPath, '', 'utf-8');
+  if (!fs.existsSync(defaultPath)) {
+    fs.writeFileSync(defaultPath, '', 'utf-8');
+  }
   return defaultPath;
+}
+
+function ensureAngularJsonStyles(cwd, styleFile) {
+  const angularJsonPath = path.join(cwd, 'angular.json');
+  if (fs.existsSync(angularJsonPath)) {
+    try {
+      const angularJson = JSON.parse(fs.readFileSync(angularJsonPath, 'utf-8'));
+      let modified = false;
+      const defaultProjectName = Object.keys(angularJson.projects)[0];
+      if (defaultProjectName) {
+        const project = angularJson.projects[defaultProjectName];
+        if (project.architect && project.architect.build && project.architect.build.options) {
+          const styles = project.architect.build.options.styles || [];
+          if (!styles.includes(styleFile)) {
+            styles.push(styleFile);
+            project.architect.build.options.styles = styles;
+            modified = true;
+          }
+        }
+      }
+      if (modified) {
+        fs.writeFileSync(angularJsonPath, JSON.stringify(angularJson, null, 2), 'utf-8');
+        console.log(`\x1b[32m✔\x1b[0m Added ${styleFile} to angular.json styles array`);
+      }
+    } catch (e) {
+      // Ignore parsing errors
+    }
+  }
+}
+
+function ensurePostCssConfig(cwd) {
+  const postCssJsonPath = path.join(cwd, '.postcssrc.json');
+  const postCssJsPath = path.join(cwd, 'postcss.config.js');
+  if (!fs.existsSync(postCssJsonPath) && !fs.existsSync(postCssJsPath)) {
+    fs.writeFileSync(postCssJsonPath, JSON.stringify({ plugins: { "@tailwindcss/postcss": {} } }, null, 2), 'utf-8');
+    console.log(`\x1b[32m✔\x1b[0m Created .postcssrc.json for Tailwind CSS`);
+  }
 }
 
 function printHelp() {
@@ -302,22 +310,27 @@ function handleInit() {
 
   // 2. Configure Tailwind CSS v4 in src/styles.css
   const stylesFilePath = findOrCreateStylesFile(cwd);
+  const relativeStylesPath = path.relative(cwd, stylesFilePath) || 'src/styles.css';
+  ensureAngularJsonStyles(cwd, relativeStylesPath.replace(/\\/g, '/'));
+  ensurePostCssConfig(cwd);
+
   const existingStyles = fs.readFileSync(stylesFilePath, 'utf-8');
 
   if (!existingStyles.includes('--color-primary')) {
     let newStyles = existingStyles;
-    // Remove duplicate @import "tailwindcss"; if already present
-    if (newStyles.includes('@import "tailwindcss"') || newStyles.includes("@import 'tailwindcss'")) {
-      newStyles = newStyles.replace(/@import\s+['"]tailwindcss['"];?/g, '');
+    // Remove duplicate @import "tailwindcss"; or @use "tailwindcss"; if already present
+    if (newStyles.includes('@import "tailwindcss"') || newStyles.includes("@import 'tailwindcss'") || newStyles.includes('@use "tailwindcss"') || newStyles.includes("@use 'tailwindcss'")) {
+      newStyles = newStyles.replace(/@(import|use)\s+['"]tailwindcss['"];?/g, '');
     }
 
     const isLocalTokens = fs.existsSync(tokensPath);
     const tokensImport = isLocalTokens ? '@import "./styles/tokens.css";' : '@import "kobo-ui/assets/tokens.css";';
     const themesImport = isLocalTokens ? '@import "./styles/themes.css";' : '@import "kobo-ui/assets/themes.css";';
 
+    const tailwindDirective = '@import "tailwindcss";';
     const themeBlock = `
 /* --- Kobo UI Tailwind CSS v4 Configuration --- */
-@import "tailwindcss";
+${tailwindDirective}
 ${tokensImport}
 ${themesImport}
 
@@ -373,7 +386,22 @@ ${themesImport}
   // 3. Create kobo.json
   const koboJsonPath = path.resolve(cwd, 'kobo.json');
   if (!fs.existsSync(koboJsonPath)) {
-    fs.writeFileSync(koboJsonPath, KOBO_JSON_TEMPLATE, 'utf-8');
+    const resolvedCssPath = path.relative(cwd, stylesFilePath) || 'src/styles.css';
+    const koboJsonContent = `{
+  "$schema": "https://kobo-ui.dev/schema.json",
+  "style": "default",
+  "tailwind": {
+    "css": "${resolvedCssPath.replace(/\\/g, '/')}",
+    "baseColor": "zinc"
+  },
+  "aliases": {
+    "components": "src/app/components/ui",
+    "utils": "src/app/core/utils",
+    "styles": "src/styles"
+  }
+}
+`;
+    fs.writeFileSync(koboJsonPath, koboJsonContent, 'utf-8');
     console.log(`\x1b[32m✔\x1b[0m Created configuration file \x1b[36mkobo.json\x1b[0m`);
   } else {
     console.log(`\x1b[33mℹ\x1b[0m \x1b[36mkobo.json\x1b[0m already exists`);
@@ -389,7 +417,7 @@ ${themesImport}
 
   // 5. Install peer dependencies if missing
   const pkgJsonPath = path.resolve(cwd, 'package.json');
-  const requiredDeps = ['@angular/cdk', '@lucide/angular', 'tailwind-merge', 'clsx', 'class-variance-authority'];
+  const requiredDeps = ['@angular/cdk', '@lucide/angular', 'tailwind-merge', 'clsx', 'class-variance-authority', 'tailwindcss', '@tailwindcss/postcss'];
   const missingDeps = [];
 
   if (fs.existsSync(pkgJsonPath)) {
@@ -671,9 +699,16 @@ export class ShellComponent {}
           appCompContent = importShell + appCompContent;
 
           appCompContent = appCompContent.replace(/imports:\s*\[([\s\S]*?)\]/, (match, p1) => {
-            const extra = p1.trim() ? p1 + ', ShellComponent' : 'ShellComponent';
-            return `imports: [${extra}]`;
+            let importsArr = p1.split(',').map(s => s.trim()).filter(s => s);
+            importsArr = importsArr.filter(i => i !== 'RouterOutlet');
+            if (!importsArr.includes('ShellComponent')) {
+              importsArr.push('ShellComponent');
+            }
+            return `imports: [${importsArr.join(', ')}]`;
           });
+          
+          // Try to remove RouterOutlet from import statements as well
+          appCompContent = appCompContent.replace(/import\s*\{\s*RouterOutlet\s*\}\s*from\s*['"]@angular\/router['"];?\s*/g, '');
           modified = true;
         }
 
