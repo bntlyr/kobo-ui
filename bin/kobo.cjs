@@ -5,6 +5,7 @@
  *
  * Usage:
  *   npx kobo init               Automatically initialize Kobo UI in your project
+ *   npx kobo init --specific    Initialize Kobo UI in a separate CSS file for gradual adoption
  *   npx kobo add <component>    Add components directly to your project (copy-and-own)
  *   npx kobo add --all          Add all 65 components to your project
  *   npx kobo skills             Generate AGENTS.md for AI coding assistants
@@ -257,6 +258,7 @@ function printHelp() {
 
 \x1b[1mCOMMANDS:\x1b[0m
   \x1b[32mnpx kobo init\x1b[0m                 Automatically set up Tailwind v4, tokens, cn(), kobo.json, and AI skills
+  \x1b[32mnpx kobo init --specific\x1b[0m      Initialize Kobo UI in a separate CSS file (src/styles/kobo-ui.css)
   \x1b[32mnpx kobo set <layout>\x1b[0m         Set up layout components like app-sidebar or app-header
   \x1b[32mnpx kobo set theme <mode>\x1b[0m       Set application theme mode: dark, light, or both
   \x1b[32mnpx kobo set color-theme <c>\x1b[0m    Set base color theme: rose, blue, zinc, etc.
@@ -283,6 +285,7 @@ function handleInit() {
   console.log('\n\x1b[1m\x1b[36m🚀 Initializing Kobo UI in your project...\x1b[0m\n');
   const cwd = process.cwd();
   const skipInstall = args.includes('--skip-install') || args.includes('--no-install');
+  const isSpecific = args.includes('--specific');
 
   // 1. Generate src/styles/tokens.css and src/styles/themes.css
   const stylesDir = path.resolve(cwd, 'src/styles');
@@ -308,9 +311,22 @@ function handleInit() {
     console.log(`\x1b[33mℹ\x1b[0m src/styles/themes.css already exists`);
   }
 
-  // 2. Configure Tailwind CSS v4 in src/styles.css
-  const stylesFilePath = findOrCreateStylesFile(cwd);
-  const relativeStylesPath = path.relative(cwd, stylesFilePath) || 'src/styles.css';
+  // 2. Configure Tailwind CSS v4 in src/styles.css (or src/styles/kobo-ui.css)
+  let stylesFilePath;
+  if (isSpecific) {
+    stylesFilePath = path.join(cwd, 'src/styles/kobo-ui.css');
+    const dir = path.dirname(stylesFilePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    if (!fs.existsSync(stylesFilePath)) {
+      fs.writeFileSync(stylesFilePath, '', 'utf-8');
+    }
+  } else {
+    stylesFilePath = findOrCreateStylesFile(cwd);
+  }
+  
+  const relativeStylesPath = path.relative(cwd, stylesFilePath) || (isSpecific ? 'src/styles/kobo-ui.css' : 'src/styles.css');
   ensureAngularJsonStyles(cwd, relativeStylesPath.replace(/\\/g, '/'));
   ensurePostCssConfig(cwd);
 
@@ -324,8 +340,15 @@ function handleInit() {
     }
 
     const isLocalTokens = fs.existsSync(tokensPath);
-    const tokensImport = isLocalTokens ? '@import "./styles/tokens.css";' : '@import "kobo-ui/assets/tokens.css";';
-    const themesImport = isLocalTokens ? '@import "./styles/themes.css";' : '@import "kobo-ui/assets/themes.css";';
+    let tokensImport = '@import "kobo-ui/assets/tokens.css";';
+    let themesImport = '@import "kobo-ui/assets/themes.css";';
+
+    if (isLocalTokens) {
+      const relTokens = path.relative(path.dirname(stylesFilePath), tokensPath).replace(/\\/g, '/');
+      const relThemes = path.relative(path.dirname(stylesFilePath), themesPath).replace(/\\/g, '/');
+      tokensImport = `@import "./${relTokens}";`;
+      themesImport = `@import "./${relThemes}";`;
+    }
 
     const tailwindDirective = '@import "tailwindcss";';
     const themeBlock = `

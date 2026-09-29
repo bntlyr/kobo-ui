@@ -23,6 +23,76 @@ npx skills add bntlyr/kobo-ui`;
 
 const INSTALL_CODE = `npm install kobo-ui @angular/cdk class-variance-authority clsx tailwind-merge @lucide/angular @angular/animations`;
 
+const CLI_INIT_SPECIFIC = `# Initialize Kobo UI in a dedicated CSS file
+npx kobo init --specific`;
+
+const KOBO_UI_CSS_CODE = `/* src/styles/kobo-ui.css */
+/* --- Kobo UI Tailwind CSS v4 Configuration --- */
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./themes.css";
+
+@theme {
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Sidebar */
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 19%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 19%;
+
+  --primary: 180 33% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 75 59% 51%;
+  --secondary-foreground: 0 0% 19%;
+
+  --muted: 0 0% 92%;
+  --muted-foreground: 0 0% 44%;
+
+  --accent: 180 33% 95%;
+  --accent-foreground: 0 0% 19%;
+
+  --border: 0 0% 86%;
+  --input: 0 0% 86%;
+  --ring: 180 33% 50%;
+
+  --destructive: 0 33% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --radius: 0.25rem;
+}`;
+
 const STYLES_CODE = `/* src/styles.css */
 @import "tailwindcss";
 @import "./styles/tokens.css";
@@ -164,6 +234,26 @@ export class MyComponent {}`;
         </div>
       </div>
 
+      <!-- Existing Projects -->
+      <div class="space-y-8 pt-10">
+        <h2 class="text-2xl font-bold tracking-tight border-b border-border pb-2">Existing Projects (Gradual Adoption)</h2>
+        <p class="text-sm text-muted-foreground">If you are adding Kobo UI to an already-started project and don't want to touch your global CSS, use the specific initialization.</p>
+        
+        <!-- Step 1 -->
+        <div class="space-y-3">
+          <h3 class="text-lg font-semibold">1. Initialize in a specific file</h3>
+          <p class="text-sm text-muted-foreground">This generates <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">src/styles/kobo-ui.css</code> and adds it to your angular.json.</p>
+          <app-code-block [code]="cliInitSpecific" language="bash" />
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="space-y-3">
+          <h3 class="text-lg font-semibold">2. Override the theme</h3>
+          <p class="text-sm text-muted-foreground">You can easily override the theme tokens by adding a <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">:root</code> block directly to the generated CSS file.</p>
+          <app-code-block [code]="koboUiCssCode" language="css" filename="src/styles/kobo-ui.css" />
+        </div>
+      </div>
+
       <!-- Manual Steps -->
       <div class="space-y-8 pt-10">
         <h2 class="text-2xl font-bold tracking-tight border-b border-border pb-2">Manual Installation</h2>
@@ -213,7 +303,9 @@ export class InstallationPageComponent {
   readonly cliInit     = CLI_INIT;
   readonly cliAdd      = CLI_ADD;
   readonly cliSkills   = CLI_SKILLS;
+  readonly cliInitSpecific = CLI_INIT_SPECIFIC;
   readonly installCode = INSTALL_CODE;
+  readonly koboUiCssCode = KOBO_UI_CSS_CODE;
   readonly stylesCode  = STYLES_CODE;
   readonly tokensCode  = TOKENS_CODE;
   readonly usageCode   = USAGE_CODE;
